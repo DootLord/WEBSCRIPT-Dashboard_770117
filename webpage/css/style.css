@@ -4,22 +4,41 @@ html{
 
 .box{
   width:200px;
+  transition: background-colour 2s;
   height:200px;
   color: #ecf0f1;
-  background-color: #2ecc71;
   text-align: center;
   line-height: 150px;
   vertical-align:middle;
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif
 }
 
-.box:hover{
-  background-color: #3edc81;
-}
-
 .box-head{
   .box;
   height:50px;
-  background-color: #27ae60;
   line-height: 50px
+}
+
+.green{
+  background-color: #2ecc71;
+}
+
+.green:hover{
+ background-color: #3fdc91;
+}
+
+.green-title{
+ background-color: #27ae60;
+}
+
+.blue{
+  background-color: #3498db
+}
+
+.blue:hover{
+  background-color: #44a8eb
+}
+
+.blue-title{
+  background-color: #2980b9
 }
