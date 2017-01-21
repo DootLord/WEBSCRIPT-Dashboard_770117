@@ -16,7 +16,30 @@ html{
 .box-head{
   .box;
   height:50px;
-  line-height: 50px
+  line-height: 50px;
+  font-weight:bold;
+}
+
+.small{
+  width: 100px;
+  height: 100px;
+  line-height: 75px;
+}
+
+.small .box-head{
+  height:25px;
+  line-height: 25px;
+}
+
+.large{
+  width: 400px;
+  height: 400px;
+  line-height: 300px;
+}
+
+.large .box-head{
+  height: 100px;
+  line-height: 100px;
 }
 
 .green{
@@ -27,7 +50,7 @@ html{
  background-color: #3fdc91;
 }
 
-.green-title{
+.green .box-head{
  background-color: #27ae60;
 }
 
@@ -39,6 +62,18 @@ html{
   background-color: #44a8eb
 }
 
-.blue-title{
+.blue .box-head{
   background-color: #2980b9
+}
+
+.red{
+  background-color: #e74c3c
+}
+
+.red:hover{
+  background-color: #f75c4c
+}
+
+.red .box-head{
+  background-color: #c0392b
 }

@@ -5,8 +5,11 @@ var xml = new XMLHttpRequest();
 function getTime(){
   xml.onreadystatechange = function(){
   if(xml.status == 200 && xml.readyState == 4){
-    document.getElementById("time").innerHTML = xml.responseText;
-    console.log(xml.responseText);
+    var ele = document.getElementsByClassName("time");
+    var curTime = xml.responseText;
+    for(var i = 0; i < ele.length;i++){
+      ele[i].innerHTML = curTime;
+    }
   }
 };
   xml.open("GET", "/time", true);
