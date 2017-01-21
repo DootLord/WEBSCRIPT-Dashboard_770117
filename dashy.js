@@ -1,11 +1,12 @@
 var express = require('express');
 var app = express();
+var func = require("./js/func")
 
-app.use(express.static(__dirname + "/webpage"),function(req,res,next){
-  console.log("Time:", Date.now());
-  next();
-})
+app.get("/time", function (req,res){
+  res.send(func.getTime());
+});
 
-app.listen(8080, function(){
-  console.log("Dashboard started on 8080");
-})
+
+app.use(express.static(__dirname + "/webpage"));
+
+app.listen(8080);
