@@ -1,9 +1,11 @@
+
+
 var xml = new XMLHttpRequest();
 
-function updateTime(){
+function getTime(){
   xml.onreadystatechange = function(){
   if(xml.status == 200 && xml.readyState == 4){
-    document.getElementById("Time").innerHTML = xml.responseText;
+    document.getElementById("time").innerHTML = xml.responseText;
     console.log(xml.responseText);
   }
 };
@@ -15,10 +17,9 @@ function sayHello(){
   console.log("Hello!");
 }
 
-document.addEventListener("onload", updateTime);
-document.addEventListener("onload", sayHello);
-document.addEventListener("onload", function(){
-  console.log("SAY SOMTHING!!")
-})
+function updateTime(){
+  getTime();
+  window.setInterval(getTime,1000);
+}
 
-console.log("Hello!?");
+updateTime();
