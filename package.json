@@ -4,6 +4,7 @@
   "description": "A simple dashboard service",
   "main": "dashy.js",
   "dependencies": {
+    "body-parser": "^1.16.0",
     "express": "^4.14.0"
   },
   "devDependencies": {},

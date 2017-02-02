@@ -48,8 +48,23 @@ main{
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
+
+#todo-list{
+  line-height: 20px;
+  font-size:20px;
+  list-style-type:none;
+  padding:0px;
+}
+
+#todo-enter{
+  line-height: 20px;
+  font-size:20px;
+  list-style-type:none;
+  padding:0px;
+  margin-top: 5px;
+}
+
 
 .small{
   width: 100px;

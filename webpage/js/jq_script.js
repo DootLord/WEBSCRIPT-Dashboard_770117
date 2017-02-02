@@ -1,16 +1,16 @@
 /* This document consists of JQuery JavaScript */
-
+/*
 $(document).ready(function(){
   dragFunc();
 });
-
+*/
 
 /*
   Allows elements to become draggable by clicking a button
 */
 
 
-
+/*
 function dragFunc(){
   var isDraggable = false;
   $(".draggable").draggable();
@@ -27,3 +27,4 @@ function dragFunc(){
     }
   });
 }
+*/
