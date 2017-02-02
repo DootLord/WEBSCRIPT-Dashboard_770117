@@ -33,6 +33,7 @@ function getWeather(){
       weather = JSON.parse(weather);
       document.getElementById("weather-type").innerText =  weather.weather[0].main
       document.getElementById("weather-detail").innerText = weather.weather[0].description
+      document.getElementById("weather-degree").innerHTML = weather.main.temp - 273.15 +  "c";
 
     }
   }
