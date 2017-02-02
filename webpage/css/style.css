@@ -30,7 +30,6 @@ main{
 }
 
 .box-head{
-  .box;
   height:50px;
   line-height: 50px;
   font-weight:bold;
@@ -38,6 +37,16 @@ main{
   padding-left: 10px;
   background-color: #272727;
   font-size: 20px;
+}
+
+.box-ele{
+  font-size: 20px;
+  margin: auto;
+  margin-top: 10px;
+  background-color: #272727;
+  line-height: 300%;
+  vertical-align:text-top
+
 }
 
 .small{

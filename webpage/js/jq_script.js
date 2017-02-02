@@ -1,3 +1,5 @@
+/* This document consists of JQuery JavaScript */
+
 $(document).ready(function(){
   dragFunc();
 });
@@ -6,6 +8,8 @@ $(document).ready(function(){
 /*
   Allows elements to become draggable by clicking a button
 */
+
+
 
 function dragFunc(){
   var isDraggable = false;

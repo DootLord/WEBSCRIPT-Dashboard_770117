@@ -3,7 +3,7 @@ var app = express();
 var func = require("./js/func")
 
 app.get("/time", function (req,res){
-  res.send(func.getTime());
+  res.status(200).send(func.getTime());
 });
 
 app.use(express.static(__dirname + "/webpage"));
