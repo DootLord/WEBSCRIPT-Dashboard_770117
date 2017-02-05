@@ -45,15 +45,19 @@ app.post("/todo", function(req,res){
 /*
   Returns the five most recent tweets on the home twiter page of the currently logged in user.
 */
-
+var tweetData = []
 app.get("/tweet",function(req,res){
 
-  var tweetData = twitSet.get("statuses/home_timeline", {count: 5},  function(err,data,res){
-    console.log(data);
-    return data;
+  twitSet.get("statuses/home_timeline", {count: 5},  function(err,data,res){
+    var tweets = [];
+    for(var i = 0;data.length > i;i++){
+      tweets[i] = data[i].text
+    }
+    res.send(tweets);
   });
   //console.log(tweetData);
-  res.status(200).send(tweetData);
+  res.status(200).send(tweetData[0]);
+  res.end();
 });
 
 
