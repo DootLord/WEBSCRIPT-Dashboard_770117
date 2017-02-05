@@ -52,9 +52,6 @@ app.get("/tweets", function(req,res){
 
 })
 
-function getTweets(res){
-
-}
 
 app.use(express.static(__dirname + "/webpage"));
 

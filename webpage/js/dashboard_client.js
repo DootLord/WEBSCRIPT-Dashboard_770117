@@ -138,28 +138,27 @@ function postToDo(list){
 
 function getTweet(){
   var xml = new XMLHttpRequest();
-  xml.open("GET", "/tweet");
+  xml.open("GET", "/tweets");
   xml.setRequestHeader("Content-type", "application/json");
   xml.onreadystatechange = function(){
     if(xml.status == 200 && xml.readyState == 4){
-      console.log("Sending tweet data!")
+      console.log(xml.responseText);
     }
   }
   xml.send();
-  console.log("TWEETING!");
 }
 
-function getTwitterUser(){
-  var xml = new XMLHttpRequest();
-  xml.onreadystatechange = function(){
-    if(xml.status == 200 && xml.readyState == 4){
-      console.log(xml.responseText.token);
-    }
-  }
-  xml.open("GET", "/tweet/user");
-  xml.setRequestHeader("Content-type", "application/json");
-  xml.send();
-}
+// function getTwitterUser(){
+//   var xml = new XMLHttpRequest();
+//   xml.onreadystatechange = function(){
+//     if(xml.status == 200 && xml.readyState == 4){
+//       console.log(xml.responseText.token);
+//     }
+//   }
+//   xml.open("GET", "/tweet/user");
+//   xml.setRequestHeader("Content-type", "application/json");
+//   xml.send();
+// }
 // Event Listeners
 document.getElementById("todo-button").addEventListener("click", newToDoItem);
 document.getElementById("tweet-helloworld").addEventListener("click", getTweet);
