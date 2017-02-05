@@ -54,7 +54,8 @@ app.get("/tweets", function(req,res){
 
 
 app.use(express.static(__dirname + "/webpage"));
-
-app.listen(80, function(){
-  console.log("Started on port 80");
+// Set to 8080 for developmennt purposes
+// Will be set to 80 for release
+app.listen(8080, function(){
+  console.log("Started on port 8080");
 });
