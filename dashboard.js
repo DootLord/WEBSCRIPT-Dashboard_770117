@@ -47,7 +47,8 @@ app.get("/tweets", function(req,res){
     for(var i = 0;tweets.length > i;i++){
       tweetList[i] = tweets[i].text;
     }
-    res.status(200).send(tweetList);
+    console.log(tweets);
+    res.status(200).send(JSON.stringify(tweetList));
   });
 
 })

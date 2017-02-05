@@ -8,6 +8,7 @@ function initalizePage(){
   updateTime();
   getWeather();
   getToDo();
+  getTweets();
 }
 
 /*
@@ -27,10 +28,8 @@ function updateTime(){
 function getWeather(){
   var xml = new XMLHttpRequest();
 
-  console.log("Weather: Start")
   xml.onreadystatechange = function(){
     if(xml.status == 200 && xml.readyState == 4){
-      console.log("Weather: Main")
       var weather = xml.responseText;
       weather = JSON.parse(weather);
       document.getElementById("weather-type").innerText =  weather.weather[0].main
@@ -40,7 +39,6 @@ function getWeather(){
   }
   xml.open("GET", "http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=268c7be320d0fb2272cc7c417ad9ed95")
   xml.send();
-  console.log("Weather: End");
 }
 
 /*
@@ -71,17 +69,14 @@ function getTime(){
 */
 function getToDo(){
   var xml = new XMLHttpRequest();
-  console.log("ToDo: Start");
   var list = document.getElementById("todo-list");
   xml.onreadystatechange = function(){
-    console.log("ToDo:Main");
     if(xml.status == 200 && xml.readyState == 4){
       list.innerHTML = xml.responseText;
     }
   }
   xml.open("GET", "/todo", true);
   xml.send();
-  console.log("ToDo: Finish");
 }
 
 /*
@@ -136,16 +131,26 @@ function postToDo(list){
  TODO: Add twitter login to allow any user to see their tweets
 */
 
-function getTweet(){
+function getTweets(){
   var xml = new XMLHttpRequest();
   xml.open("GET", "/tweets");
   xml.setRequestHeader("Content-type", "application/json");
   xml.onreadystatechange = function(){
     if(xml.status == 200 && xml.readyState == 4){
-      console.log(xml.responseText);
+      displayTweets(JSON.parse(xml.responseText));
     }
   }
   xml.send();
+}
+
+function displayTweets(tweetArray){
+  console.log("Building Tweet list");
+  var ele = document.getElementById("tweet-list");
+  for(var i = 0; tweetArray.length > i; i++){
+      var li = document.createElement("li");
+      li.innerText = tweetArray[i];
+      ele.appendChild(li);
+  }
 }
 
 // function getTwitterUser(){
@@ -161,5 +166,4 @@ function getTweet(){
 // }
 // Event Listeners
 document.getElementById("todo-button").addEventListener("click", newToDoItem);
-document.getElementById("tweet-helloworld").addEventListener("click", getTweet);
 document.addEventListener("load", initalizePage());
