@@ -15,23 +15,18 @@
 
 <body>
 
-    <!-- Can be clicked to allow "draggable" class nodes to be dragged
-    <button id="dragButton"> Dragable! </button>
-    -->
-
     <main>
-
         <div class="box long">
             <div class="box-head">
                 <span style="color:#e74c3c">ToDo</span>
             </div>
             <div class="box-body">
-              <div id = "todo-enter">
-                <input type="text" id="todo-input" placeholder="Whatcha gotta do...?">
-                <span id="todo-button">Add</span>
-              </div>
-              <ul id="todo-list">
-              </ul>
+                <div id="todo-enter">
+                    <input type="text" id="todo-input" placeholder="Whatcha gotta do...?">
+                    <span id="todo-button">Add</span>
+                </div>
+                <ul id="todo-list">
+                </ul>
 
             </div>
         </div>
@@ -41,28 +36,40 @@
                 <span style="color:#2ecc71">Weather</span>
             </div>
             <div class="box-body">
-              <div class="box-ele" style="width:200px; height;50px" id="weather-type">
-                <!-- Weather type goes here -->
-              </div>
-              <div class="box-ele" style="width:400px; height:50px" id="weather-detail">
-                <!-- Weather discription goes here -->
-             </div>
-             <div class="box-ele" style="width:400px; height:300px; line-height:300px; font-size:120px; colour:#2ecc71" id="weather-degree">
+                <div class="box-ele" style="width:200px; height;50px" id="weather-type">
+                    <!-- Weather type goes here -->
+                </div>
+                <div class="box-ele" style="width:400px; height:50px" id="weather-detail">
+                    <!-- Weather discription goes here -->
+                </div>
+                <div class="box-ele" style="width:400px; height:300px; line-height:300px; font-size:120px; colour:#2ecc71" id="weather-degree">
+                </div>
             </div>
-        </div>
 
-        <div class="box">
-            <div class="box-head">
-                <span style="color:#3498db">Clock</span>
-            </div>
-            <div class="box-body time">
-            </div>
-        </div>
+          </div>
+
+          <div class="box">
+              <div class="box-head">
+                  <span style="color:#3498db">Clock</span>
+              </div>
+              <div class="box-body time">
+              </div>
+          </div>
+
+          <div class="box long">
+              <div class="box-head">
+                  <span style="color:#3498db">Tweets</span>
+              </div>
+              <div class="box-body" id = "tweet">
+                <div id="tweet-helloworld">TWEET ME HERE</div>
+              </div>
+          </div>
+
     </main>
 
 
     <script src="js/jq_script.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/dashboard_client.js"></script>
 </body>
 
 </html>
