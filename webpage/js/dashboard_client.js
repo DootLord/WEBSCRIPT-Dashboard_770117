@@ -147,7 +147,18 @@ function getTweet(){
   }
   xml.send();
   console.log("TWEETING!");
+}
 
+function getTwitterUser(){
+  var xml = new XMLHttpRequest();
+  xml.onreadystatechange = function(){
+    if(xml.status == 200 && xml.readyState == 4){
+      console.log(xml.responseText.token);
+    }
+  }
+  xml.open("GET", "/tweet/user");
+  xml.setRequestHeader("Content-type", "application/json");
+  xml.send();
 }
 // Event Listeners
 document.getElementById("todo-button").addEventListener("click", newToDoItem);

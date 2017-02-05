@@ -1,18 +1,17 @@
 var express = require('express');
 var bodyParser = require("body-parser");
 var app = express();
-var twit = require("twit");
+var Twitter = require("twitter");
 var func = require("./js/func")
 
-var twitSet = new twit({
-  consumer_key: "XzVtLi9PgF72L0NuoLunuF1eE",
-  consumer_secret: "j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID",
-  access_token: "827132427642482688-ypUlU5Ac0Awt9Gvl5UmGM2zo3umQ6Fr",
-  access_token_secret: "6eMdK1TkUZcMYQUIE6sWHYAH5tIHP9HA0hZMkbeTVsZpX",
-  timeout_ms: 60*1000
-})
-
 app.use(bodyParser.json());
+
+var client = new Twitter({
+  consumer_key: 'XzVtLi9PgF72L0NuoLunuF1eE',
+  consumer_secret: 'j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID',
+  access_token_key: '827132427642482688-ypUlU5Ac0Awt9Gvl5UmGM2zo3umQ6Fr',
+  access_token_secret: '6eMdK1TkUZcMYQUIE6sWHYAH5tIHP9HA0hZMkbeTVsZpX'
+});
 
 var todo = "";
 /*
@@ -42,24 +41,20 @@ app.post("/todo", function(req,res){
   res.end();
 })
 
-/*
-  Returns the five most recent tweets on the home twiter page of the currently logged in user.
-*/
-var tweetData = []
-app.get("/tweet",function(req,res){
-
-  twitSet.get("statuses/home_timeline", {count: 5},  function(err,data,res){
-    var tweets = [];
-    for(var i = 0;data.length > i;i++){
-      tweets[i] = data[i].text
+app.get("/tweets", function(req,res){
+  var tweetList = [];
+  client.get("statuses/home_timeline", {"count": 5}, function(error,tweets,response){
+    for(var i = 0;tweets.length > i;i++){
+      tweetList[i] = tweets[i].text;
     }
-    res.send(tweets);
+    res.status(200).send(tweetList);
   });
-  //console.log(tweetData);
-  res.status(200).send(tweetData[0]);
-  res.end();
-});
 
+})
+
+function getTweets(res){
+
+}
 
 app.use(express.static(__dirname + "/webpage"));
 
