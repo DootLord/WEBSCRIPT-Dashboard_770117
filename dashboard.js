@@ -42,6 +42,9 @@ app.post("/todo", function(req,res){
   res.end();
 })
 
+/*
+  Returns the five most recent tweets on the home twiter page of the currently logged in user.
+*/
 
 app.get("/tweet",function(req,res){
 
