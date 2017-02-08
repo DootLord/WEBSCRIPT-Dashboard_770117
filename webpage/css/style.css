@@ -13,6 +13,29 @@ main{
  Box Styling
 */
 
+#navbar ul{
+  list-style-type: none;
+  margin: 0;
+  padding:0;
+  overflow: hidden;
+  background-color: #2A2A2A;
+}
+
+#navbar li{
+  float: left;
+}
+
+#navbar li a{
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+#navbar li a:hover{
+  background-color: blue;
+}
 .box{
   width:250px;
   transition: background-colour 2s;
