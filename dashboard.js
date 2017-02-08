@@ -12,18 +12,13 @@ app.use(bodyParser.json());
 var twitToken = "827132427642482688-ypUlU5Ac0Awt9Gvl5UmGM2zo3umQ6Fr"
 var twitSecret = "6eMdK1TkUZcMYQUIE6sWHYAH5tIHP9HA0hZMkbeTVsZpX"
 
-var client = new Twitter({
-  consumer_key: 'XzVtLi9PgF72L0NuoLunuF1eE',
-  consumer_secret: 'j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID',
-  access_token_key: twitToken,
-  access_token_secret: twitSecret
-});
-
 var twitAuth = new twitterAPI({
   consumerKey: "XzVtLi9PgF72L0NuoLunuF1eE",
   consumerSecret: "j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID",
-  callback: "192.168.0.35:8080"
+  callback: "http://127.0.0.1:8080/tweets/auth"
 });
+
+var client;
 
 // app.all('*', function(req, res, next) {
 //     res.header('Access-Control-Allow-Origin', '*');
@@ -68,16 +63,24 @@ app.post("/todo", function(req,res){
 
 app.get("/tweets", function(req,res){
   var tweetList = [];
-  client.get("statuses/home_timeline", {"count": 5}, function(error,tweets,response){
-    for(var i = 0;tweets.length > i;i++){
-      tweetList[i] = tweets[i].text;
-    }
-    res.status(200).send(JSON.stringify(tweetList));
-  });
+  if(client == undefined){
+    console.log("Need to login to twitter!");
+  }
+  else{
+    client.get("statuses/home_timeline", {"count": 5}, function(error,tweets,response){
+      console.log(error);
+      console.log("User key is: " + client.options.access_token_key);
+      for(var i = 0;tweets.length > i;i++){
+        tweetList[i] = tweets[i].text;
+      }
+      res.status(200).send(JSON.stringify(tweetList));
+    });
+  }
+
 });
 
-var tok;
-var tokSec;
+var reqToken;
+var reqTokenSecret;
 
 app.get("/tweets/login", function(req,res){
   twitAuth.getRequestToken(function(err, requestToken, requestTokenSecret, results){
@@ -85,12 +88,31 @@ app.get("/tweets/login", function(req,res){
       console.log(err);
     }
     else{
-      tok = requestToken;
-      tokSec = requestTokenSecret;
-      res.status(200).send(tok);
+      reqToken = requestToken;
+      reqTokenSecret = requestTokenSecret;
+      res.status(200).send(reqToken);
     }
   });
 });
+
+app.get("/tweets/auth", function(req,res){
+  // var accessToken = req.param("oauth_token");
+  var oauth_verify = req.param("oauth_verifier");
+  twitAuth.getAccessToken(reqToken, reqTokenSecret, oauth_verify, function(error, accessToken, accessTokenSecret, results){
+    if(error){
+      console.log(error);
+    }
+    else{
+        client = new Twitter({
+        consumer_key: 'XzVtLi9PgF72L0NuoLunuF1eE',
+        consumer_secret: 'j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID',
+        access_token_key: accessToken,
+        access_token_secret: accessTokenSecret
+      });
+      res.redirect("/");
+    }
+  })
+})
 
 
 
