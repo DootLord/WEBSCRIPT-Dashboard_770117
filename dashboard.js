@@ -22,7 +22,7 @@ var client = new Twitter({
 var twitAuth = new twitterAPI({
   consumerKey: "XzVtLi9PgF72L0NuoLunuF1eE",
   consumerSecret: "j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID",
-  callback: "127.0.0.1:8080"
+  callback: "192.168.0.35:8080"
 });
 
 // app.all('*', function(req, res, next) {
