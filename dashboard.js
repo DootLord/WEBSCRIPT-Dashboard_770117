@@ -1,3 +1,5 @@
+"use strict";
+
 var express = require('express');
 var bodyParser = require("body-parser");
 var app = express();
@@ -17,11 +19,24 @@ var client = new Twitter({
   access_token_secret: twitSecret
 });
 
-var twitterFunc = new twitterAPI({
+var twitAuth = new twitterAPI({
   consumerKey: "XzVtLi9PgF72L0NuoLunuF1eE",
   consumerSecret: "j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID",
-  callback: "localhost:8080"
+  callback: "127.0.0.1:8080"
 });
+
+// app.all('*', function(req, res, next) {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+//     res.header('Access-Control-Allow-Headers', 'accept, content-type, x-parse-application-id, x-parse-rest-api-key, x-parse-session-token');
+//      // intercept OPTIONS method
+//     if ('OPTIONS' == req.method) {
+//       res.send(200);
+//     }
+//     else {
+//       next();
+//     }
+// });
 
 var todo = "";
 /*
@@ -61,18 +76,18 @@ app.get("/tweets", function(req,res){
   });
 });
 
-var twitUserKey;
-var twitUserSecret;
+var tok;
+var tokSec;
+
 app.get("/tweets/login", function(req,res){
-  twitterFunc.getRequestToken(function(err,requestToken,requestSecret){
-    if (err){
+  twitAuth.getRequestToken(function(err, requestToken, requestTokenSecret, results){
+    if(err){
       console.log(err);
-      res.status(500).send(err);
     }
     else{
-      twitUserKey = requestToken;
-      twitUserSecret = requestSecret;
-      res.redirect("https://api.twitter.com/oauth/authenticate?oauth_token=" + requestToken);
+      tok = requestToken;
+      tokSec = requestTokenSecret;
+      res.status(200).send(tok);
     }
   });
 });

@@ -145,8 +145,19 @@ function getTweets(){
 
 function loginTwitter(){
   var xml = new XMLHttpRequest();
+  console.log("LOGIN");
   xml.open("GET", "/tweets/login");
+  xml.onreadystatechange = function(){
+    if(xml.status == 200 && xml.readyState == 4){
+      console.log("HEYO");
+      window.location = "https://twitter.com/oauth/authenticate?oauth_token=" + xml.responseText;
+    }
+  }
   xml.send();
+}
+
+function authTwitter(){
+
 }
 
 function displayTweets(tweetArray){
