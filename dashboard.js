@@ -1,16 +1,26 @@
 var express = require('express');
 var bodyParser = require("body-parser");
 var app = express();
-var Twitter = require("twitter");
-var func = require("./js/func")
+var Twitter = require("twitter"); // Allows access to Twitter API
+var twitterAPI = require('node-twitter-api'); // Allows access to user login tokens
+var func = require("./js/func"); // Collection of large functions that'd look messy here.
 
 app.use(bodyParser.json());
+
+var twitToken = "827132427642482688-ypUlU5Ac0Awt9Gvl5UmGM2zo3umQ6Fr"
+var twitSecret = "6eMdK1TkUZcMYQUIE6sWHYAH5tIHP9HA0hZMkbeTVsZpX"
 
 var client = new Twitter({
   consumer_key: 'XzVtLi9PgF72L0NuoLunuF1eE',
   consumer_secret: 'j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID',
-  access_token_key: '827132427642482688-ypUlU5Ac0Awt9Gvl5UmGM2zo3umQ6Fr',
-  access_token_secret: '6eMdK1TkUZcMYQUIE6sWHYAH5tIHP9HA0hZMkbeTVsZpX'
+  access_token_key: twitToken,
+  access_token_secret: twitSecret
+});
+
+var twitterFunc = new twitterAPI({
+  consumerKey: "XzVtLi9PgF72L0NuoLunuF1eE",
+  consumerSecret: "j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID",
+  callback: "localhost:8080"
 });
 
 var todo = "";
@@ -47,11 +57,26 @@ app.get("/tweets", function(req,res){
     for(var i = 0;tweets.length > i;i++){
       tweetList[i] = tweets[i].text;
     }
-    console.log(tweets);
     res.status(200).send(JSON.stringify(tweetList));
   });
+});
 
-})
+var twitUserKey;
+var twitUserSecret;
+app.get("/tweets/login", function(req,res){
+  twitterFunc.getRequestToken(function(err,requestToken,requestSecret){
+    if (err){
+      console.log(err);
+      res.status(500).send(err);
+    }
+    else{
+      twitUserKey = requestToken;
+      twitUserSecret = requestSecret;
+      res.redirect("https://api.twitter.com/oauth/authenticate?oauth_token=" + requestToken);
+    }
+  });
+});
+
 
 
 app.use(express.static(__dirname + "/webpage"));

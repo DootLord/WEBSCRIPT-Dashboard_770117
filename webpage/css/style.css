@@ -19,9 +19,6 @@ main{
   padding:0;
   overflow: hidden;
   background-color: #2A2A2A;
-  top:0px;
-  position: fixed;
-  width:100%;
 }
 
 #navbar li{
@@ -75,6 +72,13 @@ main{
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.box-head-ele{
+  background-color:white;
+  color:black;
+  width:200px;
+  display:inline;
 }
 
 #todo-list{

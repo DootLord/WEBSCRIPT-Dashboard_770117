@@ -143,6 +143,12 @@ function getTweets(){
   xml.send();
 }
 
+function loginTwitter(){
+  var xml = new XMLHttpRequest();
+  xml.open("GET", "/tweets/login");
+  xml.send();
+}
+
 function displayTweets(tweetArray){
   console.log("Building Tweet list");
   var ele = document.getElementById("tweet-list");
@@ -166,4 +172,5 @@ function displayTweets(tweetArray){
 // }
 // Event Listeners
 document.getElementById("todo-button").addEventListener("click", newToDoItem);
+document.getElementById("tweet-login").addEventListener("click", loginTwitter);
 document.addEventListener("load", initalizePage());
