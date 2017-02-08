@@ -15,14 +15,18 @@ main{
 
 #navbar{
   list-style-type: none;
-  margin: 0;
+  margin: 10px;
   padding:0;
   overflow: hidden;
   background-color: #2A2A2A;
+  top:0px;
+  position: fixed;
+  width:100%;
 }
 
 #navbar li{
   float: left;
+  width:25%;
 }
 
 #navbar li a{
