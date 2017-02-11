@@ -7,8 +7,11 @@ var Twitter = require("twitter"); // Allows access to Twitter API
 var twitterAPI = require('node-twitter-api'); // Allows access to user login tokens
 var func = require("./js/func"); // Collection of large functions that'd look messy here.
 
-app.use(bodyParser.json());
+// reqToken & reqTokenSecret store tokens passed to the server from after login and are used in the authetication step of the login process
+var reqToken;
+var reqTokenSecret;
 
+app.use(bodyParser.json());
 
 // TODO Set these to seprate varables outside the scope of dashboard.js
 var twitToken = "827132427642482688-ypUlU5Ac0Awt9Gvl5UmGM2zo3umQ6Fr"
@@ -19,7 +22,7 @@ var twitAuth = new twitterAPI({
   consumerSecret: "j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID",
   callback: "http://127.0.0.1:8080/tweets/auth"
 });
-
+// twitInterface is used for calling REST calls on the twitter API
 var twitInterface;
 
 var todo = "";
@@ -33,8 +36,8 @@ app.get("/time", function (req,res){
 });
 
 /*
-  Returns the contents of the todo list to the twitInterface.
-  The twitInterface will use this to put together the todo-list so that users may add or remove further tasks
+  Returns the contents of the todo list to the client.
+  The client will use this to put together the todo-list so that users may add or remove further tasks
 */
 app.get("/todo", function(req,res){
   res.status(200).send(todo);
@@ -69,9 +72,6 @@ app.get("/tweets", function(req,res){
   }
 
 });
-
-var reqToken;
-var reqTokenSecret;
 
 /*
   Authorises the user attempting ot login in by obtaining tokens from twitter

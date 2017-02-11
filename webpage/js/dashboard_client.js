@@ -132,7 +132,6 @@ function postToDo(list){
  Uses GET on /tweet
  TODO: Add twitter login to allow any user to see their tweets
 */
-
 function getTweets(){
   var xml = new XMLHttpRequest();
   xml.open("GET", "/tweets");
@@ -150,6 +149,11 @@ function getTweets(){
   xml.send();
 }
 
+
+/*
+  Starts the login process for getting the required tokens to peform requests on twitters API on the user's behalf
+  TODO Implement a less crude login button
+*/
 function loginTwitter(){
   var xml = new XMLHttpRequest();
   xml.open("GET", "/tweets/login");
