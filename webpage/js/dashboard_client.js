@@ -1,5 +1,7 @@
 /* This document consists of regular JavaScript */
-
+var tweets = []; // Used to store data about the five current active tweets on the page.
+var tweetItems // List of current tweet items shown on the page
+var oauthToken // Token used to implement the Twitter API
 /*
   Called once DOMis loaded.
   Runs core functions to start loops and to initilize varables
@@ -137,50 +139,48 @@ function getTweets(){
   xml.setRequestHeader("Content-type", "application/json");
   xml.onreadystatechange = function(){
     if(xml.status == 200 && xml.readyState == 4){
-      displayTweets(JSON.parse(xml.responseText));
+      tweets = JSON.parse(xml.responseText);
+      console.log(tweets[0]);
+      displayTweets();
     }
+    else if(xml.status == 204 && xml.readyState == XMLHttpRequest.DONE){
+        console.log("No tweets available!, please try again later");
+      }
   }
   xml.send();
 }
 
 function loginTwitter(){
   var xml = new XMLHttpRequest();
-  console.log("LOGIN");
   xml.open("GET", "/tweets/login");
   xml.onreadystatechange = function(){
     if(xml.status == 200 && xml.readyState == 4){
-      console.log("HEYO");
-      window.location = "https://twitter.com/oauth/authenticate?oauth_token=" + xml.responseText;
+      oauthToken = xml.responseText
+      window.location = "https://twitter.com/oauth/authenticate?oauth_token=" + oauthToken;
     }
   }
   xml.send();
 }
 
-function authTwitter(){
-
-}
-
-function displayTweets(tweetArray){
-  console.log("Building Tweet list");
+/*
+  Assmbles the most recent tweets from the user onto the webpage and assigns each with function
+  for onclick redirect to the tweet
+*/
+function displayTweets(){
   var ele = document.getElementById("tweet-list");
-  for(var i = 0; tweetArray.length > i; i++){
+  for(var i = 0; tweets.length > i; i++){
       var li = document.createElement("li");
-      li.innerText = tweetArray[i];
+      li.innerText = tweets[i].text;
+      li.setAttribute("tweet-id",tweets[i].id_str);
+      li.setAttribute("class","tweet-item");
+      li.onclick = function(){
+        window.location = "https://twitter.com/twitter/status/" + this.getAttribute("tweet-id");
+      }
       ele.appendChild(li);
   }
+  tweetItems = document.getElementsByClassName("tweet-item");
 }
 
-// function getTwitterUser(){
-//   var xml = new XMLHttpRequest();
-//   xml.onreadystatechange = function(){
-//     if(xml.status == 200 && xml.readyState == 4){
-//       console.log(xml.responseText.token);
-//     }
-//   }
-//   xml.open("GET", "/tweet/user");
-//   xml.setRequestHeader("Content-type", "application/json");
-//   xml.send();
-// }
 // Event Listeners
 document.getElementById("todo-button").addEventListener("click", newToDoItem);
 document.getElementById("tweet-login").addEventListener("click", loginTwitter);

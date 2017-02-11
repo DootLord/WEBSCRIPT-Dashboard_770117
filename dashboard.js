@@ -9,6 +9,8 @@ var func = require("./js/func"); // Collection of large functions that'd look me
 
 app.use(bodyParser.json());
 
+
+// TODO Set these to seprate varables outside the scope of dashboard.js
 var twitToken = "827132427642482688-ypUlU5Ac0Awt9Gvl5UmGM2zo3umQ6Fr"
 var twitSecret = "6eMdK1TkUZcMYQUIE6sWHYAH5tIHP9HA0hZMkbeTVsZpX"
 
@@ -18,25 +20,12 @@ var twitAuth = new twitterAPI({
   callback: "http://127.0.0.1:8080/tweets/auth"
 });
 
-var client;
-
-// app.all('*', function(req, res, next) {
-//     res.header('Access-Control-Allow-Origin', '*');
-//     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-//     res.header('Access-Control-Allow-Headers', 'accept, content-type, x-parse-application-id, x-parse-rest-api-key, x-parse-session-token');
-//      // intercept OPTIONS method
-//     if ('OPTIONS' == req.method) {
-//       res.send(200);
-//     }
-//     else {
-//       next();
-//     }
-// });
+var twitInterface;
 
 var todo = "";
 /*
   Used to get current time from the servers location.
-  Will use details from the client to get the time from the users location instead of just portsmouth time.
+  Will use details from the twitInterface to get the time from the users location instead of just portsmouth time.
 */
 app.get("/time", function (req,res){
   res.status(200).send(func.getTime());
@@ -44,8 +33,8 @@ app.get("/time", function (req,res){
 });
 
 /*
-  Returns the contents of the todo list to the client.
-  The client will use this to put together the todo-list so that users may add or remove further tasks
+  Returns the contents of the todo list to the twitInterface.
+  The twitInterface will use this to put together the todo-list so that users may add or remove further tasks
 */
 app.get("/todo", function(req,res){
   res.status(200).send(todo);
@@ -61,19 +50,21 @@ app.post("/todo", function(req,res){
   res.end();
 })
 
+/*
+  Returns a list of the five most recent tweets from twitInterface's active user.
+*/
 app.get("/tweets", function(req,res){
   var tweetList = [];
-  if(client == undefined){
+  if(twitInterface == undefined){
     console.log("Need to login to twitter!");
   }
   else{
-    client.get("statuses/home_timeline", {"count": 5}, function(error,tweets,response){
-      console.log(error);
-      console.log("User key is: " + client.options.access_token_key);
-      for(var i = 0;tweets.length > i;i++){
-        tweetList[i] = tweets[i].text;
+    twitInterface.get("statuses/home_timeline", {"count": 5}, function(error,tweets,response){
+      if(error){
+        res.status(204).send("ERROR! Login or tweets have expired");
       }
-      res.status(200).send(JSON.stringify(tweetList));
+      //console.log(tweets[0]);
+      res.status(200).send(JSON.stringify(tweets));
     });
   }
 
@@ -82,6 +73,9 @@ app.get("/tweets", function(req,res){
 var reqToken;
 var reqTokenSecret;
 
+/*
+  Authorises the user attempting ot login in by obtaining tokens from twitter
+*/
 app.get("/tweets/login", function(req,res){
   twitAuth.getRequestToken(function(err, requestToken, requestTokenSecret, results){
     if(err){
@@ -95,15 +89,18 @@ app.get("/tweets/login", function(req,res){
   });
 });
 
+/*
+  Intended to be called when a user has just been verified from twitter login page.
+  Will assemble an interface of the Twitter api containing the details necessary to peform requests on their API.
+*/
 app.get("/tweets/auth", function(req,res){
-  // var accessToken = req.param("oauth_token");
-  var oauth_verify = req.param("oauth_verifier");
+  var oauth_verify = req.query.oauth_verifier;
   twitAuth.getAccessToken(reqToken, reqTokenSecret, oauth_verify, function(error, accessToken, accessTokenSecret, results){
     if(error){
       console.log(error);
     }
     else{
-        client = new Twitter({
+        twitInterface = new Twitter({
         consumer_key: 'XzVtLi9PgF72L0NuoLunuF1eE',
         consumer_secret: 'j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID',
         access_token_key: accessToken,
@@ -111,10 +108,8 @@ app.get("/tweets/auth", function(req,res){
       });
       res.redirect("/");
     }
-  })
-})
-
-
+  });
+});
 
 app.use(express.static(__dirname + "/webpage"));
 // Set to 8080 for developmennt purposes

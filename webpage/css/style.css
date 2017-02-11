@@ -81,6 +81,32 @@ main{
   display:inline;
 }
 
+
+.small{
+  width: 100px;
+  height: 100px;
+  line-height: 75px;
+  font-size: 20px;
+}
+
+.small .box-head{
+  height:25px;
+  line-height: 25px;
+  font-size: 12px;
+}
+
+.large{
+  width: 500px;
+  height: 500px;
+  line-height: 400px;
+  font-size: 60px;
+}
+
+.long{
+  height:500px;
+  line-height: 400px;
+}
+
 #todo-list{
   line-height: 20px;
   font-size:20px;
@@ -111,31 +137,10 @@ main{
   margin:10px
 }
 
-
-.small{
-  width: 100px;
-  height: 100px;
-  line-height: 75px;
-  font-size: 20px;
+#tweet-list li:hover{
+  background-color: pink;
 }
 
-.small .box-head{
-  height:25px;
-  line-height: 25px;
-  font-size: 12px;
-}
-
-.large{
-  width: 500px;
-  height: 500px;
-  line-height: 400px;
-  font-size: 60px;
-}
-
-.long{
-  height:500px;
-  line-height: 400px;
-}
 
 /*
 .green{
