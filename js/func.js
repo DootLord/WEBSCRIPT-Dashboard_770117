@@ -1,3 +1,7 @@
+/*
+  Assembles the current time using data from the local machine.
+*/
+
 function getTime(){
   var currentTime = new Date();
   var currentHours = currentTime.getHours();

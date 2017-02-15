@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 
 var express = require('express');
 var bodyParser = require("body-parser");
@@ -7,15 +7,20 @@ var Twitter = require("twitter"); // Allows access to Twitter API
 var twitterAPI = require('node-twitter-api'); // Allows access to user login tokens
 var func = require("./js/func"); // Collection of large functions that'd look messy here.
 
-// reqToken & reqTokenSecret store tokens passed to the server from after login and are used in the authetication step of the login process
+
+/*
+   reqToken & reqTokenSecret store tokens passed to the server from after login and
+   are used in the authetication step of the login process
+*/
 var reqToken;
 var reqTokenSecret;
 
 app.use(bodyParser.json());
 
-// TODO Set these to seprate varables outside the scope of dashboard.js
-var twitToken = "827132427642482688-ypUlU5Ac0Awt9Gvl5UmGM2zo3umQ6Fr"
-var twitSecret = "6eMdK1TkUZcMYQUIE6sWHYAH5tIHP9HA0hZMkbeTVsZpX"
+if(typeof localStorage === "undefined" || localStorage === null){
+  var LocalStorage = require("node-localstorage").LocalStorage;
+  var localStorage = new LocalStorage("./storage");
+}
 
 var twitAuth = new twitterAPI({
   consumerKey: "XzVtLi9PgF72L0NuoLunuF1eE",
@@ -25,7 +30,6 @@ var twitAuth = new twitterAPI({
 // twitInterface is used for calling REST calls on the twitter API
 var twitInterface;
 
-var todo = "";
 /*
   Used to get current time from the servers location.
   Will use details from the twitInterface to get the time from the users location instead of just portsmouth time.
@@ -40,7 +44,7 @@ app.get("/time", function (req,res){
   The client will use this to put together the todo-list so that users may add or remove further tasks
 */
 app.get("/todo", function(req,res){
-  res.status(200).send(todo);
+  res.status(200).send(localStorage.getItem("todoItems"));
   res.end();
 })
 
@@ -48,7 +52,7 @@ app.get("/todo", function(req,res){
   Allows users to post changes to the todo-list and update the todo-list server-side.
 */
 app.post("/todo", function(req,res){
-  todo = req.body.list;
+  localStorage.setItem("todoItems", req.body.list);
   res.status(200).send("POSTED!");
   res.end();
 })
@@ -79,7 +83,7 @@ app.get("/tweets", function(req,res){
 app.get("/tweets/login", function(req,res){
   twitAuth.getRequestToken(function(err, requestToken, requestTokenSecret, results){
     if(err){
-      console.log(err);
+      console.error(err);
     }
     else{
       reqToken = requestToken;
@@ -97,7 +101,7 @@ app.get("/tweets/auth", function(req,res){
   var oauth_verify = req.query.oauth_verifier;
   twitAuth.getAccessToken(reqToken, reqTokenSecret, oauth_verify, function(error, accessToken, accessTokenSecret, results){
     if(error){
-      console.log(error);
+      throw err;
     }
     else{
         twitInterface = new Twitter({

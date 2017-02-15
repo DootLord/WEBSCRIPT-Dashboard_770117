@@ -9,7 +9,7 @@ var oauthToken // Token used to implement the Twitter API
 function initalizePage(){
   updateTime();
   getWeather();
-  getToDo();
+  getToDoItems();
   getTweets();
 }
 
@@ -67,14 +67,21 @@ function getTime(){
 /*
   Grabs the current todo list and displays it on the dashboard_client
   Does so by performing a GET on /todo of the server
-  TODO: Have server store todo on database instead of tempory storage
 */
-function getToDo(){
+function getToDoItems(){
   var xml = new XMLHttpRequest();
   var list = document.getElementById("todo-list");
   xml.onreadystatechange = function(){
     if(xml.status == 200 && xml.readyState == 4){
       list.innerHTML = xml.responseText;
+      console.log(list.childNodes[0]);
+      for(var i = 0; list.childNodes.length>i; i++){
+        list.childNodes[i].onclick = function(){
+          this.parentNode.removeChild(this);
+          postToDo(list);
+        }
+        console.log("added onclick");
+      }
     }
   }
   xml.open("GET", "/todo", true);
@@ -99,9 +106,9 @@ function newToDoItem(){
     li.innerText = textField.value;
     li.onclick = function(){
       this.parentNode.removeChild(this);
+      postToDo(list);
     }
     list.appendChild(li);
-
     postToDo(list);
   }
   else{
@@ -111,7 +118,7 @@ function newToDoItem(){
 
 /*
   Updates the servers current todo list with newly edited todo list
-  Done so via post on /todo
+  Done so via POSt on /todo
   TODO: Have todo-list stored via a database server-side
 */
 function postToDo(list){
@@ -120,10 +127,10 @@ function postToDo(list){
   xml.setRequestHeader("Content-type", "application/json");
   xml.onreadystatechange = function(){
     if(xml.status == 200 && xml.readyState == 4){
-      console.log(xml.responseText);
+      //console.log(xml.responseText);
     }
   }
-  var listJSON = {list:list.innerHTML};
+  var listJSON = {list: list.innerHTML};
   xml.send(JSON.stringify(listJSON), true);
 }
 
@@ -139,7 +146,7 @@ function getTweets(){
   xml.onreadystatechange = function(){
     if(xml.status == 200 && xml.readyState == 4){
       tweets = JSON.parse(xml.responseText);
-      console.log(tweets[0]);
+      //console.log(tweets[0]);
       displayTweets();
     }
     else if(xml.status == 204 && xml.readyState == XMLHttpRequest.DONE){
@@ -168,7 +175,7 @@ function loginTwitter(){
 
 /*
   Assmbles the most recent tweets from the user onto the webpage and assigns each with function
-  for onclick redirect to the tweet
+  for an onclick redirect to the tweet
 */
 function displayTweets(){
   var ele = document.getElementById("tweet-list");
