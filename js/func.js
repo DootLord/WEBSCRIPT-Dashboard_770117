@@ -20,5 +20,9 @@ function getTime(){
   return currentTimeString;
 }
 
+function showTweet(tweet){
+  
+}
+
 
 module.exports.getTime = getTime;

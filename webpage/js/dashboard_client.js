@@ -2,25 +2,8 @@
 var tweets = []; // Used to store data about the five current active tweets on the page.
 var tweetItems // List of current tweet items shown on the page
 var oauthToken // Token used to implement the Twitter API
-/*
-  Called once DOMis loaded.
-  Runs core functions to start loops and to initilize varables
-*/
-function initalizePage(){
-  updateTime();
-  getWeather();
-  getToDoItems();
-  getTweets();
-}
 
-/*
-  Gets the inital time and then will call "getTime" to refresh the time every second
-*/
 
-function updateTime(){
-  getTime();
-  window.setInterval(getTime,1000);
-}
 
 /*
   Calls to the Weather api to get local weather details for the current location and time of the dashboards location.
@@ -63,6 +46,14 @@ function getTime(){
   xml.send();
 }
 
+/*
+  Gets the inital time and then will call "getTime" to refresh the time every second
+*/
+
+function updateTime(){
+  getTime();
+  window.setInterval(getTime,1000);
+}
 
 /*
   Grabs the current todo list and displays it on the dashboard_client
@@ -155,7 +146,41 @@ function getTweets(){
   }
   xml.send();
 }
+/*
+  TODO Finish and cleanup. This is a mess!
+  TODO: Move to own js file as will likely be large function
+*/
+function showTweetOverlay(){
+  var tweet = tweets[0];
+  var fadeContainer = document.createElement("div");
+  var fade = document.createElement("div");
+  var fadeBox = document.createElement("div");
+  var oButton = document.createElement("div");
 
+
+  fadeContainer.setAttribute("id","fadeBoxContainer");
+
+  oButton.setAttribute("style","width:20px; height:20px; background-color: blue");
+  oButton.onclick = function(){
+    removeTweetOverlay()
+  }
+
+  fade.setAttribute("class", "fade");
+  fadeBox.setAttribute("class","fade-Box");
+  fadeBox.innerText = tweets[0].text;
+
+  document.getElementById("temp").appendChild(fadeContainer)
+  fadeContainer.appendChild(fade);
+  fadeContainer.appendChild(fadeBox);
+  fadeBox.appendChild(oButton);
+}
+// TODO: Clean up. This doesn't look too pretty
+function removeTweetOverlay(){
+  var ele = document.getElementById("fadeBoxContainer");
+  ele.innerHTML = "";
+  ele.outerHTML = "";
+  delete ele;
+}
 
 /*
   Starts the login process for getting the required tokens to peform requests on twitters API on the user's behalf
@@ -192,7 +217,19 @@ function displayTweets(){
   tweetItems = document.getElementsByClassName("tweet-item");
 }
 
+/*
+  Called once DOM is loaded.
+  Runs core functions to start loops and to initilize varables
+*/
+function initalizePage(){
+  updateTime();
+  getWeather();
+  getToDoItems();
+  getTweets();
+}
+
 // Event Listeners
 document.getElementById("todo-button").addEventListener("click", newToDoItem);
 document.getElementById("tweet-login").addEventListener("click", loginTwitter);
+document.getElementById("showbox").addEventListener("click", showTweetOverlay);
 document.addEventListener("load", initalizePage());
