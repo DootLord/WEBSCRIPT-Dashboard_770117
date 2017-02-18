@@ -150,7 +150,7 @@ function getTweets(){
   TODO Finish and cleanup. This is a mess!
   TODO: Move to own js file as will likely be large function
 */
-function showTweetOverlay(){
+function showTweetOverlay(tweetIndex){
   var tweet = tweets[0];
   var fadeContainer = document.createElement("div");
   var fade = document.createElement("div");
@@ -167,7 +167,7 @@ function showTweetOverlay(){
 
   fade.setAttribute("class", "fade");
   fadeBox.setAttribute("class","fade-Box");
-  fadeBox.innerText = tweets[0].text;
+  fadeBox.innerText = tweets[tweetIndex].text;
 
   document.getElementById("temp").appendChild(fadeContainer)
   fadeContainer.appendChild(fade);
@@ -207,10 +207,10 @@ function displayTweets(){
   for(var i = 0; tweets.length > i; i++){
       var li = document.createElement("li");
       li.innerText = tweets[i].text;
-      li.setAttribute("tweet-id",tweets[i].id_str);
+      li.setAttribute("tweet-item",i);
       li.setAttribute("class","tweet-item");
       li.onclick = function(){
-        window.location = "https://twitter.com/twitter/status/" + this.getAttribute("tweet-id");
+        showTweetOverlay(this.getAttribute("tweet-item"));
       }
       ele.appendChild(li);
   }
