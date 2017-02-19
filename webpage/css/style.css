@@ -160,6 +160,18 @@ main{
   padding:0px;
 }
 
+#todo-list li{
+  margin: 5px;
+}
+@keyframes listHover {
+  100%{  border-color: blue; border-style: solid;font-size: 25px;}
+}
+#todo-list li:hover{
+ animation-name: listHover;
+ animation-duration: 0.3s;
+ animation-fill-mode:forwards;
+}
+
 #todo-enter{
   line-height: 20px;
   font-size:20px;
@@ -175,7 +187,7 @@ main{
 }
 
 #tweet-list ul{
-  padding: 10px
+  margin: 10px
 }
 
 #tweet-list li{

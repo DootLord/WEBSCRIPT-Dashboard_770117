@@ -131,6 +131,7 @@ function postToDo(list){
  TODO: Add twitter login to allow any user to see their tweets
 */
 function getTweets(){
+  document.getElementById("tweet-list").innerHTML = "";
   var xml = new XMLHttpRequest();
   xml.open("GET", "/tweets");
   xml.setRequestHeader("Content-type", "application/json");
@@ -150,37 +151,6 @@ function getTweets(){
   TODO Finish and cleanup. This is a mess!
   TODO: Move to own js file as will likely be large function
 */
-// function showTweetOverlay(tweetIndex){
-//   var tweet = tweets[0];
-//   var fadeContainer = document.createElement("div");
-//   var fade = document.createElement("div");
-//   var fadeBox = document.createElement("div");
-//   var oButton = document.createElement("div");
-//
-//   fadeContainer.setAttribute("id","fadeBoxContainer");
-//
-//   oButton.setAttribute("style","width:20px; height:20px; background-color: blue");
-//   oButton.onclick = function(){
-//     removeTweetOverlay()
-//   }
-//
-//   fade.setAttribute("class", "fade");
-//   fadeBox.setAttribute("class","fade-Box");
-//   fadeBox.innerText = tweets[tweetIndex].text;
-//
-//   document.getElementsByTagName("main")[0].appendChild(fadeContainer)
-//   fadeContainer.appendChild(fade);
-//   fadeContainer.appendChild(fadeBox);
-//   fadeBox.appendChild(oButton);
-// }
-// // TODO: Clean up. This doesn't look too pretty
-// function removeTweetOverlay(){
-//   var ele = document.getElementById("fadeBoxContainer");
-//   ele.innerHTML = "";
-//   ele.outerHTML = "";
-//   delete ele;
-// }
-
 
 function showTweetOverlay(tweetIndex){
   var tweet = tweets[0];
@@ -194,13 +164,6 @@ function showTweetOverlay(tweetIndex){
   tweetText.innerText = tweets[tweetIndex].text;
   tweetBox.style.display = "block";
 
-}
-// TODO: Clean up. This doesn't look too pretty
-function removeTweetOverlay(){
-  var ele = document.getElementById("fadeBoxContainer");
-  ele.innerHTML = "";
-  ele.outerHTML = "";
-  delete ele;
 }
 
 /*
@@ -247,6 +210,10 @@ function initalizePage(){
   getWeather();
   getToDoItems();
   getTweets();
+}
+
+if(tweets != []){
+  setInterval(getTweets, 20000);
 }
 
 // Event Listeners
