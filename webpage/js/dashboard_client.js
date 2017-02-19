@@ -150,29 +150,50 @@ function getTweets(){
   TODO Finish and cleanup. This is a mess!
   TODO: Move to own js file as will likely be large function
 */
+// function showTweetOverlay(tweetIndex){
+//   var tweet = tweets[0];
+//   var fadeContainer = document.createElement("div");
+//   var fade = document.createElement("div");
+//   var fadeBox = document.createElement("div");
+//   var oButton = document.createElement("div");
+//
+//   fadeContainer.setAttribute("id","fadeBoxContainer");
+//
+//   oButton.setAttribute("style","width:20px; height:20px; background-color: blue");
+//   oButton.onclick = function(){
+//     removeTweetOverlay()
+//   }
+//
+//   fade.setAttribute("class", "fade");
+//   fadeBox.setAttribute("class","fade-Box");
+//   fadeBox.innerText = tweets[tweetIndex].text;
+//
+//   document.getElementsByTagName("main")[0].appendChild(fadeContainer)
+//   fadeContainer.appendChild(fade);
+//   fadeContainer.appendChild(fadeBox);
+//   fadeBox.appendChild(oButton);
+// }
+// // TODO: Clean up. This doesn't look too pretty
+// function removeTweetOverlay(){
+//   var ele = document.getElementById("fadeBoxContainer");
+//   ele.innerHTML = "";
+//   ele.outerHTML = "";
+//   delete ele;
+// }
+
+
 function showTweetOverlay(tweetIndex){
   var tweet = tweets[0];
-  var fadeContainer = document.createElement("div");
-  var fade = document.createElement("div");
-  var fadeBox = document.createElement("div");
-  var oButton = document.createElement("div");
-
-
-  fadeContainer.setAttribute("id","fadeBoxContainer");
-
-  oButton.setAttribute("style","width:20px; height:20px; background-color: blue");
-  oButton.onclick = function(){
-    removeTweetOverlay()
+  var tweetBox = document.getElementsByClassName("fade-box")[0];
+  document.getElementsByClassName("fade-button")[0].onclick = function(){
+    tweetBox.style.display = "none";
   }
+  var tweetText = document.getElementsByClassName("fade-content")[0];
+  var tweetTitle = document.getElementsByClassName("fade-title")[0];
+  tweetTitle.innerText = tweets[tweetIndex].user.name;
+  tweetText.innerText = tweets[tweetIndex].text;
+  tweetBox.style.display = "block";
 
-  fade.setAttribute("class", "fade");
-  fadeBox.setAttribute("class","fade-Box");
-  fadeBox.innerText = tweets[tweetIndex].text;
-
-  document.getElementById("temp").appendChild(fadeContainer)
-  fadeContainer.appendChild(fade);
-  fadeContainer.appendChild(fadeBox);
-  fadeBox.appendChild(oButton);
 }
 // TODO: Clean up. This doesn't look too pretty
 function removeTweetOverlay(){
@@ -231,5 +252,4 @@ function initalizePage(){
 // Event Listeners
 document.getElementById("todo-button").addEventListener("click", newToDoItem);
 document.getElementById("tweet-login").addEventListener("click", loginTwitter);
-document.getElementById("showbox").addEventListener("click", showTweetOverlay);
 document.addEventListener("load", initalizePage());

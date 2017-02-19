@@ -47,18 +47,42 @@ main{
   top: 0;
   left: 0;
   position: fixed;
+  display: none;
 }
 
-.fade-Box{
+.fade-box{
   z-index: 10;
-  background-color: pink;
+  background-color: #ecf0f1;
   width:400px;
   height:300px;
   left:40%;
   position: absolute;
   margin-top: auto;
-
+  border-radius: 10px;
+  padding:5px;
+  display: none;
 }
+
+.fade-button{
+  float:right;
+  background-color: red;
+  padding:10px;
+  border-radius: 20px;
+}
+
+.fade-title{
+  font-weight: bold;
+  padding: 10px
+}
+
+.fade-content{
+  margin-top:10px;
+  height:220px;
+  border-style: solid;
+  border-color: #3498db;
+  padding:10px;
+}
+
 .box{
   width:250px;
   transition: background-colour 2s;
@@ -162,6 +186,8 @@ main{
 #tweet-list li:hover{
   background-color: pink;
 }
+
+
 
 
 /*
