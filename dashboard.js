@@ -16,10 +16,24 @@ var reqToken;
 var reqTokenSecret;
 
 app.use(bodyParser.json());
-
+/*
+ Create a new local storage instance if one doesn't already exist
+*/
 if(typeof localStorage === "undefined" || localStorage === null){
   var LocalStorage = require("node-localstorage").LocalStorage;
   var localStorage = new LocalStorage("./storage");
+}
+
+/*
+  Initalizes up twitter interface if creditentals already exist on the server.
+*/
+if(localStorage.getItem("twitterKey") || localStorage.getItem("twitterSecret") != null){
+  twitInterface = new Twitter({
+  consumer_key: 'XzVtLi9PgF72L0NuoLunuF1eE',
+  consumer_secret: 'j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID',
+  access_token_key: localStorage.getItem("twitterKey"),
+  access_token_secret: localStorage.getItem("twitterSecret")
+});
 }
 
 var twitAuth = new twitterAPI({
@@ -83,7 +97,7 @@ app.get("/tweets", function(req,res){
 app.get("/tweets/login", function(req,res){
   twitAuth.getRequestToken(function(err, requestToken, requestTokenSecret, results){
     if(err){
-      console.error(err);
+      throw err;
     }
     else{
       reqToken = requestToken;
@@ -110,6 +124,8 @@ app.get("/tweets/auth", function(req,res){
         access_token_key: accessToken,
         access_token_secret: accessTokenSecret
       });
+      localStorage.setItem("twitterKey",accessToken);
+      localStorage.setItem("twitterSecret", accessTokenSecret);
       res.redirect("/");
     }
   });
