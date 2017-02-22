@@ -1,6 +1,7 @@
 "use strict"
 
 var express = require('express');
+var fs = require("fs");
 var bodyParser = require("body-parser");
 var multer = require("multer");
 var Twitter = require("twitter"); // Allows access to Twitter API
@@ -136,7 +137,9 @@ app.get("/tweets/auth", function(req,res){
 
 app.post("/file/upload", upload.single("uploadFile"), function(req,res){
   res.redirect("/");
-  res.status(200).send("Uploaded!");
+  res.status(201);
+  console.log(res.status);
+  fs.rename("./uploads/content/" + req.file.filename, "./uploads/content/" + req.file.originalname)
 });
 
 app.use(express.static(__dirname + "/webpage"));
