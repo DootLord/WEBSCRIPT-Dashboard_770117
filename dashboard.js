@@ -2,10 +2,13 @@
 
 var express = require('express');
 var bodyParser = require("body-parser");
-var app = express();
+var multer = require("multer");
 var Twitter = require("twitter"); // Allows access to Twitter API
 var twitterAPI = require('node-twitter-api'); // Allows access to user login tokens
+var app = express();
 var func = require("./js/func"); // Collection of large functions that'd look messy here.
+var upload = multer({dest: "./uploads/content/"})
+app.use(bodyParser.json());
 
 
 /*
@@ -15,13 +18,13 @@ var func = require("./js/func"); // Collection of large functions that'd look me
 var reqToken;
 var reqTokenSecret;
 
-app.use(bodyParser.json());
+
 /*
  Create a new local storage instance if one doesn't already exist
 */
 if(typeof localStorage === "undefined" || localStorage === null){
   var LocalStorage = require("node-localstorage").LocalStorage;
-  var localStorage = new LocalStorage("./storage");
+  var localStorage = new LocalStorage("./uploads/details");
 }
 
 /*
@@ -97,7 +100,7 @@ app.get("/tweets", function(req,res){
 app.get("/tweets/login", function(req,res){
   twitAuth.getRequestToken(function(err, requestToken, requestTokenSecret, results){
     if(err){
-      throw err;
+      return err;
     }
     else{
       reqToken = requestToken;
@@ -115,7 +118,7 @@ app.get("/tweets/auth", function(req,res){
   var oauth_verify = req.query.oauth_verifier;
   twitAuth.getAccessToken(reqToken, reqTokenSecret, oauth_verify, function(error, accessToken, accessTokenSecret, results){
     if(error){
-      throw err;
+      return err;
     }
     else{
         twitInterface = new Twitter({
@@ -129,6 +132,11 @@ app.get("/tweets/auth", function(req,res){
       res.redirect("/");
     }
   });
+});
+
+app.post("/file/upload", upload.single("uploadFile"), function(req,res){
+  res.redirect("/");
+  res.status(200).send("Uploaded!");
 });
 
 app.use(express.static(__dirname + "/webpage"));

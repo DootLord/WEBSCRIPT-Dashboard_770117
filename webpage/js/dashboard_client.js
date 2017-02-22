@@ -209,12 +209,13 @@ function initalizePage(){
   updateTime();
   getWeather();
   getToDoItems();
-  getTweets();
+  //getTweets();
 }
 
-if(tweets != []){
-  setInterval(getTweets, 20000);
-}
+//TODO Uncomment once finished!
+// if(tweets != []){
+//   setInterval(getTweets, 25000);
+// }
 
 // Event Listeners
 document.getElementById("todo-button").addEventListener("click", newToDoItem);
