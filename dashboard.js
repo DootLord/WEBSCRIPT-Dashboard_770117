@@ -136,9 +136,10 @@ app.get("/tweets/auth", function(req,res){
 });
 
 app.post("/file/upload", upload.single("uploadFile"), function(req,res){
-  res.redirect("/");
-  res.status(201);
-  console.log(res.status);
+  if(!req.file){
+    return res.status(400).send("No file uploaded, please upload a file to use /file/upload");
+  }
+  res.status(201).redirect("/");
   fs.rename("./uploads/content/" + req.file.filename, "./uploads/content/" + req.file.originalname)
 });
 
