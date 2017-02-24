@@ -9,6 +9,7 @@ var twitterAPI = require('node-twitter-api'); // Allows access to user login tok
 var app = express();
 var func = require("./js/func"); // Collection of large functions that'd look messy here.
 var upload = multer({dest: "./uploads/content/"})
+const path = __dirname + "/uploads/content";
 app.use(bodyParser.json());
 
 
@@ -132,6 +133,31 @@ app.get("/tweets/auth", function(req,res){
       localStorage.setItem("twitterSecret", accessTokenSecret);
       res.redirect("/");
     }
+  });
+});
+/*
+  Returns a list of files available to the user to download.
+  from the /uploads/content directory
+*/
+app.get("/file", function(req,res){
+  fs.readdir(path, function(err,items){
+    res.status(200).send(items);
+  });
+});
+/*
+  Posting a file here will check for the file and return it
+  from the /uploads/content directory
+*/
+app.post("/file", function(req,res){
+  console.log(req.body);
+  fs.readdir(path, function(err, items){
+    for(var i = 0; items.length > i; i++){
+      if(items[i] == req.body.filename){
+        console.log("Item " + items[i] + " item found!");
+        res.status(200).send("FOUND IT!");
+      }
+    }
+    res.status(404).send("File not found");
   });
 });
 
