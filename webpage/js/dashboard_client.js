@@ -202,7 +202,10 @@ function displayTweets(){
   }
   tweetItems = document.getElementsByClassName("tweet-item");
 }
-
+/*
+  Peforms a GET on /file to populate the file list on the
+  web page.
+*/
 function getFiles(){
   var xml = new XMLHttpRequest();
   xml.open("GET", "/file");
@@ -211,18 +214,31 @@ function getFiles(){
       console.log("Getting files from server:");
       var files = JSON.parse(xml.responseText);
       var fileEle = document.getElementsByClassName("file-viewer")[0];
+
       for(var i = 0;files.length > i; i++){
         var li = document.createElement("li");
         li.innerText = files[i];
+        li.onclick = function(){
+          selectFile(this);
+        }
         fileEle.appendChild(li);
       }
     }
   }
   xml.send();
 }
+
+function selectFile(file){
+  var fileList = document.getElementsByClassName("file-viewer")[0].childNodes;
+  for(var i = 1;fileList.length > i;i++){
+    fileList[i].setAttribute("id","");
+  }
+  file.setAttribute("id","file-selected");
+}
+
 /*
   Called once DOM is loaded.
-  Runs core functions to start loops and to initilize varables
+  Runs core functions to start core processes and to initilize varables
 */
 function initalizePage(){
   updateTime();

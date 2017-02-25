@@ -181,6 +181,22 @@ main{
   line-height: 20px
 }
 
+@keyframes file-hover{
+  0%{
+    background-color: white;
+  }
+  100%{
+    background-color: #34495e;
+    color:white;
+  }
+}
+
+.file-viewer li:hover{
+  animation: file-hover 0.2s;
+  animation-fill-mode:forwards;
+  animation-timing-function: ease-out;
+}
+
 .file-buttons{
   background-color:#272727;
   height:200px;
@@ -210,6 +226,10 @@ main{
   background-color: #e74c3c;
 }
 
+#file-selected{
+  background-color: #34495e;
+  color:white;
+}
 #todo-list{
   line-height: 20px;
   font-size:20px;
