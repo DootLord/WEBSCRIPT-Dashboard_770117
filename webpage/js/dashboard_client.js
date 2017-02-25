@@ -3,8 +3,6 @@ var tweets = []; // Used to store data about the five current active tweets on t
 var tweetItems // List of current tweet items shown on the page
 var oauthToken // Token used to implement the Twitter API
 
-
-
 /*
   Calls to the Weather api to get local weather details for the current location and time of the dashboards location.
   Calls a GET to the OpenWeatherMap API to receve details and then displays them on the dashboard
@@ -146,6 +144,10 @@ function getTweets(){
       }
   }
   xml.send();
+  //TODO Implement this section of code properly
+  if(tweets != []){
+    setInterval(getTweets, 25000);
+  }
 }
 /*
   TODO Finish and cleanup. This is a mess!
@@ -212,10 +214,7 @@ function initalizePage(){
   //getTweets();
 }
 
-//TODO Uncomment once finished!
-// if(tweets != []){
-//   setInterval(getTweets, 25000);
-// }
+
 
 // Event Listeners
 document.getElementById("todo-button").addEventListener("click", newToDoItem);

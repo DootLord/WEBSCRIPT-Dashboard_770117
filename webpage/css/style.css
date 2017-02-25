@@ -153,11 +153,56 @@ main{
   line-height: 400px;
 }
 
+.upload{
+  background-color:#272727;
+  line-height:10px;
+  height:40px;
+  margin:10px;
+}
+
+.file-viewer{
+  background-color:#272727;
+  height:375px;
+  width:350px;
+  margin:10px;
+  float: left;
+  margin-top: 0px;
+}
+
+.file-buttons{
+  background-color:#272727;
+  height:200px;
+  width:120px;
+  font-size: 17px;
+  float:right;
+  margin-right: 10px;
+  line-height: 25px;
+}
+
+.file-buttons li{
+  height:50px;
+  list-style: none;
+  line-height: 40px;
+  margin: 5px;
+}
+
+.file-download{
+  background-color: #2ecc71;
+}
+
+.file-modify{
+  background-color: #f1c40f;
+}
+
+.file-delete{
+  background-color: #e74c3c;
+}
+
 #todo-list{
   line-height: 20px;
   font-size:20px;
   list-style-type:none;
-  padding:0px;
+  padding:1px;
 }
 
 #todo-list li{

@@ -12,14 +12,14 @@ var upload = multer({dest: "./uploads/content/"})
 const path = __dirname + "/uploads/content";
 app.use(bodyParser.json());
 
-
+// twitInterface is used for calling REST calls on the twitter API
+var twitInterface;
 /*
    reqToken & reqTokenSecret store tokens passed to the server from after login and
    are used in the authetication step of the login process
 */
 var reqToken;
 var reqTokenSecret;
-
 
 /*
  Create a new local storage instance if one doesn't already exist
@@ -46,8 +46,6 @@ var twitAuth = new twitterAPI({
   consumerSecret: "j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID",
   callback: "http://127.0.0.1:8080/tweets/auth"
 });
-// twitInterface is used for calling REST calls on the twitter API
-var twitInterface;
 
 /*
   Used to get current time from the servers location.
@@ -171,7 +169,7 @@ app.post("/file/upload", upload.single("uploadFile"), function(req,res){
 
 app.use(express.static(__dirname + "/webpage"));
 // Set to 8080 for developmennt purposes
-// Will be set to 80 for release
+//TODO Will be set to 80 for release
 app.listen(8080, function(){
   console.log("Started on port 8080");
 });
