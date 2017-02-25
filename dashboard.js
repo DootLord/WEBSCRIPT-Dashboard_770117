@@ -135,12 +135,19 @@ app.get("/tweets/auth", function(req,res){
 });
 /*
   Returns a list of files available to the user to download.
+  or downloads a file if given a valid file name
   from the /uploads/content directory
 */
 app.get("/file", function(req,res){
-  fs.readdir(path, function(err,items){
-    res.status(200).send(items);
-  });
+  console.log(req.query.file);
+  if(req.query.file === undefined){
+    fs.readdir(path, function(err,items){
+      res.status(200).send(items);
+    });
+  }
+  else{ //TODO add validation to file GET
+    res.download(__dirname + "/uploads/content/" + req.query.file);
+  }
 });
 /*
   Posting a file here will check for the file and return it
@@ -158,7 +165,9 @@ app.post("/file", function(req,res){
     res.status(404).send("File not found");
   });
 });
-
+/*
+  Allows upload to the server under the /uploads/content folder
+*/
 app.post("/file/upload", upload.single("uploadFile"), function(req,res){
   if(!req.file){
     return res.status(400).send("No file uploaded, please upload a file to use /file/upload");

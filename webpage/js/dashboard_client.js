@@ -227,13 +227,35 @@ function getFiles(){
   }
   xml.send();
 }
-
+/*
+  Highlights a file via a CSS and gives it an Id tag
+  for it to be used on further operations
+*/
 function selectFile(file){
   var fileList = document.getElementsByClassName("file-viewer")[0].childNodes;
   for(var i = 1;fileList.length > i;i++){
     fileList[i].setAttribute("id","");
   }
   file.setAttribute("id","file-selected");
+}
+
+function downloadFile(){
+  var selFile = document.getElementById("file-selected");
+  if(selFile == undefined){
+    alert("Select a file first!")
+  }
+  else{
+    console.log("http://127.0.0.1:8080/file?file=" + selFile.innerText);
+    window.open= "http://127.0.0.1:8080/file?file=" + selFile.innerText;
+  //   var xml = new XMLHttpRequest();
+  //   xml.open("GET", "/file?file=" + selFile.innerText);
+  //   xml.onreadystatechange = function(){
+  //     if(xml.status === 200 && xml.readyState === 4){
+  //       console.log("Got file!");
+  //     }
+  //   }
+  //   xml.send();
+   }
 }
 
 /*
@@ -253,4 +275,5 @@ function initalizePage(){
 // Event Listeners
 document.getElementById("todo-button").addEventListener("click", newToDoItem);
 document.getElementById("tweet-login").addEventListener("click", loginTwitter);
+document.getElementsByClassName("file-download")[0].addEventListener("click", downloadFile);
 document.addEventListener("load", initalizePage());
