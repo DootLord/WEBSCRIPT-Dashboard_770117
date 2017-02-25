@@ -203,6 +203,23 @@ function displayTweets(){
   tweetItems = document.getElementsByClassName("tweet-item");
 }
 
+function getFiles(){
+  var xml = new XMLHttpRequest();
+  xml.open("GET", "/file");
+  xml.onreadystatechange = function(){
+    if(xml.status === 200 && xml.readyState === 4){
+      console.log("Getting files from server:");
+      var files = JSON.parse(xml.responseText);
+      var fileEle = document.getElementsByClassName("file-viewer")[0];
+      for(var i = 0;files.length > i; i++){
+        var li = document.createElement("li");
+        li.innerText = files[i];
+        fileEle.appendChild(li);
+      }
+    }
+  }
+  xml.send();
+}
 /*
   Called once DOM is loaded.
   Runs core functions to start loops and to initilize varables
@@ -211,6 +228,7 @@ function initalizePage(){
   updateTime();
   getWeather();
   getToDoItems();
+  getFiles();
   //getTweets();
 }
 
