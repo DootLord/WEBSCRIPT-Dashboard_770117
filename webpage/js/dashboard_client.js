@@ -248,6 +248,7 @@ function downloadFile(){
     window.location="/file?file=" + selFile.innerText;
    }
 }
+//TODO implement text field to allow for custom file names
 function modifyFile(newName){
   var selFile = document.getElementById("file-selected");
     if(selFile == undefined){
