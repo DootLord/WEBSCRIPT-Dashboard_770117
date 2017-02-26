@@ -211,9 +211,9 @@ function getFiles(){
   xml.open("GET", "/file");
   xml.onreadystatechange = function(){
     if(xml.status === 200 && xml.readyState === 4){
-      console.log("Getting files from server:");
       var files = JSON.parse(xml.responseText);
       var fileEle = document.getElementsByClassName("file-viewer")[0];
+      fileEle.innerHTML = "";
 
       for(var i = 0;files.length > i; i++){
         var li = document.createElement("li");
@@ -247,6 +247,31 @@ function downloadFile(){
   else{ //TODO add validation!!
     window.location="/file?file=" + selFile.innerText;
    }
+}
+
+function modifyFile(newName){
+  var selFile = document.getElementById("file-selected");
+    if(selFile == undefined){
+      alert("Please select a file to modify!");
+    }
+    else{
+      var xml = new XMLHttpRequest();
+      var pathRequest = {"currentName": selFile.innerText, "newName": newName}
+      xml.open("PATCH", "/file");
+      xml.setRequestHeader("Content-type", "application/json");
+      xml.onreadystatechange = function(){
+        if(xml.readyState === 4){
+          if(xml.status === 200){
+            getFiles();
+          }
+          else if (xml.status === 409){
+            alert("File name already exists, please pick another");
+          }
+        }
+      }
+      xml.send(JSON.stringify(pathRequest));
+
+  }
 }
 
 /*
