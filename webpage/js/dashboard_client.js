@@ -275,7 +275,22 @@ function modifyFile(newName){
 }
 
 function deleteFile(){
-
+  var selFile = document.getElementById("file-selected");
+  if(selFile == undefined){
+    alert("Please select a file to modify");
+  }
+  else{
+    var xml = new XMLHttpRequest();
+    xml.open("DELETE", "/file?file="+selFile.innerText);
+    console.log("/file?file="+selFile.innerText);
+    xml.onreadystatechange = function(){
+      if(xml.readyState === 4 && xml.status === 200){
+        getFiles();
+        console.log(xml.responseText);
+      }
+    }
+    xml.send();
+  }
 }
 
 /*
@@ -295,5 +310,6 @@ function initalizePage(){
 // Event Listeners
 document.getElementById("todo-button").addEventListener("click", newToDoItem);
 document.getElementById("tweet-login").addEventListener("click", loginTwitter);
+document.getElementsByClassName("file-delete")[0].addEventListener("click", deleteFile);
 document.getElementsByClassName("file-download")[0].addEventListener("click", downloadFile);
 document.addEventListener("load", initalizePage());

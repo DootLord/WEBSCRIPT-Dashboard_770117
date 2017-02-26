@@ -193,16 +193,43 @@ app.patch("/file", function(req,res,next){
     return next();
   });
 });
-
-app.delete("/file", function(req,res){
-
+/*
+  Allows users to request a file to be deleted by supplying
+  a location
+*/
+app.delete("/file", function(req,res,next){
+  console.log("got delete request")
+  var file = req.query.file;
+  if(file == undefined){
+    res.status(404).send("No file selected.");
+    console.log("No file selected");
+    return next();
+  }
+  else{
+    fs.readdir(path, function(err, items){
+      console.log(items);
+      console.log(file);
+      for(var i = 0; items.length > i; i++){
+        if(items[i] == file){
+          fs.unlink(path + "/" + file);
+          res.status(200).send("File " + file + " deleted!");//TODO use err call instead of for loop
+          console.log("File deleted");
+          return next();
+        }
+      }
+      res.status(404).send("File not found.");
+      console.log("File not found");
+      return next();
+    })
+  }
 })
 /*
   Allows upload to the server under the /uploads/content folder
 */
 app.post("/file/upload", upload.single("uploadFile"), function(req,res){
   if(!req.file){
-    return res.status(400).send("No file uploaded, please upload a file to use /file/upload");
+    res.status(400).send("No file uploaded, please upload a file to use /file/upload");
+    return next();
   }
   res.status(201).redirect("/");
   fs.rename("./uploads/content/" + req.file.filename, "./uploads/content/" + req.file.originalname)
