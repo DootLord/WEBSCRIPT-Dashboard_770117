@@ -248,7 +248,6 @@ function downloadFile(){
     window.location="/file?file=" + selFile.innerText;
    }
 }
-
 function modifyFile(newName){
   var selFile = document.getElementById("file-selected");
     if(selFile == undefined){
@@ -272,6 +271,10 @@ function modifyFile(newName){
       xml.send(JSON.stringify(pathRequest));
 
   }
+}
+
+function deleteFile(){
+
 }
 
 /*
