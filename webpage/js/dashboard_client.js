@@ -229,7 +229,7 @@ function getFiles(){
 }
 /*
   Highlights a file via a CSS and gives it an Id tag
-  for it to be used on further operations
+  for it to be used on further operations such as file download
 */
 function selectFile(file){
   var fileList = document.getElementsByClassName("file-viewer")[0].childNodes;
@@ -244,17 +244,8 @@ function downloadFile(){
   if(selFile == undefined){
     alert("Select a file first!")
   }
-  else{
-    console.log("http://127.0.0.1:8080/file?file=" + selFile.innerText);
-    window.open= "http://127.0.0.1:8080/file?file=" + selFile.innerText;
-  //   var xml = new XMLHttpRequest();
-  //   xml.open("GET", "/file?file=" + selFile.innerText);
-  //   xml.onreadystatechange = function(){
-  //     if(xml.status === 200 && xml.readyState === 4){
-  //       console.log("Got file!");
-  //     }
-  //   }
-  //   xml.send();
+  else{ //TODO add validation!!
+    window.location="/file?file=" + selFile.innerText;
    }
 }
 
