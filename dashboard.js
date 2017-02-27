@@ -226,9 +226,14 @@ app.delete("/file", function(req,res,next){
 /*
   Allows upload to the server under the /uploads/content folder
 */
-app.post("/file/upload", upload.single("uploadFile"), function(req,res){
+app.post("/file/upload", upload.single("uploadFile"), function(req,res, next){
   if(!req.file){
     res.status(400).send("No file uploaded, please upload a file to use /file/upload");
+    return next();
+  }
+  else if(req.file.originalname.length > 50){
+    res.status(414).send("File name too long! 40 characters or less");
+    fs.unlink("./uploads/content/" + req.file.filename);
     return next();
   }
   res.status(201).redirect("/");

@@ -292,6 +292,18 @@ function deleteFile(){
     xml.send();
   }
 }
+/*
+  Triggered on selecting a file for upload.
+  Checks to see if the file uploaded does not have too many characters.
+  Too many characters causes the filename to trail off when displaying in file list.
+*/
+function verifyFile(){
+  var fileEle = document.getElementsByClassName("file-input")[0];
+  if(fileEle.value.length > 60){
+    fileEle.value = "";
+    alert("File name too long, please select a file with 60 or less characters");
+  }
+}
 
 /*
   Called once DOM is loaded.
@@ -308,6 +320,7 @@ function initalizePage(){
 
 
 // Event Listeners
+document.getElementsByClassName("file-input")[0].addEventListener("change", verifyFile);
 document.getElementById("todo-button").addEventListener("click", newToDoItem);
 document.getElementById("tweet-login").addEventListener("click", loginTwitter);
 document.getElementsByClassName("file-delete")[0].addEventListener("click", deleteFile);
