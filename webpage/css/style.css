@@ -101,8 +101,8 @@ main{
 }
 
 .box-head{
-  height:50px;
-  line-height: 50px;
+  height:25px;
+  line-height: 25px;
   font-weight:bold;
   text-align: left;
   padding-left: 10px;
@@ -131,8 +131,8 @@ main{
 .move-toggle{
   background-color: white;
   float:right;
-  height:50px;
-  width:50px;
+  height:25px;
+  width:25px;
   border-radius: 25px;
   border:5px;
 }
@@ -165,8 +165,8 @@ main{
 .move-toggle-click{
   background-color: #ecf0f1;
   float:right;
-  height: 50px;
-  width: 50px;
+  height: 25px;
+  width: 25px;
   border-radius: 25px;
   border: 5px;
   animation: move-toggle-click 0.5s;
