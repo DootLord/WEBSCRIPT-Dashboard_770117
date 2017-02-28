@@ -1,5 +1,5 @@
 /*
-  Assembles the current time using data from the local machine.
+  This file stores functions that do not directly involve the
 */
 
 function getTime(){

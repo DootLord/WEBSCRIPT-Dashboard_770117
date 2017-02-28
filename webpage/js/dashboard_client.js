@@ -332,11 +332,33 @@ var mainEle = document.getElementsByTagName("main")[0];
   // On second call store second element and switch
   else if (eleTwo == null){
     eleTwo = this.parentElement.parentElement;
-    mainEle.insertBefore(eleTwo, eleOne);
+    swapElements(eleTwo, eleOne);
     eleOne = eleTwo = null;
   }
-
 }
+/*
+  Function used by switchToggle() to ensure that
+  box elements are swapped properly.
+*/
+function swapElements(eleOne,eleTwo){
+  var parentTwo = eleTwo.parentNode;
+  var eleTwoNext = eleTwo.nextSibling;
+  // Swapping the first element
+  if(eleTwoNext === eleOne){
+    parentTwo.insertBefore(eleOne, eleTwo);
+  }
+  else{
+    eleOne.parentNode.insertBefore(eleTwo, eleOne);
+  }
+  // Swapping the second element
+  if(eleTwoNext){
+    parentTwo.insertBefore(eleOne, eleTwoNext);
+  }
+  else{
+    parentTwo.appendChild(eleOne)
+  }
+}
+
 
 /*
   Called once DOM is loaded.
