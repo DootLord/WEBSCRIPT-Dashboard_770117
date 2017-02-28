@@ -245,7 +245,8 @@ app.post("/file/upload", upload.single("uploadFile"), function(req,res, next){
     fs.unlink("./uploads/content/" + req.file.filename);
     return next();
   }
-  res.status(201).redirect("/");
+  //res.status(201).redirect("/");
+  res.status(200).send();
   fs.rename("./uploads/content/" + req.file.filename, "./uploads/content/" + req.file.originalname)
 });
 

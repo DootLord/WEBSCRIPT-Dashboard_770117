@@ -217,6 +217,7 @@ function displayTweets(){
   web page.
 */
 function getFiles(){
+  console.log("Called");
   var xml = new XMLHttpRequest();
   xml.open("GET", "/file");
   xml.onreadystatechange = function(){
@@ -226,10 +227,11 @@ function getFiles(){
       fileEle.innerHTML = "";
 
       for(var i = 0;files.length > i; i++){
+        console.log("meme");;
         var li = document.createElement("li");
         li.innerText = files[i];
         li.onclick = function(){
-          selectFile(this);
+          selectFile(this); // Have list items highlighted on click.
         }
         fileEle.appendChild(li);
       }
@@ -388,4 +390,5 @@ document.getElementById("todo-button").addEventListener("click", newToDoItem);
 document.getElementById("tweet-login").addEventListener("click", loginTwitter);
 document.getElementsByClassName("file-delete")[0].addEventListener("click", deleteFile);
 document.getElementsByClassName("file-download")[0].addEventListener("click", downloadFile);
+document.getElementById("file-submit").addEventListener("click", getFiles);
 document.addEventListener("load", initalizePage());
