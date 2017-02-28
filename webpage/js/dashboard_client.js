@@ -316,7 +316,7 @@ function verifyFile(){
 }
 /*
   Bound to the circles in the top right of every box.
-  Allows users to move around the boxs client-side
+  Allows users to move around the boxs client-side.
 */
 var eleOne = null;
 var eleTwo = null;
@@ -327,13 +327,17 @@ var mainEle = document.getElementsByTagName("main")[0];
   // On first call store element to eleOne (element-one)
   if(eleOne == null){
     // From the button element, get the actual box element that'll be switched
-    eleOne = this.parentElement.parentElement;
+    eleOne = this;
   }
   // On second call store second element and switch
   else if (eleTwo == null){
-    eleTwo = this.parentElement.parentElement;
-    swapElements(eleTwo, eleOne);
+    eleTwo = this;
+    swapElements(eleTwo.parentElement.parentElement, eleOne.parentElement.parentElement);
+    eleOne.setAttribute("class","move-toggle");
+    eleTwo.setAttribute("class", "move-toggle");
     eleOne = eleTwo = null;
+    // Set back to previous Styling
+
   }
 }
 /*
