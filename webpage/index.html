@@ -17,9 +17,10 @@
   <main>
 
     <!-- Todo list -->
-    <div class="box long">
+    <div class="box long" id="box-todo">
       <div class="box-head">
         <span style="color:#e74c3c">ToDo</span>
+        <div class="move-toggle" id="box-todo-move"> </div>
       </div>
       <div class="box-body">
         <div id="todo-enter">
@@ -32,9 +33,10 @@
     </div>
 
     <!-- Weather -->
-    <div class="box large">
+    <div class="box large" id="box-weather">
       <div class="box-head">
         <span style="color:#2ecc71">Weather</span>
+        <div class="move-toggle" id="box-weather-move"> </div>
       </div>
       <div class="box-body">
         <div class="box-ele" style="width:200px; height;50px" id="weather-type">
@@ -48,12 +50,13 @@
       </div>
     </div>
     <!-- Tweets -->
-    <div class="box long">
+    <div class="box long" id="box-tweet">
       <div class="box-head">
         <span style="color:#3498db">Tweets</span>
         <div class="box-head-ele" id="tweet-login">
           Login
         </div>
+        <div class="move-toggle" id="box-tweet-move"> </div>
       </div>
       <div class="box-body">
         <ul id="tweet-list">
@@ -61,18 +64,20 @@
       </div>
     </div>
     <!-- Clock -->
-    <div class="box">
+    <div class="box" id="box-clock">
       <div class="box-head">
         <span style="color:#3498db">Clock</span>
+        <div class="move-toggle" id="box-clock-move"> </div>
       </div>
       <div class="box-body time">
       </div>
     </div>
 
     <!-- Files -->
-    <div class="box large">
+    <div class="box large" id="box-file">
       <div class="box-head">
         <span style="color:#2ecc71">File Mangement</span>
+        <div class="move-toggle" id="box-file-move"> </div>
       </div>
       <div class="upload">
       <form method="post" action="http://localhost:8080/file/upload" name="submit" enctype="multipart/form-data">
@@ -105,7 +110,7 @@
     <!-- This box is not normally visable, and is called to be displayed for showing tweets to the user -->
     <div class="fade"></div>
     <div class="fade-box">
-      <div class="fade-button hvr-glow"> X </div>
+      <div class="fade-button"> X </div>
       <div class="fade-title">
       </div>
       <div class="fade-content">

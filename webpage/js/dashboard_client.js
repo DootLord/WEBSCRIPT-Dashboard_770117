@@ -12,12 +12,16 @@ function getWeather(){
   var xml = new XMLHttpRequest();
 
   xml.onreadystatechange = function(){
+    //Get weather from the API and display to elements on the web page
     if(xml.status == 200 && xml.readyState == 4){
       var weather = xml.responseText;
       weather = JSON.parse(weather);
       document.getElementById("weather-type").innerText =  weather.weather[0].main
       document.getElementById("weather-detail").innerText = weather.weather[0].description
       document.getElementById("weather-degree").innerHTML = Math.floor(weather.main.temp - 273) +  "c";
+    }
+    else if(xml.status == 400 && xml.readyState == 4){
+      console.error("Somthing is wrong with the weather API, please try again later");
     }
   }
   xml.open("GET", "http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=268c7be320d0fb2272cc7c417ad9ed95")
@@ -61,16 +65,19 @@ function getToDoItems(){
   var xml = new XMLHttpRequest();
   var list = document.getElementById("todo-list");
   xml.onreadystatechange = function(){
+    //
     if(xml.status == 200 && xml.readyState == 4){
       list.innerHTML = xml.responseText;
-      console.log(list.childNodes[0]);
       for(var i = 0; list.childNodes.length>i; i++){
         list.childNodes[i].onclick = function(){
           this.parentNode.removeChild(this);
           postToDo(list);
         }
-        console.log("added onclick");
       }
+    }
+    // If we don't get any items, inform the user.
+    else if (xml.status == 404 && xml.readyState == 4) {
+      console.error("No items found on server!");
     }
   }
   xml.open("GET", "/todo", true);
@@ -83,7 +90,6 @@ function getToDoItems(){
  Calls a function to update the todo list servers
  TODO: Implement a clear all button
 */
-
 function newToDoItem(){
   var textField = document.getElementById("todo-input");
   var list = document.getElementById("todo-list");
@@ -136,7 +142,6 @@ function getTweets(){
   xml.onreadystatechange = function(){
     if(xml.status == 200 && xml.readyState == 4){
       tweets = JSON.parse(xml.responseText);
-      //console.log(tweets[0]);
       displayTweets();
     }
     else if(xml.status == 204 && xml.readyState == XMLHttpRequest.DONE){
@@ -144,16 +149,11 @@ function getTweets(){
       }
   }
   xml.send();
-  //TODO Implement this section of code properly
-  if(tweets != []){
-    setInterval(getTweets, 25000);
-  }
 }
 /*
   TODO Finish and cleanup. This is a mess!
   TODO: Move to own js file as will likely be large function
 */
-
 function showTweetOverlay(tweetIndex){
   var tweet = tweets[0];
   var tweetBox = document.getElementsByClassName("fade-box")[0];
@@ -166,6 +166,16 @@ function showTweetOverlay(tweetIndex){
   tweetText.innerText = tweets[tweetIndex].text;
   tweetBox.style.display = "block";
 
+}
+/*
+  Sets up tweets to be updated every 25 seconds.
+  Enough time to not time out the amount requests I'm allowed from the twitter API
+*/
+function initalizeTweets(){
+  if(tweets != []){
+    setInterval(getTweets, 25000);
+    getTweets();
+  }
 }
 
 /*
@@ -304,6 +314,29 @@ function verifyFile(){
     alert("File name too long, please select a file with 60 or less characters");
   }
 }
+/*
+  Bound to the circles in the top right of every box.
+  Allows users to move around the boxs client-side
+*/
+var eleOne = null;
+var eleTwo = null;
+function switchToggle(){
+var mainEle = document.getElementsByTagName("main")[0];
+  console.log(this.getAttribute("id"));
+  this.setAttribute("class", "move-toggle-click")
+  // On first call store element to eleOne (element-one)
+  if(eleOne == null){
+    // From the button element, get the actual box element that'll be switched
+    eleOne = this.parentElement.parentElement;
+  }
+  // On second call store second element and switch
+  else if (eleTwo == null){
+    eleTwo = this.parentElement.parentElement;
+    mainEle.insertBefore(eleTwo, eleOne);
+    eleOne = eleTwo = null;
+  }
+
+}
 
 /*
   Called once DOM is loaded.
@@ -314,7 +347,11 @@ function initalizePage(){
   getWeather();
   getToDoItems();
   getFiles();
-  //getTweets();
+  //initalizeTweets(); //TODO Figure out how to stop crashes with the API
+  var buttons = document.getElementsByClassName("move-toggle");
+  for(var i = 0;buttons.length > i;i++){
+    buttons[i].addEventListener("click",switchToggle);
+  }
 }
 
 

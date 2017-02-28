@@ -61,6 +61,7 @@ main{
   border-radius: 10px;
   padding:5px;
   display: none;
+  margin-bottom: 50%;
 }
 
 .fade-button{
@@ -127,6 +128,51 @@ main{
   display:inline;
 }
 
+.move-toggle{
+  background-color: white;
+  float:right;
+  height:50px;
+  width:50px;
+  border-radius: 25px;
+  border:5px;
+}
+
+@keyframes move-toggle_frame{
+  0%{
+    background-color: #ecf0f1;
+  }
+  100%{
+    background-color: #34495e;
+    color:white;
+  }
+}
+
+.move-toggle:hover{
+  animation: move-toggle_frame 0.2s;
+  animation-fill-mode:forwards;
+  animation-timing-function: ease-out;
+}
+
+@keyframes move-toggle-click{
+  0%{
+    background-color: #34495e;
+  }
+  100%{
+    background-color: #e74c3c;
+  }
+}
+
+.move-toggle-click{
+  background-color: #ecf0f1;
+  float:right;
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  border: 5px;
+  animation: move-toggle-click 0.5s;
+  animation-fill-mode:forwards;
+  animation-timing-function: ease-in;
+}
 
 .small{
   width: 100px;
@@ -231,10 +277,12 @@ main{
   color:white;
 }
 #todo-list{
+  height:400px;
   line-height: 20px;
   font-size:20px;
   list-style-type:none;
   padding:1px;
+  overflow-y: scroll;
 }
 
 #todo-list li{

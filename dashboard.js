@@ -31,6 +31,7 @@ if(typeof localStorage === "undefined" || localStorage === null){
 
 /*
   Initalizes up twitter interface if creditentals already exist on the server.
+  User tokens are generated from the "twitAuth" object.
 */
 if(localStorage.getItem("twitterKey") || localStorage.getItem("twitterSecret") != null){
   twitInterface = new Twitter({
@@ -40,7 +41,9 @@ if(localStorage.getItem("twitterKey") || localStorage.getItem("twitterSecret") !
   access_token_secret: localStorage.getItem("twitterSecret")
 });
 }
-
+/*
+  Initalize twitter authetication API with my API keys.
+*/
 var twitAuth = new twitterAPI({
   consumerKey: "XzVtLi9PgF72L0NuoLunuF1eE",
   consumerSecret: "j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID",
@@ -61,8 +64,14 @@ app.get("/time", function (req,res){
   The client will use this to put together the todo-list so that users may add or remove further tasks
 */
 app.get("/todo", function(req,res){
-  res.status(200).send(localStorage.getItem("todoItems"));
-  res.end();
+  // No items, nothing sent.
+  if(localStorage.getItem("todoItems") == null){
+    res.status(404).send()
+  }
+  // If we find the file locally, send to the client.
+  else{
+    res.status(200).send(localStorage.getItem("todoItems"));
+  }
 })
 
 /*
