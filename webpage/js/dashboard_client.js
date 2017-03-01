@@ -18,7 +18,9 @@ function getWeather(){
       weather = JSON.parse(weather);
       document.getElementById("weather-type").innerText =  weather.weather[0].main;
       document.getElementById("weather-detail").innerText = weather.weather[0].description;
-      document.getElementById("weather-degree").innerHTML = Math.floor(weather.main.temp - 273) +  "c";
+      document.getElementById("weather-degree").innerText = Math.floor(weather.main.temp - 273) +  "c";
+      document.getElementById("weather-degree-min").innerText = Math.floor(weather.main.temp_min - 273) + "c";
+      document.getElementById("weather-degree-max").innerText = Math.floor(weather.main.temp_max - 273) + "c";
     }
     else if(xml.status == 400 && xml.readyState == 4){
       console.error("Somthing is wrong with the weather API, please try again later");
