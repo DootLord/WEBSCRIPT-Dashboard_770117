@@ -272,6 +272,10 @@ main{
   background-color: #e74c3c;
 }
 
+.file-refresh{
+  background-color: #9b59b6;
+}
+
 #file-selected{
   background-color: #34495e;
   color:white;

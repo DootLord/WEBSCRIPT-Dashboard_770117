@@ -12,8 +12,6 @@ function getWeather(){
   var xml = new XMLHttpRequest();
   var county = document.getElementById("weather-location").value;
   xml.onreadystatechange = function(){
-
-    console.log(location)
     //Get weather from the API and display to elements on the web page
     if(xml.status == 200 && xml.readyState == 4){
       var weather = xml.responseText;
@@ -225,7 +223,6 @@ function displayTweets(){
   web page.
 */
 function getFiles(){
-  console.log("Called");
   var xml = new XMLHttpRequest();
   xml.open("GET", "/file");
   xml.onreadystatechange = function(){
@@ -235,7 +232,6 @@ function getFiles(){
       fileEle.innerHTML = "";
 
       for(var i = 0;files.length > i; i++){
-        console.log("meme");
         var li = document.createElement("li");
         li.innerText = files[i];
         li.onclick = function(){
@@ -253,7 +249,7 @@ function getFiles(){
 */
 function selectFile(file){
   var fileList = document.getElementsByClassName("file-viewer")[0].childNodes;
-  for(var i = 1;fileList.length > i;i++){
+  for(var i = 0;fileList.length > i;i++){
     fileList[i].setAttribute("id","");
   }
   file.setAttribute("id","file-selected");
@@ -302,7 +298,6 @@ function deleteFile(){
   else{
     var xml = new XMLHttpRequest();
     xml.open("DELETE", "/file?file="+selFile.innerText);
-    console.log("/file?file="+selFile.innerText);
     xml.onreadystatechange = function(){
       if(xml.readyState === 4 && xml.status === 200){
         getFiles();
@@ -335,7 +330,6 @@ var eleOne = null;
 var eleTwo = null;
 function switchToggle(){
 var mainEle = document.getElementsByTagName("main")[0];
-  console.log(this.getAttribute("id"));
   this.setAttribute("class", "move-toggle-click");
   // On first call store element to eleOne (element-one)
   if(eleOne === null){
@@ -397,6 +391,7 @@ function initalizePage(){
 
 
 // Event Listeners
+document.getElementsByClassName("file-refresh")[0].addEventListener("click", getFiles);
 document.getElementById("weather-location").addEventListener("change", getWeather);
 document.getElementsByClassName("file-input")[0].addEventListener("change", verifyFile);
 document.getElementById("file-submit").addEventListener("click", getFiles);
