@@ -10,13 +10,15 @@ var oauthToken; // Token used to implement the Twitter API
 */
 function getWeather(){
   var xml = new XMLHttpRequest();
-
+  var county = document.getElementById("weather-location").value;
   xml.onreadystatechange = function(){
+
+    console.log(location)
     //Get weather from the API and display to elements on the web page
     if(xml.status == 200 && xml.readyState == 4){
       var weather = xml.responseText;
       weather = JSON.parse(weather);
-      document.getElementById("weather-type").innerText =  weather.weather[0].main;
+      //document.getElementById("weather-type").innerText =  weather.weather[0].main; Removed and replaced by location dropdown.
       document.getElementById("weather-detail").innerText = weather.weather[0].description;
       document.getElementById("weather-degree").innerText = Math.floor(weather.main.temp - 273) +  "c";
       document.getElementById("weather-degree-min").innerText = Math.floor(weather.main.temp_min - 273) + "c";
@@ -26,7 +28,7 @@ function getWeather(){
       console.error("Somthing is wrong with the weather API, please try again later");
     }
   };
-  xml.open("GET", "http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=268c7be320d0fb2272cc7c417ad9ed95");
+  xml.open("GET", "http://api.openweathermap.org/data/2.5/weather?q=" + county + ",uk&appid=268c7be320d0fb2272cc7c417ad9ed95");
   xml.send();
 }
 
@@ -395,6 +397,7 @@ function initalizePage(){
 
 
 // Event Listeners
+document.getElementById("weather-location").addEventListener("change", getWeather);
 document.getElementsByClassName("file-input")[0].addEventListener("change", verifyFile);
 document.getElementById("file-submit").addEventListener("click", getFiles);
 document.getElementById("todo-button").addEventListener("click", newToDoItem);
