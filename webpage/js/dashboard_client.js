@@ -1,7 +1,7 @@
 /* This document consists of regular JavaScript */
 var tweets = []; // Used to store data about the five current active tweets on the page.
-var tweetItems // List of current tweet items shown on the page
-var oauthToken // Token used to implement the Twitter API
+var tweetItems; // List of current tweet items shown on the page
+var oauthToken; // Token used to implement the Twitter API
 
 /*
   Calls to the Weather api to get local weather details for the current location and time of the dashboards location.
@@ -16,15 +16,15 @@ function getWeather(){
     if(xml.status == 200 && xml.readyState == 4){
       var weather = xml.responseText;
       weather = JSON.parse(weather);
-      document.getElementById("weather-type").innerText =  weather.weather[0].main
-      document.getElementById("weather-detail").innerText = weather.weather[0].description
+      document.getElementById("weather-type").innerText =  weather.weather[0].main;
+      document.getElementById("weather-detail").innerText = weather.weather[0].description;
       document.getElementById("weather-degree").innerHTML = Math.floor(weather.main.temp - 273) +  "c";
     }
     else if(xml.status == 400 && xml.readyState == 4){
       console.error("Somthing is wrong with the weather API, please try again later");
     }
-  }
-  xml.open("GET", "http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=268c7be320d0fb2272cc7c417ad9ed95")
+  };
+  xml.open("GET", "http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=268c7be320d0fb2272cc7c417ad9ed95");
   xml.send();
 }
 
@@ -43,7 +43,7 @@ function getTime(){
       ele[i].innerHTML = curTime;
     }
   }
-}
+};
   xml.open("GET", "/time", true);
   xml.send();
 }
@@ -72,16 +72,20 @@ function getToDoItems(){
         list.childNodes[i].onclick = function(){
           this.parentNode.removeChild(this);
           postToDo(list);
-        }
+        };
       }
     }
     // If we don't get any items, inform the user.
     else if (xml.status == 404 && xml.readyState == 4) {
       console.error("No items found on server!");
     }
-  }
+  };
   xml.open("GET", "/todo", true);
   xml.send();
+}
+
+function removeItem(){
+
 }
 
 /*
@@ -97,12 +101,12 @@ function newToDoItem(){
   if (textField.value == "CLEAR_ALL") {
     list.innerHTML = "";
   }
-  else if(textField.value != ""){
+  else if(textField.value !== ""){
     li.innerText = textField.value;
     li.onclick = function(){
       this.parentNode.removeChild(this);
       postToDo(list);
-    }
+    };
     list.appendChild(li);
     postToDo(list);
   }
@@ -124,7 +128,7 @@ function postToDo(list){
     if(xml.status == 200 && xml.readyState == 4){
       //console.log(xml.responseText);
     }
-  }
+  };
   var listJSON = {list: list.innerHTML};
   xml.send(JSON.stringify(listJSON), true);
 }
@@ -147,7 +151,7 @@ function getTweets(){
     else if(xml.status == 204 && xml.readyState == XMLHttpRequest.DONE){
         console.log("No tweets available!, please try again later");
       }
-  }
+  };
   xml.send();
 }
 /*
@@ -159,7 +163,7 @@ function showTweetOverlay(tweetIndex){
   var tweetBox = document.getElementsByClassName("fade-box")[0];
   document.getElementsByClassName("fade-button")[0].onclick = function(){
     tweetBox.style.display = "none";
-  }
+  };
   var tweetText = document.getElementsByClassName("fade-content")[0];
   var tweetTitle = document.getElementsByClassName("fade-title")[0];
   tweetTitle.innerText = tweets[tweetIndex].user.name;
@@ -187,10 +191,10 @@ function loginTwitter(){
   xml.open("GET", "/tweets/login");
   xml.onreadystatechange = function(){
     if(xml.status == 200 && xml.readyState == 4){
-      oauthToken = xml.responseText
+      oauthToken = xml.responseText;
       window.location = "https://twitter.com/oauth/authenticate?oauth_token=" + oauthToken;
     }
-  }
+  };
   xml.send();
 }
 
@@ -207,7 +211,7 @@ function displayTweets(){
       li.setAttribute("class","tweet-item");
       li.onclick = function(){
         showTweetOverlay(this.getAttribute("tweet-item"));
-      }
+      };
       ele.appendChild(li);
   }
   tweetItems = document.getElementsByClassName("tweet-item");
@@ -227,16 +231,16 @@ function getFiles(){
       fileEle.innerHTML = "";
 
       for(var i = 0;files.length > i; i++){
-        console.log("meme");;
+        console.log("meme");
         var li = document.createElement("li");
         li.innerText = files[i];
         li.onclick = function(){
           selectFile(this); // Have list items highlighted on click.
-        }
+        };
         fileEle.appendChild(li);
       }
     }
-  }
+  };
   xml.send();
 }
 /*
@@ -253,8 +257,8 @@ function selectFile(file){
 
 function downloadFile(){
   var selFile = document.getElementById("file-selected");
-  if(selFile == undefined){
-    alert("Select a file first!")
+  if(selFile === undefined){
+    alert("Select a file first!");
   }
   else{ //TODO add validation!!
     window.location="/file?file=" + selFile.innerText;
@@ -263,12 +267,12 @@ function downloadFile(){
 //TODO implement text field to allow for custom file names
 function modifyFile(newName){
   var selFile = document.getElementById("file-selected");
-    if(selFile == undefined){
+    if(selFile === undefined){
       alert("Please select a file to modify!");
     }
     else{
       var xml = new XMLHttpRequest();
-      var pathRequest = {"currentName": selFile.innerText, "newName": newName}
+      var pathRequest = {"currentName": selFile.innerText, "newName": newName};
       xml.open("PATCH", "/file");
       xml.setRequestHeader("Content-type", "application/json");
       xml.onreadystatechange = function(){
@@ -280,7 +284,7 @@ function modifyFile(newName){
             alert("File name already exists, please pick another");
           }
         }
-      }
+      };
       xml.send(JSON.stringify(pathRequest));
 
   }
@@ -288,7 +292,7 @@ function modifyFile(newName){
 
 function deleteFile(){
   var selFile = document.getElementById("file-selected");
-  if(selFile == undefined){
+  if(selFile === undefined){
     alert("Please select a file to modify");
   }
   else{
@@ -300,7 +304,7 @@ function deleteFile(){
         getFiles();
         console.log(xml.responseText);
       }
-    }
+    };
     xml.send();
   }
 }
@@ -315,6 +319,9 @@ function verifyFile(){
     fileEle.value = "";
     alert("File name too long, please select a file with 60 or less characters");
   }
+  else{
+    getFiles();
+  }
 }
 /*
   Bound to the circles in the top right of every box.
@@ -325,14 +332,14 @@ var eleTwo = null;
 function switchToggle(){
 var mainEle = document.getElementsByTagName("main")[0];
   console.log(this.getAttribute("id"));
-  this.setAttribute("class", "move-toggle-click")
+  this.setAttribute("class", "move-toggle-click");
   // On first call store element to eleOne (element-one)
-  if(eleOne == null){
+  if(eleOne === null){
     // From the button element, get the actual box element that'll be switched
     eleOne = this;
   }
   // On second call store second element and switch
-  else if (eleTwo == null){
+  else if (eleTwo === null){
     eleTwo = this;
     swapElements(eleTwo.parentElement.parentElement, eleOne.parentElement.parentElement);
     eleOne.setAttribute("class","move-toggle");
@@ -361,7 +368,7 @@ function swapElements(eleOne,eleTwo){
     parentTwo.insertBefore(eleOne, eleTwoNext);
   }
   else{
-    parentTwo.appendChild(eleOne)
+    parentTwo.appendChild(eleOne);
   }
 }
 
@@ -375,6 +382,7 @@ function initalizePage(){
   getWeather();
   getToDoItems();
   getFiles();
+
   //initalizeTweets(); //TODO Figure out how to stop crashes with the API
   var buttons = document.getElementsByClassName("move-toggle");
   for(var i = 0;buttons.length > i;i++){
@@ -386,6 +394,7 @@ function initalizePage(){
 
 // Event Listeners
 document.getElementsByClassName("file-input")[0].addEventListener("change", verifyFile);
+document.getElementById("file-submit").addEventListener("click", getFiles);
 document.getElementById("todo-button").addEventListener("click", newToDoItem);
 document.getElementById("tweet-login").addEventListener("click", loginTwitter);
 document.getElementsByClassName("file-delete")[0].addEventListener("click", deleteFile);
