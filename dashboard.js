@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 /* jshint node: true */
 
@@ -10,7 +10,7 @@ var Twitter = require("twitter"); // Allows access to Twitter API
 var twitterAPI = require('node-twitter-api'); // Allows access to user login tokens
 var app = express();
 var func = require("./js/func"); // Collection of large functions that'd look messy here.
-var upload = multer({dest: "./uploads/content/"})
+var upload = multer({dest: "./uploads/content/"});
 const path = __dirname + "/uploads/content";
 app.use(bodyParser.json());
 
@@ -35,7 +35,7 @@ if(typeof localStorage === "undefined" || localStorage === null){
   Initalizes up twitter interface if creditentals already exist on the server.
   User tokens are generated from the "twitAuth" object.
 */
-if(localStorage.getItem("twitterKey") || localStorage.getItem("twitterSecret") != null){
+if(localStorage.getItem("twitterKey") || localStorage.getItem("twitterSecret") !== null){
   twitInterface = new Twitter({
   consumer_key: 'XzVtLi9PgF72L0NuoLunuF1eE',
   consumer_secret: 'j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID',
@@ -67,14 +67,14 @@ app.get("/time", function (req,res){
 */
 app.get("/todo", function(req,res){
   // No items, nothing sent.
-  if(localStorage.getItem("todoItems") == null){
-    res.status(404).send()
+  if(localStorage.getItem("todoItems") === null){
+    res.status(404).send();
   }
   // If we find the file locally, send to the client.
   else{
     res.status(200).send(localStorage.getItem("todoItems"));
   }
-})
+});
 
 /*
   Allows users to post changes to the todo-list and update the todo-list server-side.
@@ -83,14 +83,14 @@ app.post("/todo", function(req,res){
   localStorage.setItem("todoItems", req.body.list);
   res.status(200).send("POSTED!");
   res.end();
-})
+});
 
 /*
   Returns a list of the five most recent tweets from twitInterface's active user.
 */
 app.get("/tweets", function(req,res){
   var tweetList = [];
-  if(twitInterface == undefined){
+  if(twitInterface === undefined){
     console.log("Need to login to twitter!");
   }
   else{
@@ -129,7 +129,7 @@ app.get("/tweets/auth", function(req,res){
   var oauth_verify = req.query.oauth_verifier;
   twitAuth.getAccessToken(reqToken, reqTokenSecret, oauth_verify, function(error, accessToken, accessTokenSecret, results){
     if(error){
-      return err;
+      return error;
     }
     else{
         twitInterface = new Twitter({
@@ -209,9 +209,9 @@ app.patch("/file", function(req,res,next){
   a location
 */
 app.delete("/file", function(req,res,next){
-  console.log("got delete request")
+  console.log("got delete request");
   var file = req.query.file;
-  if(file == undefined){
+  if(file === undefined){
     res.status(404).send("No file selected.");
     console.log("No file selected");
     return next();
@@ -231,9 +231,9 @@ app.delete("/file", function(req,res,next){
       res.status(404).send("File not found.");
       console.log("File not found");
       return next();
-    })
+    });
   }
-})
+});
 /*
   Allows upload to the server under the /uploads/content folder
 */
@@ -249,7 +249,7 @@ app.post("/file/upload", upload.single("uploadFile"), function(req,res, next){
   }
   //res.status(201).redirect("/");
   res.status(200).send();
-  fs.rename("./uploads/content/" + req.file.filename, "./uploads/content/" + req.file.originalname)
+  fs.rename("./uploads/content/" + req.file.filename, "./uploads/content/" + req.file.originalname);
 });
 
 app.use(express.static(__dirname + "/webpage"));
