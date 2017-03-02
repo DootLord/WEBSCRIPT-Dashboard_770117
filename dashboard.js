@@ -43,14 +43,22 @@ if(localStorage.getItem("twitterKey") || localStorage.getItem("twitterSecret") !
   access_token_secret: localStorage.getItem("twitterSecret")
 });
 }
+
 /*
-  Initalize twitter authetication API with my API keys.
+  Gets the URL of the client from the client, so the twitter
+  api knows to redirect us back after the user has logged in.
 */
-var twitAuth = new twitterAPI({
-  consumerKey: "XzVtLi9PgF72L0NuoLunuF1eE",
-  consumerSecret: "j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID",
-  callback: "http://127.0.0.1:8080/tweets/auth"
-});
+var twitAuth
+app.post("/url", function(req,res){
+    twitAuth = new twitterAPI({
+    consumerKey: "XzVtLi9PgF72L0NuoLunuF1eE",
+    consumerSecret: "j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID",
+    callback: req.body.url + "tweets/auth"
+  });
+  res.status(200).send(req.body.url);
+  console.log(twitAuth.callback);
+})
+
 
 /*
   Used to get current time from the servers location.

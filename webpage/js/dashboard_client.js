@@ -369,6 +369,22 @@ function swapElements(eleOne,eleTwo){
     parentTwo.appendChild(eleOne);
   }
 }
+/*
+  Sends the current URL of the dashboard to the server-side
+  so that services know the address of the client.
+  This infomation is used twitter redirects currently.
+*/
+function sendURL(){
+  var xml = new XMLHttpRequest();
+  xml.open("POST", "/url");
+  xml.setRequestHeader("Content-Type", "application/json");
+  xml.onreadystatechange = function(){
+    if(xml.status === 200 && xml.readyState === 4){
+      console.log(xml.responseText);
+    }
+  }
+  xml.send(JSON.stringify({"url": window.location.href}));
+}
 
 
 /*
@@ -376,6 +392,7 @@ function swapElements(eleOne,eleTwo){
   Runs core functions to start core processes and to initilize varables
 */
 function initalizePage(){
+  sendURL();
   updateTime();
   getWeather();
   getToDoItems();
