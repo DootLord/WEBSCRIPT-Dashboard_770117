@@ -12,6 +12,7 @@ var app = express();
 var func = require("./js/func"); // Collection of large functions that'd look messy here.
 var upload = multer({dest: "./uploads/content/"});
 const path = __dirname + "/uploads/content";
+var tweets; // Updated via the function updateTweets(). Used by GET on /tweets to return tweets to client
 app.use(bodyParser.json());
 
 // twitInterface is used for calling REST calls on the twitter API
@@ -43,6 +44,8 @@ if(localStorage.getItem("twitterKey") || localStorage.getItem("twitterSecret") !
   access_token_secret: localStorage.getItem("twitterSecret")
 });
 }
+
+/*---------------------------------------------------- REST Functions ---------------------------------------------------- */
 
 /*
   Gets the URL of the client from the client, so the twitter
@@ -96,21 +99,16 @@ app.post("/todo", function(req,res){
 /*
   Returns a list of the five most recent tweets from twitInterface's active user.
 */
-app.get("/tweets", function(req,res){
+app.get("/tweets", function(req,res, next){
   var tweetList = [];
   if(twitInterface === undefined){
     console.log("Need to login to twitter!");
+    return next();
   }
   else{
-    twitInterface.get("statuses/home_timeline", {"count": 5}, function(error,tweets,response){
-      if(error){
-        res.status(204).send("ERROR! Login or tweets have expired");
-      }
-      //console.log(tweets[0]);
       res.status(200).send(JSON.stringify(tweets));
-    });
-  }
-
+      console.log("Sent tweets to client");
+    };
 });
 
 /*
@@ -149,6 +147,7 @@ app.get("/tweets/auth", function(req,res){
       localStorage.setItem("twitterKey",accessToken);
       localStorage.setItem("twitterSecret", accessTokenSecret);
       res.redirect("/");
+      updateTweets();
     }
   });
 });
@@ -266,3 +265,36 @@ app.use(express.static(__dirname + "/webpage"));
 app.listen(8080, function(){
   console.log("Started on port 8080");
 });
+
+/* ---------------------------------------------------- Non-REST functions ---------------------------------------------------- */
+
+/*
+  Updates tweets from the Twitter API periodically as to not overuse my
+  limited amount of requests per hour.
+*/
+function updateTweets(){
+  if(twitInterface === null){ //No login No tweets
+    console.log("Attempt to update tweets failed. No twitter interface active");
+  }
+  else{
+    twitInterface.get("statuses/home_timeline", {"count": 5}, function(error,newTweets,response){
+      if(error){
+        console.log(error);
+      }
+      else{
+
+      }
+      tweets = newTweets; //Update the known tweets with the new tweets from our request;
+      console.log("Tweets updated");
+      for(var i = 0;tweets.length > i; i++){
+        console.log(tweets[i].text);
+        console.log();
+      }
+    });
+    console.log("|--------------------------------------------|");
+    console.log();
+    console.log();
+  }
+}
+// Can get 15 tweets from twitter every 15 minutes.
+setInterval(updateTweets, 60050);
