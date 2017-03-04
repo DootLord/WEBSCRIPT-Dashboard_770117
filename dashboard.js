@@ -45,7 +45,6 @@ if(localStorage.getItem("twitterKey") || localStorage.getItem("twitterSecret") !
 });
 }
 
-/*---------------------------------------------------- REST Functions ---------------------------------------------------- */
 
 /*
   Gets the URL of the client from the client, so the twitter
@@ -62,6 +61,7 @@ app.post("/url", function(req,res){
   console.log(twitAuth.callback);
 })
 
+/*---------------------------------------------------- REST Functions ---------------------------------------------------- */
 
 /*
   Used to get current time from the servers location.
@@ -259,6 +259,14 @@ app.post("/file/upload", upload.single("uploadFile"), function(req,res, next){
   fs.rename("./uploads/content/" + req.file.filename, "./uploads/content/" + req.file.originalname);
 });
 
+/*
+  Allows users to upload images for use in the
+  gallery.
+*/
+app.post("/gallery", function(req,res){
+
+})
+
 app.use(express.static(__dirname + "/webpage"));
 // Set to 8080 for developmennt purposes
 //TODO Will be set to 80 for release
@@ -296,5 +304,8 @@ function updateTweets(){
     console.log();
   }
 }
+
+
+
 // Can get 15 tweets from twitter every 15 minutes.
 setInterval(updateTweets, 60050);
