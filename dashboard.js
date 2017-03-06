@@ -57,7 +57,7 @@ app.post("/url", function(req,res){
     consumerSecret: "j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID",
     callback: req.body.url + "tweets/auth"
   });
-  res.status(200).send(req.body.url);
+  res.status(200).send("Server URL Updated!");
   console.log(twitAuth.callback);
 })
 

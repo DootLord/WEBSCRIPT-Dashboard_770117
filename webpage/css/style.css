@@ -199,6 +199,13 @@ main{
   line-height: 400px;
 }
 
+.wide{
+  height: 500px;
+  width: 800px;
+  line-height: 400px;
+  font-size: 60px;
+}
+
 .upload{
   background-color:#272727;
   line-height:10px;
@@ -325,46 +332,7 @@ main{
 }
 
 #tweet-list li:hover{
-  background-color: pink;
+  animation: file-hover 0.2s;
+  animation-fill-mode:forwards;
+  animation-timing-function: ease-out;
 }
-
-
-
-
-/*
-.green{
-  background-color: #2ecc71;
-}
-
-.green:hover{
- background-color: #3fdc91;
-}
-
-.green .box-head{
- background-color: #27ae60;
-}
-
-.blue{
-  background-color: #3498db
-}
-
-.blue:hover{
-  background-color: #44a8eb
-}
-
-.blue .box-head{
-  background-color: #2980b9
-}
-
-.red{
-  background-color: #e74c3c
-}
-
-.red:hover{
-  background-color: #f75c4c
-}
-
-.red .box-head{
-  background-color: #c0392b
-}
-*/

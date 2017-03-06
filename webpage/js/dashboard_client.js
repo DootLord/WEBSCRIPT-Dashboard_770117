@@ -51,7 +51,7 @@ function getTime(){
 }
 
 /*
-  Gets the inital time and then will call "getTime" to refresh the time every second
+  Gets the  time and then will call "getTime" to refresh the time every second
 */
 
 function updateTime(){
@@ -150,7 +150,7 @@ function getTweets(){
       tweets = JSON.parse(xml.responseText);
       displayTweets();
     }
-    else if(xml.status == 204 && xml.readyState == XMLHttpRequest.DONE){
+    else if(xml.status == 204 && xml.readyState == 4){
         console.log("No tweets available!, please try again later");
       }
   };
@@ -397,8 +397,7 @@ function initalizePage(){
   getWeather();
   getToDoItems();
   getFiles();
-
-  //initalizeTweets(); //TODO Figure out how to stop crashes with the API
+  initalizeTweets();
   var buttons = document.getElementsByClassName("move-toggle");
   for(var i = 0;buttons.length > i;i++){
     buttons[i].addEventListener("click",switchToggle);
@@ -406,8 +405,7 @@ function initalizePage(){
 }
 
 
-
-// Event Listeners
+/* ------------------------Listeners------------------------ */
 document.getElementsByClassName("file-refresh")[0].addEventListener("click", getFiles);
 document.getElementById("weather-location").addEventListener("change", getWeather);
 document.getElementsByClassName("file-input")[0].addEventListener("change", verifyFile);
