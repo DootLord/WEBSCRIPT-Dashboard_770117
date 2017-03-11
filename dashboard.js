@@ -108,7 +108,6 @@ app.get("/tweets", function(req,res, next){
   }
   else{
       res.status(200).send(JSON.stringify(tweets));
-      console.log("Sent tweets to client");
     };
 });
 
