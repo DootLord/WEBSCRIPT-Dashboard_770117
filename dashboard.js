@@ -11,7 +11,8 @@ var twitterAPI = require('node-twitter-api'); // Allows access to user login tok
 var app = express();
 var func = require("./js/func"); // Collection of large functions that'd look messy here.
 var upload = multer({dest: "./uploads/content/"});
-const path = __dirname + "/uploads/content";
+const filePath = __dirname + "/uploads/content";
+const galleryPath = __dirname + "/uploads/gallery/";
 var tweets; // Updated via the function updateTweets(). Used by GET on /tweets to return tweets to client
 app.use(bodyParser.json());
 
@@ -158,7 +159,7 @@ app.get("/tweets/auth", function(req,res){
 */
 app.get("/file", function(req,res){
   if(req.query.file === undefined){
-    fs.readdir(path, function(err,items){
+    fs.readdir(filePath, function(err,items){
       res.status(200).send(items);
     });
   }
@@ -172,7 +173,7 @@ app.get("/file", function(req,res){
 */
 app.post("/file", function(req,res){
   console.log(req.body);
-  fs.readdir(path, function(err, items){
+  fs.readdir(filePath, function(err, items){
     for(var i = 0; items.length > i; i++){
       if(items[i] == req.body.filename){
         console.log("Item " + items[i] + " item found!");
@@ -188,7 +189,7 @@ app.post("/file", function(req,res){
   files
 */
 app.patch("/file", function(req,res,next){
-  fs.readdir(path, function(err,items){
+  fs.readdir(filePath, function(err,items){
     console.log(items);
     console.log(req.body.newName);
     // Check to see if new name is already present in directory
@@ -201,7 +202,7 @@ app.patch("/file", function(req,res,next){
     // Check to see if file exists an updates
     for(var i = 0; items.length > i; i++){
       if(items[i] == req.body.currentName){
-        fs.rename(path + "/" + req.body.currentName, path + "/" + req.body.newName);
+        fs.rename(filePath + "/" + req.body.currentName, filePath + "/" + req.body.newName);
         res.status(200).send("File updated");
         return next();
       }
@@ -224,12 +225,12 @@ app.delete("/file", function(req,res,next){
     return next();
   }
   else{
-    fs.readdir(path, function(err, items){
+    fs.readdir(filePath, function(err, items){
       console.log(items);
       console.log(file);
       for(var i = 0; items.length > i; i++){
         if(items[i] == file){
-          fs.unlink(path + "/" + file);
+          fs.unlink(filePath + "/" + file);
           res.status(200).send("File " + file + " deleted!");//TODO use err call instead of for loop
           console.log("File deleted");
           return next();
@@ -259,13 +260,33 @@ app.post("/file/upload", upload.single("uploadFile"), function(req,res, next){
   fs.rename("./uploads/content/" + req.file.filename, "./uploads/content/" + req.file.originalname);
 });
 
+
+/*
+  Returns the four images that can be setup in the photo gallery.
+  set "q" to be the id of the image to retreve.
+  Set no query parameter to retreve all images
+*/
+app.get("/gallery", function(req,res){
+  var imgs;
+  fs.readdir(galleryPath, function(err, items){
+    if(err){
+      console.log(err);
+    }
+    else{
+      res.sendFile(galleryPath + items[req.query.q]);
+    }
+  });
+});
+
+
 /*
   Allows users to upload images for use in the
   gallery.
 */
 app.post("/gallery", function(req,res){
 
-})
+});
+
 
 app.use(express.static(__dirname + "/webpage"));
 // Set to 8080 for developmennt purposes
@@ -290,18 +311,9 @@ function updateTweets(){
         console.log(error);
       }
       else{
-
-      }
-      tweets = newTweets; //Update the known tweets with the new tweets from our request;
-      console.log("Tweets updated");
-      for(var i = 0;tweets.length > i; i++){
-        console.log(tweets[i].text);
-        console.log();
+        tweets = newTweets; //Update the known tweets with the new tweets from our request;
       }
     });
-    console.log("|--------------------------------------------|");
-    console.log();
-    console.log();
   }
 }
 

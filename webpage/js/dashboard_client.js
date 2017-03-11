@@ -2,6 +2,7 @@
 var tweets = []; // Used to store data about the five current active tweets on the page.
 var tweetItems; // List of current tweet items shown on the page
 var oauthToken; // Token used to implement the Twitter API
+var galleryIndex = 0; // Used to know what the current photo of the gallery is.
 
 /*
   Calls to the Weather api to get local weather details for the current location and time of the dashboards location.
@@ -384,6 +385,11 @@ function sendURL(){
     }
   }
   xml.send(JSON.stringify({"url": window.location.href}));
+}
+
+function galleryControler(index){
+  var gallery = document.getElementById("gallery");
+  gallery.setAttribute("src",window.location.href + "gallery?q=" + index);
 }
 
 

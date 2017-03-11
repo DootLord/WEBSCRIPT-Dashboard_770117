@@ -35,7 +35,7 @@
     <!-- Weather -->
     <div class="box large" id="box-weather">
       <div class="box-head">
-        <span style="color:#2ecc71">Weather</span>
+        <span style="color:#2ecc71">Weather & Time</span>
         <div class="move-toggle" id="box-weather-move"> </div>
       </div>
       <div class="box-body">
@@ -53,8 +53,11 @@
         <div class="box-ele" style="width:190px; height:100px; float:left; margin-left: 50px; color:#3498db; font-size:80px;" id="weather-degree-min">
           <!-- Min weather goes here -->
         </div>
-        <div class="box-ele" style="width:190px; height:100px; float:right; margin-right: 50px; color:#e74c3c; font-size:80px;" id="weather-degree-max">
+        <div class="box-ele" style="width:190px; height:100px; float:right; margin-right: 50px; color:#e74c3c; font-size:80px; margin-bottom:10px;" id="weather-degree-max">
           <!-- Max weather goes here -->
+        </div>
+        <div class="box-ele time" style="width:400px; height:80px; font-size:50px; border-top:5px;" id="weather-degree">
+          <!-- Weather degress goes here -->
         </div>
       </div>
     </div>
@@ -71,16 +74,6 @@
       <div class="box-body">
         <ul id="tweet-list">
         </ul?>
-      </div>
-    </div>
-
-    <!-- Clock -->
-    <div class="box" id="box-clock">
-      <div class="box-head">
-        <span style="color:#3498db">Clock</span>
-        <div class="move-toggle" id="box-clock-move"> </div>
-      </div>
-      <div class="box-body time">
       </div>
     </div>
 
@@ -122,12 +115,15 @@
     </div>
 
     <!-- Photo gallery -->
-    <div class="box wide" id="box-photo">
+    <div class="box wide" id="box-gallery">
       <div class="box-head">
         <span style="color:#f1c40f"> Photo Gallery </span>
         <div class="move-toggle" id="box-photo-move"> </div>
       </div>
-      <div class="box-body">
+      <div class="box-body" style="display:block">
+        <div style="width:50px; height:475px; background-color:pink; float:left;"id="gallery-previous"> </div>
+        <img src="http://localhost:8080/gallery?q=2" style="height:475px; width:700px;" id="gallery"></img>
+        <div style="width:50px; height:475px; background-color:pink; float:right;"id="gallery-next"> </div>
       </div>
     </div>
 
