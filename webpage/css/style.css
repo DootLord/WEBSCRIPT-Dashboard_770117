@@ -336,3 +336,50 @@ main{
   animation-fill-mode:forwards;
   animation-timing-function: ease-out;
 }
+
+#gallery-next{
+  width:50px;
+  height:475px;
+  background-color:#272727;
+  float:right;
+  line-height:450px;
+}
+
+@keyframes next-hover{
+  0%{
+    background-color: #272727;
+  }
+  100%{
+    background-color: #2ecc71;
+    color:white;
+  }
+}
+
+#gallery-next:hover{
+  animation: next-hover 0.2s;
+  animation-fill-mode:forwards;
+  animation-timing-function: ease-out;
+}
+
+@keyframes previous-hover{
+  0%{
+    background-color: #272727;
+  }
+  100%{
+    background-color: #e74c3c;
+    color:white;
+  }
+}
+
+#gallery-previous{
+  width:50px;
+  height:475px;
+  background-color:#272727;
+  float:left; line-height:450px;
+}
+
+#gallery-previous:hover{
+  animation: previous-hover 0.2s;
+  animation-fill-mode:forwards;
+  animation-timing-function: ease-out;
+}
