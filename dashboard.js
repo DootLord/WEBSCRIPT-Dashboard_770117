@@ -270,10 +270,20 @@ app.get("/gallery", function(req,res){
   fs.readdir(galleryPath, function(err, items){
     if(err){
       console.log(err);
+      res.status(400).send(err);
+      return next();
     }
-    else{
+    if(req.query.q != undefined){
       res.sendFile(galleryPath + items[req.query.q]);
     }
+    else if (req.query.name != undefined) {
+      res.sendFile(galleryPath + req.query.name);
+    }
+    else{
+      res.send(items);
+    }
+
+
   });
 });
 

@@ -1,4 +1,4 @@
-/* This document consists of regular JavaScript */
+/* GLOBALS */
 var tweets = []; // Used to store data about the five current active tweets on the page.
 var tweetItems; // List of current tweet items shown on the page
 var oauthToken; // Token used to implement the Twitter API
@@ -290,7 +290,10 @@ function modifyFile(newName){
 
   }
 }
-
+/*
+  Removes a file from the fileserver.
+  File must be selected first.
+*/
 function deleteFile(){
   var selFile = document.getElementById("file-selected");
   if(selFile === undefined){
@@ -345,8 +348,34 @@ var mainEle = document.getElementsByTagName("main")[0];
     eleTwo.setAttribute("class", "move-toggle");
     eleOne = eleTwo = null;
     // Set back to previous Styling
-
   }
+}
+/*
+  Changes the Photo gallery image to the next image.
+  @Params: Boolean
+    True: Sets photo to next image
+    False: Sets photo to previous image
+*/
+function nextGalleryImg(next){
+  var galleryImg = document.getElementById("gallery");
+  if(next == true){
+    if(galleryIndex + 1 > galleryLength){
+      galleryIndex = 0;
+    }
+    else{
+      galleryIndex += 1;
+    }
+  }
+  else if (next == false) {
+    if(galleryIndex - 1 < 0){
+      galleryIndex = galleryLength;
+    }
+    else{
+      galleryIndex -= 1;
+    }
+  }
+
+  galleryImg.setAttribute("src", window.location.href + "gallery?q=" + galleryIndex);
 }
 /*
   Function used by switchToggle() to ensure that
@@ -374,6 +403,7 @@ function swapElements(eleOne,eleTwo){
   Sends the current URL of the dashboard to the server-side
   so that services know the address of the client.
   This infomation is used twitter redirects currently.
+  //TODO Set the server to get its own URL. Dummy...
 */
 function sendURL(){
   var xml = new XMLHttpRequest();
@@ -387,9 +417,17 @@ function sendURL(){
   xml.send(JSON.stringify({"url": window.location.href}));
 }
 
-function galleryControler(index){
-  var gallery = document.getElementById("gallery");
-  gallery.setAttribute("src",window.location.href + "gallery?q=" + index);
+// Returns the current amount of images stored for use on the Photo Gallery object
+var galleryLength
+function updateGalleryLength(){
+  var xml = new XMLHttpRequest;
+  xml.open("GET", "/gallery");
+  xml.onreadystatechange = function(){
+    if(xml.status === 200 && xml.readyState === 4){
+      galleryLength =  (JSON.parse(xml.responseText).length) - 1;
+    }
+  }
+  xml.send();
 }
 
 
@@ -404,6 +442,7 @@ function initalizePage(){
   getToDoItems();
   getFiles();
   initalizeTweets();
+  updateGalleryLength();
   var buttons = document.getElementsByClassName("move-toggle");
   for(var i = 0;buttons.length > i;i++){
     buttons[i].addEventListener("click",switchToggle);
@@ -412,6 +451,12 @@ function initalizePage(){
 
 
 /* ------------------------Listeners------------------------ */
+document.getElementById("gallery-next").addEventListener("click", function(){
+  nextGalleryImg(true);
+})
+document.getElementById("gallery-previous").addEventListener("click", function(){
+  nextGalleryImg(false);
+})
 document.getElementsByClassName("file-refresh")[0].addEventListener("click", getFiles);
 document.getElementById("weather-location").addEventListener("change", getWeather);
 document.getElementsByClassName("file-input")[0].addEventListener("change", verifyFile);
