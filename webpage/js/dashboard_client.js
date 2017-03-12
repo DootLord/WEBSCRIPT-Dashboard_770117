@@ -447,6 +447,9 @@ function initalizePage(){
   for(var i = 0;buttons.length > i;i++){
     buttons[i].addEventListener("click",switchToggle);
   }
+  setInterval(function (){
+    nextGalleryImg(true);
+  }, 6000)
 }
 
 
