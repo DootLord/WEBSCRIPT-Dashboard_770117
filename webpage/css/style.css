@@ -316,6 +316,28 @@ main{
   margin-top: 5px;
 }
 
+@keyframes todo-button{
+  0%{
+    color: white;
+  }
+  100%{
+    color: #2ecc71;
+  }
+}
+
+#todo-button{
+  float:right;
+  padding-right:8px;
+  padding-top:3px;
+  border-right:5px;
+}
+
+#todo-button:hover{
+  animation-name: todo-button;
+  animation-duration: 0.3s;
+  animation-fill-mode:forwards;
+}
+
 #tweet-list{
   font-size: 10px;
   line-height: normal;

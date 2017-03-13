@@ -1,7 +1,6 @@
 /* GLOBALS */
-var tweets = []; // Used to store data about the five current active tweets on the page.
+var tweets = []; // Current tweets from twitter API.
 var tweetItems; // List of current tweet items shown on the page
-var oauthToken; // Token used to implement the Twitter API
 var galleryIndex = 0; // Used to know what the current photo of the gallery is.
 
 /*
@@ -86,11 +85,6 @@ function getToDoItems(){
   xml.open("GET", "/todo", true);
   xml.send();
 }
-
-function removeItem(){
-
-}
-
 /*
  Allows users to post new items to the todo by adding it to the list after existing elements
  Also adds function to each new element for the element to be removed on click
@@ -194,8 +188,7 @@ function loginTwitter(){
   xml.open("GET", "/tweets/login");
   xml.onreadystatechange = function(){
     if(xml.status == 200 && xml.readyState == 4){
-      oauthToken = xml.responseText;
-      window.location = "https://twitter.com/oauth/authenticate?oauth_token=" + oauthToken;
+      window.location = "https://twitter.com/oauth/authenticate?oauth_token=" + xml.responseText;
     }
   };
   xml.send();
@@ -265,15 +258,36 @@ function downloadFile(){
     window.location="/file?file=" + selFile.innerText;
    }
 }
+/*
+  Spawns a text form inside the currently active file management element
+  for the user to fill a new name for a file.
+  Calls modifyFile with old and new titles to update the server with new name.
+*/
+function renameFile(){
+  var selFile = document.getElementById("file-selected");
+  var oldText = selFile.innerText;
+  selFile.innerHTML = "";
+
+  var input = document.createElement("input");
+  input.setAttribute("type", "text");
+  input.addEventListener("keyup", function(event){
+    event.preventDefault();
+    if(event.keyCode == 13){
+      modifyFile(oldText,this.value);
+    }
+  });
+  selFile.appendChild(input);
+}
+
 //TODO implement text field to allow for custom file names
-function modifyFile(newName){
+function modifyFile(oldName,newName){
   var selFile = document.getElementById("file-selected");
     if(selFile === undefined){
       alert("Please select a file to modify!");
     }
     else{
       var xml = new XMLHttpRequest();
-      var pathRequest = {"currentName": selFile.innerText, "newName": newName};
+      var pathRequest = {"currentName": oldName, "newName": newName};
       xml.open("PATCH", "/file");
       xml.setRequestHeader("Content-type", "application/json");
       xml.onreadystatechange = function(){
@@ -461,6 +475,7 @@ document.getElementById("gallery-previous").addEventListener("click", function()
   nextGalleryImg(false);
 })
 document.getElementsByClassName("file-refresh")[0].addEventListener("click", getFiles);
+document.getElementsByClassName("file-modify")[0].addEventListener("click", renameFile);
 document.getElementById("weather-location").addEventListener("change", getWeather);
 document.getElementsByClassName("file-input")[0].addEventListener("change", verifyFile);
 document.getElementById("file-submit").addEventListener("click", getFiles);
