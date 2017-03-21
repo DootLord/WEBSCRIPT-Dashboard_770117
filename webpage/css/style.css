@@ -13,6 +13,10 @@ main{
  Box Styling
 */
 
+.hidden{
+  display:none;
+}
+
 #navbar{
   list-style-type: none;
   margin: 10px;
@@ -342,6 +346,7 @@ main{
   font-size: 10px;
   line-height: normal;
   list-style-type: none;
+  padding-left: 0px;
 }
 
 #tweet-list ul{
@@ -357,6 +362,19 @@ main{
   animation: file-hover 0.2s;
   animation-fill-mode:forwards;
   animation-timing-function: ease-out;
+}
+
+.tweet-item{
+  height:50px;
+}
+
+.tweet-item div{
+  background-color:white;
+  color:black;
+}
+
+.tweet-item img{
+  float:left;
 }
 
 #gallery-next{

@@ -53,7 +53,6 @@ function getTime(){
 /*
   Gets the  time and then will call "getTime" to refresh the time every second
 */
-
 function updateTime(){
   getTime();
   window.setInterval(getTime,1000);
@@ -85,6 +84,7 @@ function getToDoItems(){
   xml.open("GET", "/todo", true);
   xml.send();
 }
+
 /*
  Allows users to post new items to the todo by adding it to the list after existing elements
  Also adds function to each new element for the element to be removed on click
@@ -136,14 +136,18 @@ function postToDo(list){
  TODO: Add twitter login to allow any user to see their tweets
 */
 function getTweets(){
-  document.getElementById("tweet-list").innerHTML = "";
   var xml = new XMLHttpRequest();
   xml.open("GET", "/tweets");
   xml.setRequestHeader("Content-type", "application/json");
   xml.onreadystatechange = function(){
     if(xml.status == 200 && xml.readyState == 4){
-      tweets = JSON.parse(xml.responseText);
-      displayTweets();
+      if(xml.responseText == ""){ // If no active user, then log it and skip.
+        console.log("No current twitter user.");
+      }
+      else{
+        tweets = JSON.parse(xml.responseText);
+        displayTweets();
+      }
     }
     else if(xml.status == 204 && xml.readyState == 4){
         console.log("No tweets available!, please try again later");
@@ -151,6 +155,7 @@ function getTweets(){
   };
   xml.send();
 }
+
 /*
   TODO Finish and cleanup. This is a mess!
   TODO: Move to own js file as will likely be large function
@@ -168,13 +173,14 @@ function showTweetOverlay(tweetIndex){
   tweetBox.style.display = "block";
 
 }
+
 /*
   Sets up tweets to be updated every 25 seconds.
   Enough time to not time out the amount requests I'm allowed from the twitter API
 */
 function initalizeTweets(){
   if(tweets != []){
-    setInterval(getTweets, 25000);
+    setInterval(getTweets, 60100);
     getTweets();
   }
 }
@@ -199,19 +205,10 @@ function loginTwitter(){
   for an onclick redirect to the tweet
 */
 function displayTweets(){
-  var ele = document.getElementById("tweet-list");
-  for(var i = 0; tweets.length > i; i++){
-      var li = document.createElement("li");
-      li.innerText = tweets[i].text;
-      li.setAttribute("tweet-item",i);
-      li.setAttribute("class","tweet-item");
-      li.onclick = function(){
-        showTweetOverlay(this.getAttribute("tweet-item"));
-      };
-      ele.appendChild(li);
-  }
-  tweetItems = document.getElementsByClassName("tweet-item");
+  var list = document.getElementsByClassName("tweet-item");
+
 }
+
 /*
   Peforms a GET on /file to populate the file list on the
   web page.
@@ -237,6 +234,7 @@ function getFiles(){
   };
   xml.send();
 }
+
 /*
   Highlights a file via a CSS and gives it an Id tag
   for it to be used on further operations such as file download
@@ -258,6 +256,7 @@ function downloadFile(){
     window.location="/file?file=" + selFile.innerText;
    }
 }
+
 /*
   Spawns a text form inside the currently active file management element
   for the user to fill a new name for a file.
@@ -304,6 +303,7 @@ function modifyFile(oldName,newName){
 
   }
 }
+
 /*
   Removes a file from the fileserver.
   File must be selected first.
@@ -325,6 +325,7 @@ function deleteFile(){
     xml.send();
   }
 }
+
 /*
   Triggered on selecting a file for upload.
   Checks to see if the file uploaded does not have too many characters.
@@ -340,6 +341,7 @@ function verifyFile(){
     getFiles();
   }
 }
+
 /*
   Bound to the circles in the top right of every box.
   Allows users to move around the boxs client-side.

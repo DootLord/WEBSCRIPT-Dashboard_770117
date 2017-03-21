@@ -59,7 +59,6 @@ app.post("/url", function(req,res){
     callback: req.body.url + "tweets/auth"
   });
   res.status(200).send("Server URL Updated!");
-  console.log(twitAuth.callback);
 })
 
 /*---------------------------------------------------- REST Functions ---------------------------------------------------- */
@@ -135,6 +134,7 @@ app.get("/tweets/auth", function(req,res){
   var oauth_verify = req.query.oauth_verifier;
   twitAuth.getAccessToken(reqToken, reqTokenSecret, oauth_verify, function(error, accessToken, accessTokenSecret, results){
     if(error){
+      console.log(error);
       return error;
     }
     else{
@@ -146,11 +146,12 @@ app.get("/tweets/auth", function(req,res){
       });
       localStorage.setItem("twitterKey",accessToken);
       localStorage.setItem("twitterSecret", accessTokenSecret);
-      res.redirect("/");
       updateTweets();
+      res.status(200).redirect("/");
     }
   });
 });
+
 /*
   Returns a list of files available to the user to download.
   or downloads a file if given a valid file name
@@ -166,6 +167,7 @@ app.get("/file", function(req,res){
     res.download(__dirname + "/uploads/content/" + req.query.file);
   }
 });
+
 /*
   Posting a file here will check for the file and return it
   from the /uploads/content directory
@@ -182,6 +184,7 @@ app.post("/file", function(req,res){
     res.status(404).send("File not found");
   });
 });
+
 /*
   Allows clients to rename already existing files on the system.
   Will check to make sure that file exists and also prevent duplicates of
@@ -211,6 +214,7 @@ app.patch("/file", function(req,res,next){
     return next();
   });
 });
+
 /*
   Allows users to request a file to be deleted by supplying
   a location
@@ -241,6 +245,7 @@ app.delete("/file", function(req,res,next){
     });
   }
 });
+
 /*
   Allows upload to the server under the /uploads/content folder
 */
@@ -258,7 +263,6 @@ app.post("/file/upload", upload.single("uploadFile"), function(req,res, next){
   res.status(200).send();
   fs.rename("./uploads/content/" + req.file.filename, "./uploads/content/" + req.file.originalname);
 });
-
 
 /*
   Returns the four images that can be setup in the photo gallery.
@@ -282,11 +286,8 @@ app.get("/gallery", function(req,res){
     else{
       res.send(items);
     }
-
-
   });
 });
-
 
 /*
   Allows users to upload images for use in the
@@ -330,3 +331,4 @@ function updateTweets(){
 
 // Can get 15 tweets from twitter every 15 minutes.
 setInterval(updateTweets, 60050);
+updateTweets();
