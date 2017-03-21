@@ -206,6 +206,11 @@ function loginTwitter(){
 */
 function displayTweets(){
   var list = document.getElementsByClassName("tweet-item");
+  for(var i = 0;list.length > i; i++){
+    list[i].children[0].setAttribute("src", tweets[i].user.profile_image_url)
+    list[i].children[1].innerText = tweets[i].user.name;
+    list[i].children[2].innerText = tweets[i].text;
+  }
 
 }
 
