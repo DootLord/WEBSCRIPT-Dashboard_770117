@@ -161,16 +161,21 @@ function getTweets(){
   TODO: Move to own js file as will likely be large function
 */
 function showTweetOverlay(tweetIndex){
-  var tweet = tweets[0];
   var tweetBox = document.getElementsByClassName("fade-box")[0];
+  var fade = document.getElementsByClassName("fade")[0];
   document.getElementsByClassName("fade-button")[0].onclick = function(){
     tweetBox.style.display = "none";
+    fade.style.display = "none";
   };
   var tweetText = document.getElementsByClassName("fade-content")[0];
   var tweetTitle = document.getElementsByClassName("fade-title")[0];
+  console.log(tweets[tweetIndex]);
+  console.log(tweetIndex);
   tweetTitle.innerText = tweets[tweetIndex].user.name;
   tweetText.innerText = tweets[tweetIndex].text;
   tweetBox.style.display = "block";
+  fade.style.display = "block";
+
 
 }
 
@@ -210,6 +215,10 @@ function displayTweets(){
     list[i].children[0].setAttribute("src", tweets[i].user.profile_image_url)
     list[i].children[1].innerText = tweets[i].user.name;
     list[i].children[2].innerText = tweets[i].text;
+    list[i].setAttribute("tweetID", i);
+    list[i].onclick = function(){
+      showTweetOverlay(this.getAttribute("tweetID")); // On click, call a function that will show the tweet associated with tweetID
+    }
   }
 
 }
@@ -286,7 +295,12 @@ function renameFile(){
   selFile.appendChild(input);
 }
 
-//TODO implement text field to allow for custom file names
+/*
+  Renames a file located on the serverside.
+  @Params
+    oldName: The current name of the file
+    newName: The new name that you wish to rename the file.
+*/
 function modifyFile(oldName,newName){
   var selFile = document.getElementById("file-selected");
     if(selFile === undefined){

@@ -90,6 +90,9 @@ main{
   padding:5px;
   display: none;
   margin-bottom: 50%;
+  bottom:0px;
+  top:0px;
+  margin-top: 50px;
 }
 
 .fade-button{
