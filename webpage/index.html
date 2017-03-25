@@ -3,43 +3,43 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <link rel="icon" href="img/icon.ico">
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <title>Dashboard</title>
-  <!-- JQuery Import Area  -->
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="utf-8">
+    <link rel="icon" href="img/icon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <title>Dashboard</title>
+    <!-- JQuery Import Area  -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body >
-  <main src=http://hdwallpaperbackgrounds.net/wp-content/uploads/2017/02/1920-hd-wallpapers-14.jpg>
+<body>
+    <main src=http://hdwallpaperbackgrounds.net/wp-content/uploads/2017/02/1920-hd-wallpapers-14.jpg>
 
-    <img src="/img/cog.png" id="option"></img>
+        <img src="/img/cog.png" id="option"></img>
 
-    <!-- Todo list -->
-    <div class="box long" id="box-todo">
-      <div class="box-head">
-        <span style="color:#e74c3c">ToDo</span>
-        <div class="move-toggle" id="box-todo-move"> </div>
-      </div>
-      <div class="box-body">
-        <div id="todo-enter">
-          <input type="text" id="todo-input" placeholder="Whatcha gotta do...?"> </input>
-          <span style="float:right; padding-right:8px; padding-top:3px; border-right:5px;" id="todo-button">Add</span>
+        <!-- Todo list -->
+        <div class="box long" id="box-todo">
+            <div class="box-head">
+                <span style="color:#e74c3c">ToDo</span>
+                <div class="move-toggle" id="box-todo-move"> </div>
+            </div>
+            <div class="box-body">
+                <div id="todo-enter">
+                    <input type="text" id="todo-input" placeholder="Whatcha gotta do...?"> </input>
+                    <span style="float:right; padding-right:8px; padding-top:3px; border-right:5px;" id="todo-button">Add</span>
+                </div>
+                <ul id="todo-list">
+                </ul>
+            </div>
         </div>
-        <ul id="todo-list">
-        </ul>
-      </div>
-    </div>
 
-    <!-- Weather -->
-    <div class="box large" id="box-weather">
-      <div class="box-head">
-        <span style="color:#2ecc71">Weather & Time</span>
-        <div class="move-toggle" id="box-weather-move"> </div>
-      </div>
-      <div class="box-body">
-        <select name="County" class="box-ele" style="width:140px;color:white;" id="weather-location">
+        <!-- Weather -->
+        <div class="box large" id="box-weather">
+            <div class="box-head">
+                <span style="color:#2ecc71">Weather & Time</span>
+                <div class="move-toggle" id="box-weather-move"> </div>
+            </div>
+            <div class="box-body">
+                <select name="County" class="box-ele" style="width:140px;color:white;" id="weather-location">
           <option value="Portsmouth"> Portsmouth </option>
           <option value="London"> London</option>
           <option value="Surrey"> Surrey </option>
@@ -50,24 +50,24 @@
           <option value="Lancashire"> Lancashire </option>
           <option value="Devon">Devon</option>
         </select>
-        <div class="box-ele" style="width:400px; height:50px; text-transform:capitalize;" id="weather-detail">
-          <!-- Weather discription goes here -->
+                <div class="box-ele" style="width:400px; height:50px; text-transform:capitalize;" id="weather-detail">
+                    <!-- Weather discription goes here -->
+                </div>
+                <div class="box-ele" style="width:400px; height:150px; line-height:300px; font-size:120px; color:#2ecc71;" id="weather-degree">
+                    <!-- Weather degress goes here -->
+                </div>
+                <div class="box-ele" style="width:190px; height:100px; float:left; margin-left: 50px; color:#3498db; font-size:80px;" id="weather-degree-min">
+                    <!-- Min weather goes here -->
+                </div>
+                <div class="box-ele" style="width:190px; height:100px; float:right; margin-right: 50px; color:#e74c3c; font-size:80px; margin-bottom:10px;" id="weather-degree-max">
+                    <!-- Max weather goes here -->
+                </div>
+                <div class="box-ele time" style="width:400px; height:80px; font-size:50px; border-top:5px;" id="weather-degree">
+                    <!-- Weather degress goes here -->
+                </div>
+            </div>
         </div>
-        <div class="box-ele" style="width:400px; height:150px; line-height:300px; font-size:120px; color:#2ecc71;" id="weather-degree">
-          <!-- Weather degress goes here -->
-        </div>
-        <div class="box-ele" style="width:190px; height:100px; float:left; margin-left: 50px; color:#3498db; font-size:80px;" id="weather-degree-min">
-          <!-- Min weather goes here -->
-        </div>
-        <div class="box-ele" style="width:190px; height:100px; float:right; margin-right: 50px; color:#e74c3c; font-size:80px; margin-bottom:10px;" id="weather-degree-max">
-          <!-- Max weather goes here -->
-        </div>
-        <div class="box-ele time" style="width:400px; height:80px; font-size:50px; border-top:5px;" id="weather-degree">
-          <!-- Weather degress goes here -->
-        </div>
-      </div>
-    </div>
-    <!-- OLD TWEET ELEMENT
+        <!-- OLD TWEET ELEMENT
 
     <div class="box long" id="box-tweet">
       <div class="box-head">
@@ -87,139 +87,140 @@
     </div>
   -->
 
-  <div class="box long" id="box-tweet">
-    <div class="box-head">
-      <span style="color:#3498db">Tweets</span>
-      <div class="box-head-ele" id="tweet-login">
-        Login
-      </div>
-      <div class="move-toggle" id="box-tweet-move"> </div>
-    </div>
-    <div class="box-body">
-      <ul id="tweet-list">
-        <li class="tweet-item" tweetID = "0">
-          <img></img>
-          <div ></div>
-          <p>asdsad</p>
-        </li>
-        <li class="tweet-item">
-          <img></img>
-          <div ></div>
-          <p></p>
-        </li>
-        <li class="tweet-item">
-          <img></img>
-          <div ></div>
-          <p></p>
-        </li>
-        <li class="tweet-item">
-          <img></img>
-          <div ></div>
-          <p></p>
-        </li>
-        <li class="tweet-item">
-          <img></img>
-          <div ></div>
-          <p></p>
-        </li>
-      </ul>
-    </div>
-  </div>
+        <div class="box long" id="box-tweet">
+            <div class="box-head">
+                <span style="color:#3498db">Tweets</span>
+                <div class="box-head-ele" id="tweet-login">
+                    Login
+                </div>
+                <div class="move-toggle" id="box-tweet-move"> </div>
+            </div>
+            <div class="box-body">
+                <ul id="tweet-list">
+                    <li class="tweet-item" tweetID="0">
+                        <img></img>
+                        <div></div>
+                        <p>asdsad</p>
+                    </li>
+                    <li class="tweet-item">
+                        <img></img>
+                        <div></div>
+                        <p></p>
+                    </li>
+                    <li class="tweet-item">
+                        <img></img>
+                        <div></div>
+                        <p></p>
+                    </li>
+                    <li class="tweet-item">
+                        <img></img>
+                        <div></div>
+                        <p></p>
+                    </li>
+                    <li class="tweet-item">
+                        <img></img>
+                        <div></div>
+                        <p></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
 
-    <!-- Files -->
-    <div class="box large" id="box-file">
-      <div class="box-head">
-        <span style="color:#2ecc71">File Mangement</span>
-        <div class="move-toggle" id="box-file-move"> </div>
-      </div>
-      <div class="upload">
-      <form method="post" id="file-form" action="http://localhost:8080/file/upload" name="submit" enctype="multipart/form-data" target="hiddenFrame">
-        <input type="file" name="uploadFile" class="file-input">
-        <input type="submit" name="submit" value="Submit" id="file-submit">
-      </form>
-    </div>
+        <!-- Files -->
+        <div class="box large" id="box-file">
+            <div class="box-head">
+                <span style="color:#2ecc71">File Mangement</span>
+                <div class="move-toggle" id="box-file-move"> </div>
+            </div>
+            <div class="upload">
+                <form method="post" id="file-form" action="http://localhost:8080/file/upload" name="submit" enctype="multipart/form-data" target="hiddenFrame">
+                    <input type="file" name="uploadFile" class="file-input">
+                    <input type="submit" name="submit" value="Submit" id="file-submit">
+                </form>
+            </div>
 
-    <div class="file-viewer">
+            <div class="file-viewer">
 
-    </div>
+            </div>
 
-    <div class="file-buttons">
-      <li class="file-download">
-        Download
-      </li>
+            <div class="file-buttons">
+                <li class="file-download">
+                    Download
+                </li>
 
-      <li class="file-modify">
-        Modify
-      </li>
+                <li class="file-modify">
+                    Modify
+                </li>
 
-      <li class="file-delete">
-        Delete
-      </li>
+                <li class="file-delete">
+                    Delete
+                </li>
 
-      <li class="file-refresh">
-        Refresh
-      </li>
-    </div>
-
-    </div>
-
-    <!-- Photo gallery -->
-    <div class="box wide" id="box-gallery">
-      <div class="box-head">
-        <span style="color:#f1c40f"> Photo Gallery </span>
-        <div class="move-toggle" id="box-photo-move"> </div>
-      </div>
-      <div class="box-body" style="display:block">
-        <div id="gallery-previous"> < </div>
-        <img src="http://localhost:8080/gallery?q=0" style="height:475px; width:700px;" id="gallery"></img>
-        <div id="gallery-next"> > </div>
-      </div>
-    </div>
-    <!-- News -->
-    <div class="box wide" id="box-news">
-      <div class="box-head">
-        <span style="color:#f1c40f"> News </span>
-        <div class="move-toggle" id="box-photo-move"> </div>
-      </div>
-      <div class="box-body" style="display:block">
-
-      </div>
-    </div>
-
-
-    <!-- Fade Overlay -->
-    <div class="fade"></div>
-
-    <!-- Tweet Viewer: Hidden by default -->
-    <div class="fade-box">
-      <div class="fade-button"> X </div>
-      <div class="fade-title">
-      </div>
-      <div class="fade-content">
-      </div>
-    </div>
-
-    <!-- Options Pane: Hidden by default -->
-      <div id="option-box">
-        <h1> Options </h1>
-        <div id="option-selection">
+                <li class="file-refresh">
+                    Refresh
+                </li>
+            </div>
 
         </div>
 
-        <div id="option-buttons">
-        <div id="option-apply">Apply</div>
-        <div id="option-cancel">Cancel</div>
-      </div>
-      </div>
+        <!-- Photo gallery -->
+        <div class="box wide" id="box-gallery">
+            <div class="box-head">
+                <span style="color:#f1c40f"> Photo Gallery </span>
+                <div class="move-toggle" id="box-photo-move"> </div>
+            </div>
+            <div class="box-body" style="display:block">
+                <div id="gallery-previous">
+                    < </div>
+                        <img src="http://localhost:8080/gallery?q=0" style="height:475px; width:700px;" id="gallery"></img>
+                        <div id="gallery-next"> > </div>
+                </div>
+            </div>
+            <!-- News -->
+            <div class="box wide" id="box-news">
+                <div class="box-head">
+                    <span style="color:#f1c40f"> News </span>
+                    <div class="move-toggle" id="box-photo-move"> </div>
+                </div>
+                <div class="box-body" style="display:block">
+
+                </div>
+            </div>
 
 
-    <!-- The upload form element directs to here to prevent a redirect -->
-    <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
+            <!-- Fade Overlay -->
+            <div class="fade"></div>
 
-  </main>
+            <!-- Tweet Viewer: Hidden by default -->
+            <div class="fade-box">
+                <div class="fade-button"> X </div>
+                <div class="fade-title">
+                </div>
+                <div class="fade-content">
+                </div>
+            </div>
 
-  <script src="js/dashboard_client.js"></script>
+            <!-- Options Pane: Hidden by default -->
+            <div id="option-box">
+                <h1> Options </h1>
+                <div id="option-selection">
+                  <div
+                </div>
+
+                <div id="option-buttons">
+                    <div id="option-apply">Apply</div>
+                    <div id="option-cancel">Cancel</div>
+                </div>
+            </div>
+
+
+            <!-- The upload form element directs to here to prevent a redirect -->
+            <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
+
+    </main>
+
+    <script src="js/dashboard_client.js"></script>
 </body>
 
 </html>

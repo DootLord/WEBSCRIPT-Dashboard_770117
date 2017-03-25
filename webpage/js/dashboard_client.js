@@ -184,6 +184,13 @@ function showOptionOverlay(){
   box.style.display = "block";
 }
 
+function closeOptionOverlay(){
+  var fade = document.getElementsByClassName("fade")[0];
+  var box = document.getElementById("option-box");
+  fade.style.display = "none";
+  box.style.display = "none";
+}
+
 /*
   Sets up tweets to be updated every 25 seconds.
   Enough time to not time out the amount requests I'm allowed from the twitter API
@@ -503,6 +510,7 @@ document.getElementById("gallery-next").addEventListener("click", function(){
 document.getElementById("gallery-previous").addEventListener("click", function(){
   nextGalleryImg(false);
 })
+document.getElementById("option-cancel").addEventListener("click",closeOptionOverlay);
 document.getElementById("option").addEventListener("click", showOptionOverlay);
 document.getElementsByClassName("file-refresh")[0].addEventListener("click", getFiles);
 document.getElementsByClassName("file-modify")[0].addEventListener("click", renameFile);

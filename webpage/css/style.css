@@ -101,9 +101,9 @@ main{
 
 #option-box{
   z-index: 10;
-  background-color: #ecf0f1;
+  background-color: #2A2A2A;
   width:800px;
-  height:600px;
+  height:450px;
   left:30%;
   position: absolute;
   margin-top: auto;
@@ -114,17 +114,52 @@ main{
   top:0px;
   margin-top: 50px;
   box-shadow: 10px 5px 5px black;
+  font-family: 'Roboto', sans-serif;
+
 }
 
 #option-box h1{
   text-align: center;
+  color:#e67e22;
+  background-color:#272727;
+  margin-top: 0px;
 }
 
 #option-selection{
-  background-color:pink;
-  width:500px;
+  background-color:#ecf0f1;
+  width:750px;
   height:300px;
-  margin-left: 150px;
+  margin-left: 25px;
+  border-radius: 5px;
+}
+
+#option-buttons{
+  background-color: pink;
+  margin-top:10px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+#option-apply{
+  float:right;
+  height:60px;
+  background-color: #2ecc71;
+  text-align: center;
+  line-height:50px;
+  color: white;
+  font-size: 20px;
+  width:140px;
+}
+
+#option-cancel{
+  float:left;
+  height:60px;
+  background-color: #e74c3c;
+  text-align: center;
+  line-height:50px;
+  color: white;
+  font-size: 20px;
+  width:140px;
 }
 
 .fade-button{
@@ -350,6 +385,7 @@ main{
   background-color: #34495e;
   color:white;
 }
+
 #todo-list{
   height:400px;
   line-height: 20px;
