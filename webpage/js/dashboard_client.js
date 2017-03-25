@@ -182,6 +182,7 @@ function showOptionOverlay(){
   var box = document.getElementById("option-box");
   fade.style.display = "block";
   box.style.display = "block";
+  box.setAttribute("class","slide-in");
 }
 
 function closeOptionOverlay(){

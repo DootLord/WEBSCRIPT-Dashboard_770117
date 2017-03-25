@@ -104,7 +104,6 @@ main{
   background-color: #2A2A2A;
   width:800px;
   height:450px;
-  left:30%;
   position: absolute;
   margin-top: auto;
   padding:5px;
@@ -115,10 +114,26 @@ main{
   margin-top: 50px;
   box-shadow: 10px 5px 5px black;
   font-family: 'Roboto', sans-serif;
-
+  left: -900px;
 }
 
-#option-box h1{
+.slide-in{
+  animation: option-box 0.5s;
+  animation-fill-mode:forwards;
+  animation-timing-function: ease-out;
+}
+
+@keyframes option-box{
+  0%{
+
+  }
+  100%{
+    left:30%;
+  }
+}
+
+
+#option-box-title{
   text-align: center;
   color:#e67e22;
   background-color:#272727;
@@ -131,6 +146,29 @@ main{
   height:300px;
   margin-left: 25px;
   border-radius: 5px;
+}
+
+.option-area{
+  border:5px;
+  border-style:double;
+  border-color: black;
+  border-radius: 5px;
+  width:30%;
+  height:40%;
+  display: inline-block;
+  margin:2px;
+  margin-left: 5px;
+}
+
+.option-area h1{
+  font-size: 20px;
+  margin: 0px;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.option-area{
+
 }
 
 #option-buttons{
