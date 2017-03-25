@@ -220,6 +220,8 @@ function displayTweets(){
 */
 function getFiles(){
   var xml = new XMLHttpRequest();
+  var fileViewer = document.getElementById("file-form")[0];
+  console.log(fileViewer);
   xml.open("GET", "/file");
   xml.onreadystatechange = function(){
     if(xml.status === 200 && xml.readyState === 4){
@@ -238,6 +240,7 @@ function getFiles(){
     }
   };
   xml.send();
+  fileViewer.value = ""
 }
 
 /*
@@ -490,5 +493,4 @@ document.getElementById("todo-button").addEventListener("click", newToDoItem);
 document.getElementById("tweet-login").addEventListener("click", loginTwitter);
 document.getElementsByClassName("file-delete")[0].addEventListener("click", deleteFile);
 document.getElementsByClassName("file-download")[0].addEventListener("click", downloadFile);
-document.getElementById("file-submit").addEventListener("click", getFiles);
 document.addEventListener("load", initalizePage());

@@ -1,5 +1,5 @@
 html{
-  background-color: #101214
+  background-color: #101214;
 }
 
 /*
@@ -12,6 +12,30 @@ main{
 /*
  Box Styling
 */
+
+#option{
+  position:fixed;
+  float:right;
+  left:97%;
+  height:50px;
+}
+
+@keyframes option{
+  0%{
+
+  }
+  100%{
+    left:96%;
+    height: 70px;
+    transform: rotate(-7deg);
+  }
+}
+
+#option:hover{
+  animation: option 0.2s;
+  animation-fill-mode:forwards;
+  animation-timing-function: ease-out;
+}
 
 .hidden{
   display:none;
