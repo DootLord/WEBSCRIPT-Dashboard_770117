@@ -37,6 +37,10 @@ main{
   animation-timing-function: ease-out;
 }
 
+#option-box{
+  background-color: white;
+}
+
 .hidden{
   display:none;
 }
@@ -93,6 +97,34 @@ main{
   bottom:0px;
   top:0px;
   margin-top: 50px;
+}
+
+#option-box{
+  z-index: 10;
+  background-color: #ecf0f1;
+  width:800px;
+  height:600px;
+  left:30%;
+  position: absolute;
+  margin-top: auto;
+  padding:5px;
+  display: none;
+  margin-bottom: 50%;
+  bottom:0px;
+  top:0px;
+  margin-top: 50px;
+  box-shadow: 10px 5px 5px black;
+}
+
+#option-box h1{
+  text-align: center;
+}
+
+#option-selection{
+  background-color:pink;
+  width:500px;
+  height:300px;
+  margin-left: 150px;
 }
 
 .fade-button{

@@ -175,8 +175,13 @@ function showTweetOverlay(tweetIndex){
   tweetText.innerText = tweets[tweetIndex].text;
   tweetBox.style.display = "block";
   fade.style.display = "block";
+}
 
-
+function showOptionOverlay(){
+  var fade = document.getElementsByClassName("fade")[0];
+  var box = document.getElementById("option-box");
+  fade.style.display = "block";
+  box.style.display = "block";
 }
 
 /*
@@ -498,6 +503,7 @@ document.getElementById("gallery-next").addEventListener("click", function(){
 document.getElementById("gallery-previous").addEventListener("click", function(){
   nextGalleryImg(false);
 })
+document.getElementById("option").addEventListener("click", showOptionOverlay);
 document.getElementsByClassName("file-refresh")[0].addEventListener("click", getFiles);
 document.getElementsByClassName("file-modify")[0].addEventListener("click", renameFile);
 document.getElementById("weather-location").addEventListener("change", getWeather);
