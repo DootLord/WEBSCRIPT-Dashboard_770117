@@ -132,7 +132,6 @@ main{
   }
 }
 
-
 #option-box-title{
   text-align: center;
   color:#e67e22;
@@ -189,7 +188,7 @@ main{
   width:140px;
 }
 
-#option-cancel{
+#option-close{
   float:left;
   height:60px;
   background-color: #e74c3c;
@@ -403,19 +402,19 @@ main{
   margin: 5px;
 }
 
-.file-download{
+#file-download{
   background-color: #2ecc71;
 }
 
-.file-modify{
+#file-modify{
   background-color: #f1c40f;
 }
 
-.file-delete{
+#file-delete{
   background-color: #e74c3c;
 }
 
-.file-refresh{
+#file-refresh{
   background-color: #9b59b6;
 }
 
@@ -499,6 +498,7 @@ main{
 
 .tweet-item{
   height:70px;
+  display:none;
 }
 
 .tweet-item div{

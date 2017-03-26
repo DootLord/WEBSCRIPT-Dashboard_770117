@@ -11,6 +11,7 @@ var twitterAPI = require('node-twitter-api'); // Allows access to user login tok
 var app = express();
 var func = require("./js/func"); // Collection of large functions that'd look messy here.
 var upload = multer({dest: "./uploads/content/"});
+var uploadPhoto = multer({dest: "./uploads/gallery/"});
 const filePath = __dirname + "/uploads/content";
 const galleryPath = __dirname + "/uploads/gallery/";
 var tweets; // Updated via the function updateTweets(). Used by GET on /tweets to return tweets to client
@@ -153,6 +154,17 @@ app.get("/tweets/auth", function(req,res){
 });
 
 /*
+  On call will logout any active twitter user on the server
+*/
+app.get("/tweets/logout", function(req,res){
+  twitInterface = null;
+  localStorage.setItem("twitterKey", "");
+  localStorage.setItem("twitterSecret","");
+  res.status(200).send("Login details cleared");
+  tweets = [];
+})
+
+/*
   Returns a list of files available to the user to download.
   or downloads a file if given a valid file name
   from the /uploads/content directory
@@ -220,17 +232,13 @@ app.patch("/file", function(req,res,next){
   a location
 */
 app.delete("/file", function(req,res,next){
-  console.log("got delete request");
   var file = req.query.file;
   if(file === undefined){
     res.status(404).send("No file selected.");
-    console.log("No file selected");
     return next();
   }
   else{
     fs.readdir(filePath, function(err, items){
-      console.log(items);
-      console.log(file);
       for(var i = 0; items.length > i; i++){
         if(items[i] == file){
           fs.unlink(filePath + "/" + file);
@@ -240,7 +248,27 @@ app.delete("/file", function(req,res,next){
         }
       }
       res.status(404).send("File not found.");
-      console.log("File not found");
+      return next();
+    });
+  }
+});
+
+app.delete("/gallery", function(req,res,next){
+  var item = req.query.photo
+  if(item === undefined){
+    res.status(200).send("No query found");
+    return next();
+  }
+  else{
+    fs.readdir(galleryPath, function(err, items){
+      for(var i = 0; items.length > i; i++){
+        if(items[i] == item){
+          fs.unlink(galleryPath + "/" + item);
+          res.status(200).send("Photo " + item + " deleted!");
+          return next();
+        }
+      }
+      res.status(404).send("File not found");
       return next();
     });
   }
@@ -264,8 +292,23 @@ app.post("/file/upload", upload.single("uploadFile"), function(req,res, next){
   fs.rename("./uploads/content/" + req.file.filename, "./uploads/content/" + req.file.originalname);
 });
 
+
 /*
-  Returns the four images that can be setup in the photo gallery.
+  Allows upload to the server under the /uploads/content folder
+*/
+app.post("/gallery", uploadPhoto.single("uploadPhoto"), function(req,res, next){
+  if(!req.file){
+    res.status(400).send("No file uploaded, please upload a file to use /file/upload");
+    return next();
+  }
+  if(fs.readdir)
+  //res.status(201).redirect("/");
+  res.status(200).send();
+  fs.rename("./uploads/gallery/" + req.file.filename, "./uploads/gallery/" + req.file.originalname);
+});
+
+/*
+  Returns images found in the gallery folder
   set "q" to be the id of the image to retreve.
   Set no query parameter to retreve all images
 */
@@ -273,11 +316,12 @@ app.get("/gallery", function(req,res){
   var imgs;
   fs.readdir(galleryPath, function(err, items){
     if(err){
-      console.log(err);
-      res.status(400).send(err);
+      console.log("No images available");
+      res.status(400).send("No images available");
       return next();
     }
     if(req.query.q != undefined){
+      console.log(req.query.q);
       res.sendFile(galleryPath + items[req.query.q]);
     }
     else if (req.query.name != undefined) {
@@ -289,13 +333,6 @@ app.get("/gallery", function(req,res){
   });
 });
 
-/*
-  Allows users to upload images for use in the
-  gallery.
-*/
-app.post("/gallery", function(req,res){
-
-});
 
 
 app.use(express.static(__dirname + "/webpage"));
@@ -312,13 +349,16 @@ app.listen(8080, function(){
   limited amount of requests per hour.
 */
 function updateTweets(){
-  if(twitInterface === null){ //No login No tweets
-    console.log("Attempt to update tweets failed. No twitter interface active");
-  }
-  else{
+  if(twitInterface != null){
     twitInterface.get("statuses/home_timeline", {"count": 5}, function(error,newTweets,response){
       if(error){
-        console.log(error);
+        if(error.code == 88){ // Status Code 88: Ran out of twitter API requests
+          console.log("Ran out of twitter API requests. This was likely due to restarting the server too often.");
+          console.log("The server will run as usual but expect twitter feed to update more slowly");
+        }
+        else{
+          console.log(error);
+        }
       }
       else{
         tweets = newTweets; //Update the known tweets with the new tweets from our request;

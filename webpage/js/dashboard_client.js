@@ -2,7 +2,7 @@
 var tweets = []; // Current tweets from twitter API.
 var tweetItems; // List of current tweet items shown on the page
 var galleryIndex = 0; // Used to know what the current photo of the gallery is.
-
+var galleryLength // The current amount of photos the client can request from the server
 /*
   Calls to the Weather api to get local weather details for the current location and time of the dashboards location.
   Calls a GET to the OpenWeatherMap API to receve details and then displays them on the dashboard
@@ -112,6 +112,10 @@ function newToDoItem(){
   }
 }
 
+function clearTweets(){
+  tweets = [];
+}
+
 /*
   Updates the servers current todo list with newly edited todo list
   Done so via POSt on /todo
@@ -146,7 +150,9 @@ function getTweets(){
       }
       else{
         tweets = JSON.parse(xml.responseText);
-        displayTweets();
+        if(tweets.length != 0){
+          displayTweets();
+        }
       }
     }
     else if(xml.status == 204 && xml.readyState == 4){
@@ -205,7 +211,6 @@ function initalizeTweets(){
 
 /*
   Starts the login process for getting the required tokens to peform requests on twitters API on the user's behalf
-  TODO Implement a less crude login button
 */
 function loginTwitter(){
   var xml = new XMLHttpRequest();
@@ -215,6 +220,21 @@ function loginTwitter(){
       window.location = "https://twitter.com/oauth/authenticate?oauth_token=" + xml.responseText;
     }
   };
+  xml.send();
+}
+
+/*
+  Requests server to wipe tweets from serverside and refreshes page
+*/
+function logoutTwitter(){
+  var xml = new XMLHttpRequest();
+  xml.open("GET", "/tweets/logout");
+  xml.onreadystatechange = function(){
+    if(xml.status == 200 && xml.readyState == 4){
+      tweets = [];
+      window.location = "/"
+    }
+  }
   xml.send();
 }
 
@@ -229,6 +249,7 @@ function displayTweets(){
     list[i].children[1].innerText = tweets[i].user.name;
     list[i].children[2].innerText = tweets[i].text;
     list[i].setAttribute("tweetID", i);
+    list[i].setAttribute("style","display:block");
     list[i].onclick = function(){
       showTweetOverlay(this.getAttribute("tweetID")); // On click, call a function that will show the tweet associated with tweetID
     }
@@ -263,6 +284,39 @@ function getFiles(){
   };
   xml.send();
   fileViewer.value = ""
+}
+
+function generateGalleryList(){
+  var xml = new XMLHttpRequest();
+  var galleryList = document.getElementById("gallery-list");
+  xml.open("GET", "/gallery");
+  xml.onreadystatechange = function(){
+    if(xml.status === 200 && xml.readyState === 4){
+      galleryList.innerHTML = "";
+      var items = JSON.parse(xml.responseText);
+      for(var i = 0;items.length > i;i++){
+        var li = document.createElement("li");
+        li.innerText = items[i]
+        li.onclick = function(){
+          removeGalleryItem(this.innerText);
+        }
+        galleryList.appendChild(li);
+      }
+    }
+  }
+  xml.send();
+}
+
+function removeGalleryItem(itemName){
+ var xml = new XMLHttpRequest();
+ xml.open("DELETE", "/gallery?photo=" + itemName);
+ xml.onreadystatechange = function(){
+   if(xml.status === 200 && xml.readyState === 4){
+     updateGalleryLength();
+     generateGalleryList();
+   }
+ }
+ xml.send();
 }
 
 /*
@@ -401,33 +455,88 @@ var mainEle = document.getElementsByTagName("main")[0];
     // Set back to previous Styling
   }
 }
+
 /*
   Changes the Photo gallery image to the next image.
   @Params: Boolean
     True: Sets photo to next image
     False: Sets photo to previous image
 */
+// function nextGalleryImg(next){
+//   var galleryImg = document.getElementById("gallery");
+//   var gallery = document.getElementById("box-gallery");
+//   if(next == true){
+//     if(galleryIndex + 1 > galleryLength){
+//       galleryIndex = 0;
+//     }
+//     else{
+//       galleryIndex += 1;
+//     }
+//   }
+//   else if (next == false) {
+//     if(galleryIndex - 1 < 0){
+//       galleryIndex = galleryLength;
+//     }
+//     else{
+//       galleryIndex -= 1;
+//     }
+//   }
+//
+//   galleryImg.setAttribute("src", window.location.href + "gallery?q=" + galleryIndex);
+// }
+
 function nextGalleryImg(next){
+  var xml = new XMLHttpRequest();
   var galleryImg = document.getElementById("gallery");
-  if(next == true){
-    if(galleryIndex + 1 > galleryLength){
-      galleryIndex = 0;
+  var gallery = document.getElementById("box-gallery");
+
+  xml.open("GET", "/gallery?q=0");
+  xml.onreadystatechange = function(){
+    if(xml.readyState === 4){
+      if(xml.status === 404){
+        console.log("No images available");
+        return "No images";
+      }
+
+      if(xml.status === 200){
+        if(next == true){
+          if(galleryIndex + 1 > galleryLength){
+            galleryIndex = 0;
+          }
+          else{
+            galleryIndex += 1;
+          }
+        }
+        else if (next == false) {
+          if(galleryIndex - 1 < 0){
+            galleryIndex = galleryLength;
+          }
+          else{
+            galleryIndex -= 1;
+          }
+        }
+        console.log(galleryIndex);
+        galleryImg.setAttribute("src", window.location.href + "gallery?q=" + galleryIndex);
+      }
     }
-    else{
-      galleryIndex += 1;
     }
-  }
-  else if (next == false) {
-    if(galleryIndex - 1 < 0){
-      galleryIndex = galleryLength;
-    }
-    else{
-      galleryIndex -= 1;
-    }
+    xml.send();
   }
 
-  galleryImg.setAttribute("src", window.location.href + "gallery?q=" + galleryIndex);
+
+
+function checkServerPhotos(){
+  var xml = new XMLHttpRequest();
+  xml.open("GET", "/gallery?q=0");
+  xml.onloadend = function(){
+    console.log(xml.status);
+    if(xml.status === 404){
+      throw new Error("Replied 404 this is expected");
+    }
+  }
+  xml.send();
 }
+
 /*
   Function used by switchToggle() to ensure that
   box elements are swapped properly.
@@ -468,19 +577,28 @@ function sendURL(){
   xml.send(JSON.stringify({"url": window.location.href}));
 }
 
-// Returns the current amount of images stored for use on the Photo Gallery object
-var galleryLength
+/*
+  Updates the "galleryLength" varable using data from the server and
+  hides the gallery if no pictures are available for display
+*/
 function updateGalleryLength(){
+  var gallery = document.getElementById("box-gallery");
   var xml = new XMLHttpRequest;
   xml.open("GET", "/gallery");
   xml.onreadystatechange = function(){
     if(xml.status === 200 && xml.readyState === 4){
-      galleryLength =  (JSON.parse(xml.responseText).length) - 1;
+      galleryLength = (JSON.parse(xml.responseText).length) - 1;
+      console.log(xml.responseText);
+      if(galleryLength == -1){
+        gallery.setAttribute("style", "display:none");
+      }
+      else{
+        gallery.setAttribute("style", "display:block");
+      }
     }
   }
   xml.send();
 }
-
 
 /*
   Called once DOM is loaded.
@@ -494,12 +612,13 @@ function initalizePage(){
   getFiles();
   initalizeTweets();
   updateGalleryLength();
+  generateGalleryList();
   var buttons = document.getElementsByClassName("move-toggle");
   for(var i = 0;buttons.length > i;i++){
     buttons[i].addEventListener("click",switchToggle);
   }
   setInterval(function (){
-    nextGalleryImg(true);
+    (true);
   }, 6000)
 }
 
@@ -511,15 +630,16 @@ document.getElementById("gallery-next").addEventListener("click", function(){
 document.getElementById("gallery-previous").addEventListener("click", function(){
   nextGalleryImg(false);
 })
-document.getElementById("option-cancel").addEventListener("click",closeOptionOverlay);
+document.getElementById("tweet-logout").addEventListener("click", logoutTwitter);
+document.getElementById("option-close").addEventListener("click",closeOptionOverlay);
 document.getElementById("option").addEventListener("click", showOptionOverlay);
-document.getElementsByClassName("file-refresh")[0].addEventListener("click", getFiles);
-document.getElementsByClassName("file-modify")[0].addEventListener("click", renameFile);
+document.getElementById("file-refresh").addEventListener("click", getFiles);
+document.getElementById("file-modify").addEventListener("click", renameFile);
 document.getElementById("weather-location").addEventListener("change", getWeather);
-document.getElementsByClassName("file-input")[0].addEventListener("change", verifyFile);
+document.getElementById("file-input").addEventListener("change", verifyFile);
 document.getElementById("file-submit").addEventListener("click", getFiles);
 document.getElementById("todo-button").addEventListener("click", newToDoItem);
 document.getElementById("tweet-login").addEventListener("click", loginTwitter);
-document.getElementsByClassName("file-delete")[0].addEventListener("click", deleteFile);
-document.getElementsByClassName("file-download")[0].addEventListener("click", downloadFile);
+document.getElementById("file-delete").addEventListener("click", deleteFile);
+document.getElementById("file-download").addEventListener("click", downloadFile);
 document.addEventListener("load", initalizePage());

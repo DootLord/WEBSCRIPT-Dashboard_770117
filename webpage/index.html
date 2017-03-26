@@ -39,17 +39,7 @@
                 <div class="move-toggle" id="box-weather-move"> </div>
             </div>
             <div class="box-body">
-                <select name="County" class="box-ele" style="width:140px;color:white;" id="weather-location">
-          <option value="Portsmouth"> Portsmouth </option>
-          <option value="London"> London</option>
-          <option value="Surrey"> Surrey </option>
-          <option value="Manchester">Manchester</option>
-          <option value="Hampshire"> Hampshire </option>
-          <option value="Kent"> Kent </option>
-          <option value="Essex"> Essex</<option>
-          <option value="Lancashire"> Lancashire </option>
-          <option value="Devon">Devon</option>
-        </select>
+
                 <div class="box-ele" style="width:400px; height:50px; text-transform:capitalize;" id="weather-detail">
                     <!-- Weather discription goes here -->
                 </div>
@@ -71,9 +61,6 @@
         <div class="box long" id="box-tweet">
             <div class="box-head">
                 <span style="color:#3498db">Tweets</span>
-                <div class="box-head-ele" id="tweet-login">
-                    Login
-                </div>
                 <div class="move-toggle" id="box-tweet-move"> </div>
             </div>
             <div class="box-body">
@@ -81,27 +68,27 @@
                     <li class="tweet-item" tweetID="0">
                         <img></img>
                         <div></div>
-                        <p>asdsad</p>
+                        <p>Loading...</p>
                     </li>
                     <li class="tweet-item">
                         <img></img>
                         <div></div>
-                        <p></p>
+                        <p>Loading...</p>
                     </li>
                     <li class="tweet-item">
                         <img></img>
                         <div></div>
-                        <p></p>
+                        <p>Loading...</p>
                     </li>
                     <li class="tweet-item">
                         <img></img>
                         <div></div>
-                        <p></p>
+                        <p>Loading...</p>
                     </li>
                     <li class="tweet-item">
                         <img></img>
                         <div></div>
-                        <p></p>
+                        <p>Loading...</p>
                     </li>
                 </ul>
             </div>
@@ -126,19 +113,19 @@
             </div>
 
             <div class="file-buttons">
-                <li class="file-download">
+                <li id="file-download">
                     Download
                 </li>
 
-                <li class="file-modify">
+                <li id="file-modify">
                     Modify
                 </li>
 
-                <li class="file-delete">
+                <li id="file-delete">
                     Delete
                 </li>
 
-                <li class="file-refresh">
+                <li id="file-refresh">
                     Refresh
                 </li>
             </div>
@@ -146,7 +133,7 @@
         </div>
 
         <!-- Photo gallery -->
-        <div class="box wide" id="box-gallery">
+        <div class="box wide" id="box-gallery" style="display:none;">
             <div class="box-head">
                 <span style="color:#f1c40f"> Photo Gallery </span>
                 <div class="move-toggle" id="box-photo-move"> </div>
@@ -187,54 +174,59 @@
                 <h1 id="option-box-title"> Options </h1>
                 <div id="option-selection">
 
-                  <div class="option-area">
-                  <h1> ToDo </h1>
-                  <div>
-                    Test Stuff
-                  </div>
-                </div>
+                    <div class="option-area">
+                        <h1> Twitter </h1>
+                        <div>
+                          <div id="tweet-login">
+                              Login
+                          </div>
+                          <div id="tweet-logout">
+                              logout
+                          </div>
+                        </div>
+                    </div>
 
-                  <div class="option-area">
-                  <h1> Twitter </h1>
-                  <div>
-                    Test Stuff
-                  </div>
-                </div>
+                    <div class="option-area">
+                        <h1> Weather </h1>
+                        <div>
+                            <select name="County" class="box-ele" style="width:140px;color:white;" id="weather-location">
+                              <option value="Portsmouth"> Portsmouth </option>
+                              <option value="London"> London</option>
+                              <option value="Surrey"> Surrey </option>
+                              <option value="Manchester">Manchester</option>
+                              <option value="Hampshire"> Hampshire </option>
+                              <option value="Kent"> Kent </option>
+                              <option value="Essex"> Essex</<option>
+                              <option value="Lancashire"> Lancashire </option>
+                              <option value="Devon">Devon</option>
+                            </select>
+                        </div>
+                    </div>
 
-                <div class="option-area">
-                <h1> Weather </h1>
-                <div>
-                  Test Stuff
-                </div>
-              </div>
+                    <div class="option-area" style="height:280px;">
+                        <h1> Photos </h1>
+                        <form method="post" id="photo-form" action="http://localhost:8080/gallery" name="submit" enctype="multipart/form-data" target="hiddenFrame">
+                            <input type="file" name="uploadPhoto" id="file-input">
+                            <input type="submit" name="submit" value="Submit" id="file-submit">
+                        </form>
 
-              <div class="option-area">
-              <h1> Files </h1>
-              <div>
-                Test Stuff
-              </div>
-            </div>
+                        <ul id="gallery-list">
+                          <li> I should not be here! :D </li>
+                        </ul>
+                    </div>
 
-            <div class="option-area">
-            <h1> Photos </h1>
-            <div>
-              Test Stuff
-            </div>
-          </div>
-
-          <div class="option-area">
-          <h1> News </h1>
-          <div>
-            Test Stuff
-          </div>
-        </div>
+                    <div class="option-area">
+                        <h1> News </h1>
+                        <div>
+                            Test Stuff
+                        </div>
+                    </div>
 
 
                 </div>
 
                 <div id="option-buttons">
-                    <div id="option-apply">Apply</div>
-                    <div id="option-cancel">Cancel</div>
+                    <div id="option-close">Close</div>
                 </div>
             </div>
 
