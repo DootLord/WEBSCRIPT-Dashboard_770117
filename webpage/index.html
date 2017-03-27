@@ -19,7 +19,7 @@
         <!-- Todo list -->
         <div class="box long" id="box-todo">
             <div class="box-head">
-                <span style="color:#e74c3c">ToDo</span>
+                <span style="color:#e74c3c">ToDo List</span>
                 <div class="move-toggle" id="box-todo-move"> </div>
             </div>
             <div class="box-body">
@@ -57,7 +57,7 @@
                 </div>
             </div>
         </div>
-
+        <!-- Twitter -->
         <div class="box long" id="box-tweet">
             <div class="box-head">
                 <span style="color:#3498db">Tweets</span>
@@ -103,7 +103,7 @@
             </div>
             <div class="upload">
                 <form method="post" id="file-form" action="http://localhost:8080/file/upload" name="submit" enctype="multipart/form-data" target="hiddenFrame">
-                    <input type="file" name="uploadFile" class="file-input">
+                    <input type="file" name="uploadFile" id="file-input">
                     <input type="submit" name="submit" value="Submit" id="file-submit">
                 </form>
             </div>
@@ -140,8 +140,9 @@
             </div>
             <div class="box-body" style="display:block">
                 <div id="gallery-previous">
-                    < </div>
-                        <img src="http://localhost:8080/gallery?q=0" style="height:475px; width:700px;" id="gallery"></img>
+                  <
+                     </div>
+                        <img src="http://localhost:8080/gallery" style="height:475px; width:700px;" id="gallery"></img>
                         <div id="gallery-next"> > </div>
                 </div>
             </div>
@@ -149,9 +150,39 @@
             <div class="box wide" id="box-news">
                 <div class="box-head">
                     <span style="color:#e74c3c"> News </span>
-                    <div class="move-toggle" id="box-photo-move"> </div>
+                    <div class="move-toggle" id="box-news-move"> </div>
                 </div>
                 <div class="box-body" style="display:block">
+                  <ul id="news-list">
+                      <li class="news-item">
+                        <div>Loading...</div>
+                        <p>Loading...</p>
+                        <img></img>
+                      </li>
+                      <li class="news-item">
+                        <div>Loading...</div>
+                        <p>Loading...</p>
+                        <img></img>
+                      </li>
+                      <li class="news-item">
+                        <div>Loading...</div>
+                        <p>Loading...</p>
+                        <img></img>
+                      </li>
+                      <li class="news-item-mini">
+                        <div>Loading...</div>
+                        <p>Loading...</p>
+
+                      <li class="news-item-mini">
+                        <div>Loading...</div>
+                        <p>Loading...</p>
+
+                      <li class="news-item-mini">
+                        <div>Loading...</div>
+                        <p>Loading...</p>
+
+                      </li>
+                  </ul>
 
                 </div>
             </div>
@@ -203,26 +234,35 @@
                         </div>
                     </div>
 
-                    <div class="option-area" style="height:280px;">
-                        <h1> Photos </h1>
-                        <form method="post" id="photo-form" action="http://localhost:8080/gallery" name="submit" enctype="multipart/form-data" target="hiddenFrame">
-                            <input type="file" name="uploadPhoto" id="file-input">
-                            <input type="submit" name="submit" value="Submit" id="file-submit">
-                        </form>
+                    <div class="option-area">
+                        <h1> News </h1>
+                        <div>
+                            <select name="County" class="box-ele" style="width:140px;color:white;" id="news-source">
+                              <option value="Portsmouth"> BBC </option>
+                              <option value="London"> London</option>
+                              <option value="Surrey"> Surrey </option>
+                              <option value="Manchester">Manchester</option>
+                              <option value="Hampshire"> Hampshire </option>
+                              <option value="Kent"> Kent </option>
+                              <option value="Essex"> Essex</<option>
+                              <option value="Lancashire"> Lancashire </option>
+                              <option value="Devon">Devon</option>
+                            </select>
+                        </div>
+                    </div>
 
+                    <div class="option-area" style="width:480px;">
+                        <h1> Photos </h1>
+                        <div id="option-gallery-upload">
+                        <form method="post" id="photo-form" action="http://localhost:8080/gallery" name="submit" enctype="multipart/form-data" target="hiddenFrame">
+                            <input type="file" accept="image/*" name="uploadPhoto" id="gallery-input">
+                            <input type="submit" name="submit" value="Submit" id="gallery-submit">
+                        </form>
+                      </div>
                         <ul id="gallery-list">
                           <li> I should not be here! :D </li>
                         </ul>
                     </div>
-
-                    <div class="option-area">
-                        <h1> News </h1>
-                        <div>
-                            Test Stuff
-                        </div>
-                    </div>
-
-
                 </div>
 
                 <div id="option-buttons">

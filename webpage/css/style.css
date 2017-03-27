@@ -154,7 +154,7 @@ main{
   border-radius: 5px;
   width:30%;
   height:40%;
-  display: inline-block;
+  display: inline-table;
   margin:2px;
   margin-left: 5px;
 }
@@ -434,12 +434,19 @@ main{
 
 #todo-list li{
   margin: 5px;
+  margin-top:10px;
 }
-@keyframes listHover {
-  100%{  border-color: blue; border-style: solid;font-size: 25px;}
+@keyframes todo-hover{
+  0%{
+    background-color: white;
+  }
+  100%{
+    background-color: #c0392b;
+    color:white;
+  }
 }
 #todo-list li:hover{
- animation-name: listHover;
+ animation-name: todo-hover;
  animation-duration: 0.3s;
  animation-fill-mode:forwards;
 }
@@ -510,12 +517,75 @@ main{
   float:left;
 }
 
+#news-list{
+  font-size: 10px;
+  line-height: normal;
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+#news-list ul{
+  margin: 10px
+}
+
+#news-list li{
+  background-color: #101214;
+  margin:5px;
+  width:250px;
+  height: 300px;
+  display: inline-block;
+  position: relative;
+  margin-top:0px;
+}
+
+#news-list div{
+  background-color: #ecf0f1;
+  color:black;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#news-list img{
+  margin-top:7px;
+  width:250px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+#news-list p{
+  font-size: 14px;
+}
+
+#news-list .news-item-mini{
+  height:150px;
+}
+
 #gallery-next{
   width:50px;
   height:475px;
   background-color:#272727;
   float:right;
   line-height:450px;
+}
+
+#gallery-list{
+  float:right;
+  background-color: pink;
+  height:100px;
+  width:220px;
+  margin-top: 0px;
+  overflow-y: scroll;
+}
+
+#option-gallery-upload{
+  float:left;
+  background-color:blue;
+  width:100px;
+}
+
+#option-gallery-upload input{
+  margin:5px;
 }
 
 @keyframes next-hover{

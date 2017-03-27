@@ -3,10 +3,15 @@ var tweets = []; // Current tweets from twitter API.
 var tweetItems; // List of current tweet items shown on the page
 var galleryIndex = 0; // Used to know what the current photo of the gallery is.
 var galleryLength // The current amount of photos the client can request from the server
+var newsSource = "bbc-news";
 /*
   Calls to the Weather api to get local weather details for the current location and time of the dashboards location.
   Calls a GET to the OpenWeatherMap API to receve details and then displays them on the dashboard
-  TODO: Send dashboard location for more speisifc weather
+*/
+
+
+/*
+  ---------------------------------------------------- Weather Functionality ----------------------------------------------------
 */
 function getWeather(){
   var xml = new XMLHttpRequest();
@@ -31,8 +36,12 @@ function getWeather(){
 }
 
 /*
-  Gets the local time from the server.
-  TODO: Send dashboard location to allow speisifc time
+  ---------------------------------------------------- Clock Functionality ----------------------------------------------------
+*/
+
+/*
+  Gets the local time from the server location.
+  Displays value in the "Weather & Time" pannel
 */
 function getTime(){
   var xml = new XMLHttpRequest();
@@ -57,6 +66,12 @@ function updateTime(){
   getTime();
   window.setInterval(getTime,1000);
 }
+
+
+/*
+  ---------------------------------------------------- Todo-list Functionality ----------------------------------------------------
+*/
+
 
 /*
   Grabs the current todo list and displays it on the dashboard_client
@@ -89,7 +104,6 @@ function getToDoItems(){
  Allows users to post new items to the todo by adding it to the list after existing elements
  Also adds function to each new element for the element to be removed on click
  Calls a function to update the todo list servers
- TODO: Implement a clear all button
 */
 function newToDoItem(){
   var textField = document.getElementById("todo-input");
@@ -112,10 +126,6 @@ function newToDoItem(){
   }
 }
 
-function clearTweets(){
-  tweets = [];
-}
-
 /*
   Updates the servers current todo list with newly edited todo list
   Done so via POSt on /todo
@@ -133,6 +143,12 @@ function postToDo(list){
   var listJSON = {list: list.innerHTML};
   xml.send(JSON.stringify(listJSON), true);
 }
+
+
+/*
+  ---------------------------------------------------- Twitter Functionality ----------------------------------------------------
+*/
+
 
 /*
  Gets a set of tweets from the server and displays it appopreately
@@ -183,20 +199,7 @@ function showTweetOverlay(tweetIndex){
   fade.style.display = "block";
 }
 
-function showOptionOverlay(){
-  var fade = document.getElementsByClassName("fade")[0];
-  var box = document.getElementById("option-box");
-  fade.style.display = "block";
-  box.style.display = "block";
-  box.setAttribute("class","slide-in");
-}
 
-function closeOptionOverlay(){
-  var fade = document.getElementsByClassName("fade")[0];
-  var box = document.getElementById("option-box");
-  fade.style.display = "none";
-  box.style.display = "none";
-}
 
 /*
   Sets up tweets to be updated every 25 seconds.
@@ -245,6 +248,7 @@ function logoutTwitter(){
 function displayTweets(){
   var list = document.getElementsByClassName("tweet-item");
   for(var i = 0;list.length > i; i++){
+    console.log(tweets);
     list[i].children[0].setAttribute("src", tweets[i].user.profile_image_url)
     list[i].children[1].innerText = tweets[i].user.name;
     list[i].children[2].innerText = tweets[i].text;
@@ -257,6 +261,11 @@ function displayTweets(){
 
 }
 
+
+/*
+  ---------------------------------------------------- File Functionality ----------------------------------------------------
+*/
+
 /*
   Peforms a GET on /file to populate the file list on the
   web page.
@@ -264,7 +273,6 @@ function displayTweets(){
 function getFiles(){
   var xml = new XMLHttpRequest();
   var fileViewer = document.getElementById("file-form")[0];
-  console.log(fileViewer);
   xml.open("GET", "/file");
   xml.onreadystatechange = function(){
     if(xml.status === 200 && xml.readyState === 4){
@@ -283,40 +291,7 @@ function getFiles(){
     }
   };
   xml.send();
-  fileViewer.value = ""
-}
-
-function generateGalleryList(){
-  var xml = new XMLHttpRequest();
-  var galleryList = document.getElementById("gallery-list");
-  xml.open("GET", "/gallery");
-  xml.onreadystatechange = function(){
-    if(xml.status === 200 && xml.readyState === 4){
-      galleryList.innerHTML = "";
-      var items = JSON.parse(xml.responseText);
-      for(var i = 0;items.length > i;i++){
-        var li = document.createElement("li");
-        li.innerText = items[i]
-        li.onclick = function(){
-          removeGalleryItem(this.innerText);
-        }
-        galleryList.appendChild(li);
-      }
-    }
-  }
-  xml.send();
-}
-
-function removeGalleryItem(itemName){
- var xml = new XMLHttpRequest();
- xml.open("DELETE", "/gallery?photo=" + itemName);
- xml.onreadystatechange = function(){
-   if(xml.status === 200 && xml.readyState === 4){
-     updateGalleryLength();
-     generateGalleryList();
-   }
- }
- xml.send();
+  //fileViewer.value = ""
 }
 
 /*
@@ -331,6 +306,9 @@ function selectFile(file){
   file.setAttribute("id","file-selected");
 }
 
+/*
+  Peforms a GET request to download a file from server.
+*/
 function downloadFile(){
   var selFile = document.getElementById("file-selected");
   if(selFile === undefined){
@@ -363,6 +341,47 @@ function renameFile(){
 }
 
 /*
+  Function:
+  Removes a file from the fileserver.
+  File must be selected by user first.
+  A selected element will have the id of "file-selected" applied it.
+  A file can be selected by clicking on it.
+*/
+function deleteFile(){
+  var selFile = document.getElementById("file-selected");
+  if(selFile === undefined){
+    alert("Please select a file to modify");
+  }
+  else{
+    var xml = new XMLHttpRequest();
+    xml.open("DELETE", "/file?file="+selFile.innerText);
+    xml.onreadystatechange = function(){
+      if(xml.readyState === 4 && xml.status === 200){
+        getFiles();
+        console.log(xml.responseText);
+      }
+    };
+    xml.send();
+  }
+}
+
+/*
+  Triggered on selecting a file for upload.
+  Checks to see if the file uploaded does not have too many characters.
+  Too many characters causes the filename to trail off when displaying in file list.
+*/
+function verifyFile(){
+  var fileEle = document.getElementById("file-input");
+  if(fileEle.value.length > 60){
+    fileEle.value = "";
+    alert("File name too long, please select a file with 60 or less characters");
+  }
+  else{
+    getFiles();
+  }
+}
+
+/*
   Renames a file located on the serverside.
   @Params
     oldName: The current name of the file
@@ -389,47 +408,167 @@ function modifyFile(oldName,newName){
         }
       };
       xml.send(JSON.stringify(pathRequest));
-
   }
 }
 
+
 /*
-  Removes a file from the fileserver.
-  File must be selected first.
+  ---------------------------------------------------- Gallery Functionality ----------------------------------------------------
 */
-function deleteFile(){
-  var selFile = document.getElementById("file-selected");
-  if(selFile === undefined){
-    alert("Please select a file to modify");
-  }
-  else{
-    var xml = new XMLHttpRequest();
-    xml.open("DELETE", "/file?file="+selFile.innerText);
-    xml.onreadystatechange = function(){
-      if(xml.readyState === 4 && xml.status === 200){
-        getFiles();
-        console.log(xml.responseText);
+
+/*
+  Pulls the names of photos stored for gallery usage.
+  Creates list of file names inside options pane
+*/
+function generateGalleryList(){
+  var xml = new XMLHttpRequest();
+  var galleryList = document.getElementById("gallery-list");
+  xml.open("GET", "/gallery");
+  xml.onreadystatechange = function(){
+    if(xml.status === 200 && xml.readyState === 4){
+      galleryList.innerHTML = "";
+      var items = JSON.parse(xml.responseText);
+      for(var i = 0;items.length > i;i++){
+        var li = document.createElement("li");
+        li.innerText = items[i]
+        li.onclick = function(){
+          removeGalleryItem(this.innerText);
+        }
+        galleryList.appendChild(li);
       }
-    };
+    }
+  }
+  xml.send();
+}
+
+
+/*
+  Deletes a gallery photo from server.
+  Updates gallery varables after deletion
+*/
+function removeGalleryItem(itemName){
+ var xml = new XMLHttpRequest();
+ xml.open("DELETE", "/gallery?photo=" + itemName);
+ xml.onreadystatechange = function(){
+   if(xml.status === 200 && xml.readyState === 4){
+     updateGalleryLength();
+     generateGalleryList();
+   }
+ }
+ xml.send();
+}
+
+/*
+  Changes the Photo gallery image to the next image.
+  @Params: Boolean
+    True: Sets photo to next image
+    False: Sets photo to previous image
+*/
+function nextGalleryImg(next){
+  var xml = new XMLHttpRequest();
+  var galleryImg = document.getElementById("gallery");
+  var gallery = document.getElementById("box-gallery");
+
+  xml.open("GET", "/gallery?q=0");
+  xml.onreadystatechange = function(){
+    if(xml.readyState === 4){
+      if(xml.status === 200){ // if outside of index, set to minimum index
+        if(next == true){
+          if(galleryIndex + 1 > galleryLength){
+            galleryIndex = 0;
+          }
+          else{
+            galleryIndex += 1; // else increment index
+          }
+        }
+        else if (next == false) { // if going into minus index, set to maximum index
+          if(galleryIndex - 1 < 0){
+            galleryIndex = galleryLength;
+          }
+          else{
+            galleryIndex -= 1; // else decrement index
+          }
+        } // Set the "src" of gallery image to the location of an image on the server
+        galleryImg.setAttribute("src", window.location.href + "gallery?q=" + galleryIndex);
+      }
+    }
+    }
     xml.send();
   }
+
+  /*
+    Updates the "galleryLength" varable using data from the server and
+    hides the gallery if no pictures are available for display
+  */
+  function updateGalleryLength(){
+    var gallery = document.getElementById("box-gallery");
+    var galleryImg = document.getElementById("gallery");
+    var xml = new XMLHttpRequest;
+    xml.open("GET", "/gallery");
+    xml.onreadystatechange = function(){
+      if(xml.status === 200 && xml.readyState === 4){
+        galleryLength = (JSON.parse(xml.responseText).length) - 1;
+        console.log(xml.responseText);
+        if(galleryLength == -1){
+          gallery.setAttribute("style", "display:none");
+        }
+        else{
+          gallery.setAttribute("style", "display:inline-block");
+          galleryImg.setAttribute("src","http://localhost:8080/gallery?q=0")
+        }
+      }
+    }
+    xml.send();
+  }
+
+/*
+  ---------------------------------------------------- Option Pane Functionality ----------------------------------------------------
+*/
+
+function showOptionOverlay(){
+  var fade = document.getElementsByClassName("fade")[0];
+  var box = document.getElementById("option-box");
+  fade.style.display = "block";
+  box.style.display = "block";
+  box.setAttribute("class","slide-in");
+}
+
+function closeOptionOverlay(){
+  var fade = document.getElementsByClassName("fade")[0];
+  var box = document.getElementById("option-box");
+  fade.style.display = "none";
+  box.style.display = "none";
+  updateGalleryLength();
+  generateGalleryList();
 }
 
 /*
-  Triggered on selecting a file for upload.
-  Checks to see if the file uploaded does not have too many characters.
-  Too many characters causes the filename to trail off when displaying in file list.
+  ---------------------------------------------------- News Functionality ----------------------------------------------------
 */
-function verifyFile(){
-  var fileEle = document.getElementsByClassName("file-input")[0];
-  if(fileEle.value.length > 60){
-    fileEle.value = "";
-    alert("File name too long, please select a file with 60 or less characters");
+
+function getNews(){
+  var newsList = document.getElementsByClassName("news-item");
+  var miniNewsList = document.getElementsByClassName("news-item-mini");
+  var xml = new XMLHttpRequest();
+  xml.open("GET", "https://newsapi.org/v1/articles?source=" + newsSource + "&sortBy=top&apiKey=b19b2460826248cf94d2e38de763aa65")
+  xml.onreadystatechange = function(){
+    if(xml.readyState === 4 && xml.status === 200){
+      var news = JSON.parse(xml.responseText);
+
+      for(var i = 0;newsList.length > i;i++){
+        newsList[i].children[0].innerText = news.articles[i].title;
+        newsList[i].children[1].innerText = news.articles[i].description;
+        newsList[i].children[2].setAttribute("src", news.articles[i].urlToImage);
+      }
+
+    }
   }
-  else{
-    getFiles();
-  }
+  xml.send();
 }
+
+/*
+  ---------------------------------------------------- Pane Positioning Functionality ----------------------------------------------------
+*/
 
 /*
   Bound to the circles in the top right of every box.
@@ -457,87 +596,6 @@ var mainEle = document.getElementsByTagName("main")[0];
 }
 
 /*
-  Changes the Photo gallery image to the next image.
-  @Params: Boolean
-    True: Sets photo to next image
-    False: Sets photo to previous image
-*/
-// function nextGalleryImg(next){
-//   var galleryImg = document.getElementById("gallery");
-//   var gallery = document.getElementById("box-gallery");
-//   if(next == true){
-//     if(galleryIndex + 1 > galleryLength){
-//       galleryIndex = 0;
-//     }
-//     else{
-//       galleryIndex += 1;
-//     }
-//   }
-//   else if (next == false) {
-//     if(galleryIndex - 1 < 0){
-//       galleryIndex = galleryLength;
-//     }
-//     else{
-//       galleryIndex -= 1;
-//     }
-//   }
-//
-//   galleryImg.setAttribute("src", window.location.href + "gallery?q=" + galleryIndex);
-// }
-
-function nextGalleryImg(next){
-  var xml = new XMLHttpRequest();
-  var galleryImg = document.getElementById("gallery");
-  var gallery = document.getElementById("box-gallery");
-
-  xml.open("GET", "/gallery?q=0");
-  xml.onreadystatechange = function(){
-    if(xml.readyState === 4){
-      if(xml.status === 404){
-        console.log("No images available");
-        return "No images";
-      }
-
-      if(xml.status === 200){
-        if(next == true){
-          if(galleryIndex + 1 > galleryLength){
-            galleryIndex = 0;
-          }
-          else{
-            galleryIndex += 1;
-          }
-        }
-        else if (next == false) {
-          if(galleryIndex - 1 < 0){
-            galleryIndex = galleryLength;
-          }
-          else{
-            galleryIndex -= 1;
-          }
-        }
-        console.log(galleryIndex);
-        galleryImg.setAttribute("src", window.location.href + "gallery?q=" + galleryIndex);
-      }
-    }
-    }
-    xml.send();
-  }
-
-
-
-function checkServerPhotos(){
-  var xml = new XMLHttpRequest();
-  xml.open("GET", "/gallery?q=0");
-  xml.onloadend = function(){
-    console.log(xml.status);
-    if(xml.status === 404){
-      throw new Error("Replied 404 this is expected");
-    }
-  }
-  xml.send();
-}
-
-/*
   Function used by switchToggle() to ensure that
   box elements are swapped properly.
 */
@@ -559,6 +617,7 @@ function swapElements(eleOne,eleTwo){
     parentTwo.appendChild(eleOne);
   }
 }
+
 /*
   Sends the current URL of the dashboard to the server-side
   so that services know the address of the client.
@@ -577,28 +636,7 @@ function sendURL(){
   xml.send(JSON.stringify({"url": window.location.href}));
 }
 
-/*
-  Updates the "galleryLength" varable using data from the server and
-  hides the gallery if no pictures are available for display
-*/
-function updateGalleryLength(){
-  var gallery = document.getElementById("box-gallery");
-  var xml = new XMLHttpRequest;
-  xml.open("GET", "/gallery");
-  xml.onreadystatechange = function(){
-    if(xml.status === 200 && xml.readyState === 4){
-      galleryLength = (JSON.parse(xml.responseText).length) - 1;
-      console.log(xml.responseText);
-      if(galleryLength == -1){
-        gallery.setAttribute("style", "display:none");
-      }
-      else{
-        gallery.setAttribute("style", "display:block");
-      }
-    }
-  }
-  xml.send();
-}
+
 
 /*
   Called once DOM is loaded.
@@ -613,6 +651,7 @@ function initalizePage(){
   initalizeTweets();
   updateGalleryLength();
   generateGalleryList();
+  getNews();
   var buttons = document.getElementsByClassName("move-toggle");
   for(var i = 0;buttons.length > i;i++){
     buttons[i].addEventListener("click",switchToggle);
@@ -622,14 +661,15 @@ function initalizePage(){
   }, 6000)
 }
 
-
 /* ------------------------Listeners------------------------ */
+
 document.getElementById("gallery-next").addEventListener("click", function(){
-  nextGalleryImg(true);
+  nextGalleryImg(true); //Get next image
 })
 document.getElementById("gallery-previous").addEventListener("click", function(){
-  nextGalleryImg(false);
+  nextGalleryImg(false); // Get previous image
 })
+document.getElementById("gallery-submit").addEventListener("click", generateGalleryList);
 document.getElementById("tweet-logout").addEventListener("click", logoutTwitter);
 document.getElementById("option-close").addEventListener("click",closeOptionOverlay);
 document.getElementById("option").addEventListener("click", showOptionOverlay);

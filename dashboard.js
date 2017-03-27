@@ -253,6 +253,24 @@ app.delete("/file", function(req,res,next){
   }
 });
 
+/*
+  Allows upload to the server under the /uploads/content folder
+*/
+app.post("/file/upload", upload.single("uploadFile"), function(req,res, next){
+  if(!req.file){
+    res.status(400).send("No file uploaded, please upload a file to use /file/upload");
+    return next();
+  }
+  else if(req.file.originalname.length > 50){
+    res.status(414).send("File name too long! 40 characters or less");
+    fs.unlink("./uploads/content/" + req.file.filename);
+    return next();
+  }
+  //res.status(201).redirect("/");
+  res.status(200).send();
+  fs.rename("./uploads/content/" + req.file.filename, "./uploads/content/" + req.file.originalname);
+});
+
 app.delete("/gallery", function(req,res,next){
   var item = req.query.photo
   if(item === undefined){
@@ -272,24 +290,6 @@ app.delete("/gallery", function(req,res,next){
       return next();
     });
   }
-});
-
-/*
-  Allows upload to the server under the /uploads/content folder
-*/
-app.post("/file/upload", upload.single("uploadFile"), function(req,res, next){
-  if(!req.file){
-    res.status(400).send("No file uploaded, please upload a file to use /file/upload");
-    return next();
-  }
-  else if(req.file.originalname.length > 50){
-    res.status(414).send("File name too long! 40 characters or less");
-    fs.unlink("./uploads/content/" + req.file.filename);
-    return next();
-  }
-  //res.status(201).redirect("/");
-  res.status(200).send();
-  fs.rename("./uploads/content/" + req.file.filename, "./uploads/content/" + req.file.originalname);
 });
 
 
@@ -321,7 +321,6 @@ app.get("/gallery", function(req,res){
       return next();
     }
     if(req.query.q != undefined){
-      console.log(req.query.q);
       res.sendFile(galleryPath + items[req.query.q]);
     }
     else if (req.query.name != undefined) {
@@ -350,7 +349,7 @@ app.listen(8080, function(){
 */
 function updateTweets(){
   if(twitInterface != null){
-    twitInterface.get("statuses/home_timeline", {"count": 5}, function(error,newTweets,response){
+    twitInterface.get("statuses/home_timeline", {"count": 6}, function(error,newTweets,response){
       if(error){
         if(error.code == 88){ // Status Code 88: Ran out of twitter API requests
           console.log("Ran out of twitter API requests. This was likely due to restarting the server too often.");
@@ -362,13 +361,17 @@ function updateTweets(){
       }
       else{
         tweets = newTweets; //Update the known tweets with the new tweets from our request;
+        console.log(tweets.length);
       }
     });
   }
 }
 
+function initalizeServer(){
+  setInterval(updateTweets, 60050);
+  updateTweets();
+}
 
 
-// Can get 15 tweets from twitter every 15 minutes.
-setInterval(updateTweets, 60050);
-updateTweets();
+// Run on clientside start
+initalizeServer();
