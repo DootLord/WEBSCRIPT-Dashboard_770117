@@ -571,6 +571,12 @@ function getNews(){
   xml.send();
 }
 
+function updateNewsSource(){
+  var newsDropdown = document.getElementById("news-source");
+  newsSource = newsDropdown.value;
+  getNews();
+}
+
 /*
   ---------------------------------------------------- Pane Positioning Functionality ----------------------------------------------------
 */
@@ -674,6 +680,7 @@ document.getElementById("gallery-next").addEventListener("click", function(){
 document.getElementById("gallery-previous").addEventListener("click", function(){
   nextGalleryImg(false); // Get previous image
 })
+document.getElementById("news-source").addEventListener("change", updateNewsSource);
 document.getElementById("gallery-submit").addEventListener("click", generateGalleryList);
 document.getElementById("tweet-logout").addEventListener("click", logoutTwitter);
 document.getElementById("option-close").addEventListener("click",closeOptionOverlay);
