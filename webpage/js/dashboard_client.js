@@ -561,6 +561,11 @@ function getNews(){
         newsList[i].children[2].setAttribute("src", news.articles[i].urlToImage);
       }
 
+      for(var i = 0; miniNewsList.length > i; i++){
+        miniNewsList[i].children[0].innerText = news.articles[i+3].title;
+        miniNewsList[i].children[1].innerText = news.articles[i+3].description;
+      }
+
     }
   }
   xml.send();

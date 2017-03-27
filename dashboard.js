@@ -332,8 +332,6 @@ app.get("/gallery", function(req,res){
   });
 });
 
-
-
 app.use(express.static(__dirname + "/webpage"));
 // Set to 8080 for developmennt purposes
 //TODO Will be set to 80 for release
