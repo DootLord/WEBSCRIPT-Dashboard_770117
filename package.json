@@ -1,8 +1,8 @@
 {
   "name": "dashboard",
   "version": "1.0.0",
-  "description": "A simple dashboard service",
-  "main": "dashy.js",
+  "description": "A simple dashboard service. For use in analysing how well I've done in my WEBSCRIPT unit",
+  "main": "dashboard.js",
   "dependencies": {
     "body-parser": "^1.16.0",
     "express": "^4.14.0",
@@ -28,7 +28,7 @@
     "web",
     "javascript"
   ],
-  "author": "Shaun Porter",
+  "author": "770117",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/DootLord/Flatboard/issues"
