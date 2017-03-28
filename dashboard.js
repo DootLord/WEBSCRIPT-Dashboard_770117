@@ -8,23 +8,26 @@ var bodyParser = require("body-parser");
 var multer = require("multer");
 var Twitter = require("twitter"); // Allows access to Twitter API
 var twitterAPI = require('node-twitter-api'); // Allows access to user login tokens
-var app = express();
 var func = require("./js/func"); // Collection of large functions that'd look messy here.
 var upload = multer({dest: "./uploads/content/"});
 var uploadPhoto = multer({dest: "./uploads/gallery/"});
+var app = express();
 const filePath = __dirname + "/uploads/content";
 const galleryPath = __dirname + "/uploads/gallery/";
 var tweets; // Updated via the function updateTweets(). Used by GET on /tweets to return tweets to client
-app.use(bodyParser.json());
 
-// twitInterface is used for calling REST calls on the twitter API
-var twitInterface;
 /*
    reqToken & reqTokenSecret store tokens passed to the server from after login and
-   are used in the authetication step of the login process
+   are used in the authetication step of the login process.
+
+   After the twitInterface will be initalized as a Twitter object allowing the server
+   to peform calls on behalf of the user.
 */
+var twitInterface;
 var reqToken;
 var reqTokenSecret;
+
+app.use(bodyParser.json());
 
 /*
  Create a new local storage instance if one doesn't already exist
@@ -46,7 +49,6 @@ if(localStorage.getItem("twitterKey") || localStorage.getItem("twitterSecret") !
   access_token_secret: localStorage.getItem("twitterSecret")
 });
 }
-
 
 /*
   Gets the URL of the client from the client, so the twitter

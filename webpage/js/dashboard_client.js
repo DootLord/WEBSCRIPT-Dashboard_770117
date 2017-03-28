@@ -545,7 +545,10 @@ function closeOptionOverlay(){
 /*
   ---------------------------------------------------- News Functionality ----------------------------------------------------
 */
-
+/*
+  Performs a call to a news API and displays the contents of the top six articles
+  into the news pannel of the site.
+*/
 function getNews(){
   var newsList = document.getElementsByClassName("news-item");
   var miniNewsList = document.getElementsByClassName("news-item-mini");
@@ -554,23 +557,25 @@ function getNews(){
   xml.onreadystatechange = function(){
     if(xml.readyState === 4 && xml.status === 200){
       var news = JSON.parse(xml.responseText);
-
+      // Update News Pannels
       for(var i = 0;newsList.length > i;i++){
         newsList[i].children[0].innerText = news.articles[i].title;
         newsList[i].children[1].innerText = news.articles[i].description;
         newsList[i].children[2].setAttribute("src", news.articles[i].urlToImage);
       }
-
+      // Update Smaller News Pannels
       for(var i = 0; miniNewsList.length > i; i++){
         miniNewsList[i].children[0].innerText = news.articles[i+3].title;
         miniNewsList[i].children[1].innerText = news.articles[i+3].description;
       }
-
     }
   }
   xml.send();
 }
 
+/*
+  Updates the global news source varable
+*/
 function updateNewsSource(){
   var newsDropdown = document.getElementById("news-source");
   newsSource = newsDropdown.value;
@@ -654,15 +659,15 @@ function sendURL(){
   Runs core functions to start core processes and to initilize varables
 */
 function initalizePage(){
-  sendURL();
-  updateTime();
-  getWeather();
-  getToDoItems();
-  getFiles();
-  initalizeTweets();
-  updateGalleryLength();
-  generateGalleryList();
-  getNews();
+  sendURL(); // Update server with URL
+  updateTime(); // Get the local time
+  getWeather(); // Get the weather from API
+  getToDoItems(); // Get the todo list items from server
+  getFiles(); // Get filelist from server
+  initalizeTweets(); // Check and get tweets
+  updateGalleryLength(); // Check and update gallery boundry index
+  generateGalleryList(); // Create a list of gallery items
+  getNews(); // Get news from news api
   var buttons = document.getElementsByClassName("move-toggle");
   for(var i = 0;buttons.length > i;i++){
     buttons[i].addEventListener("click",switchToggle);
