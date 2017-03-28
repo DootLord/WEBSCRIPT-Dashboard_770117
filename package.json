@@ -16,7 +16,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dashboard.js"
+    "start": "node dashboard.js",
+    "dashboard": "node dashboard.js"
   },
   "repository": {
     "type": "git",
