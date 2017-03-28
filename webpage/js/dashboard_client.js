@@ -560,12 +560,20 @@ function getNews(){
       var news = JSON.parse(xml.responseText);
       // Update News Pannels
       for(var i = 0;newsList.length > i;i++){
+        newsList[i].setAttribute("newssource",news.articles[i].url);
+        newsList[i].onclick = function(){ // Assign the news url to a unique attrabute so that it may be referenced for redirects
+          window.location = this.getAttribute("newssource");
+        }
         newsList[i].children[0].innerText = news.articles[i].title;
         newsList[i].children[1].innerText = news.articles[i].description;
         newsList[i].children[2].setAttribute("src", news.articles[i].urlToImage);
       }
       // Update Smaller News Pannels
       for(var i = 0; miniNewsList.length > i; i++){
+        miniNewsList[i].setAttribute("newssource",news.articles[i+3].url);
+        miniNewsList[i].onclick = function(){
+          window.location = this.getAttribute("newssource");
+        }
         miniNewsList[i].children[0].innerText = news.articles[i+3].title;
         miniNewsList[i].children[1].innerText = news.articles[i+3].description;
       }
