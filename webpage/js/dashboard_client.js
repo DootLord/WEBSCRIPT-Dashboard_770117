@@ -4,6 +4,7 @@ var tweetItems; // List of current tweet items shown on the page
 var galleryIndex = 0; // Used to know what the current photo of the gallery is.
 var galleryLength // The current amount of photos the client can request from the server
 var newsSource = "bbc-news";
+
 /*
   Calls to the Weather api to get local weather details for the current location and time of the dashboards location.
   Calls a GET to the OpenWeatherMap API to receve details and then displays them on the dashboard
@@ -638,7 +639,6 @@ function swapElements(eleOne,eleTwo){
   Sends the current URL of the dashboard to the server-side
   so that services know the address of the client.
   This infomation is used twitter redirects currently.
-  //TODO Set the server to get its own URL. Dummy...
 */
 function sendURL(){
   var xml = new XMLHttpRequest();
@@ -651,8 +651,6 @@ function sendURL(){
   }
   xml.send(JSON.stringify({"url": window.location.href}));
 }
-
-
 
 /*
   Called once DOM is loaded.

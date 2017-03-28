@@ -1,34 +1,196 @@
+/* Background Styling */
+
 html{
   background-color: #101214;
 }
 
-/*
-  Main Styling
-*/
 main{
   margin:10px;
 }
 
-/*
- Box Styling
-*/
+/* Pannel Styling */
+
+.box{
+  width:250px;
+  height:250px;
+  color: #ecf0f1;
+  text-align: center;
+  line-height: 200px;
+  vertical-align:middle;
+  font-family: 'Roboto', sans-serif;
+  font-size: 30px;
+  background-color: #2A2A2A;
+  margin:10px;
+  display:inline-block;
+}
+
+.box-head{
+  height:25px;
+  line-height: 25px;
+  font-weight:bold;
+  text-align: left;
+  padding-left: 10px;
+  background-color: #272727;
+  font-size: 20px;
+}
+
+.box-ele{
+  font-size: 20px;
+  margin: auto;
+  margin-top: 10px;
+  background-color: #272727;
+  line-height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.box-head-ele{
+  background-color:white;
+  color:black;
+  width:200px;
+  display:inline;
+}
+
+.small{
+  width: 100px;
+  height: 100px;
+  line-height: 75px;
+  font-size: 20px;
+}
+
+.small .box-head{
+  height:25px;
+  line-height: 25px;
+  font-size: 12px;
+}
+
+.large{
+  width: 500px;
+  height: 500px;
+  line-height: 400px;
+  font-size: 60px;
+}
+
+.long{
+  height:500px;
+  line-height: 400px;
+}
+
+.wide{
+  height: 500px;
+  width: 800px;
+  line-height: 400px;
+  font-size: 60px;
+}
+
+/* Todo Style */
+
+#todo-list{
+  height:400px;
+  line-height: 20px;
+  font-size:20px;
+  list-style-type:none;
+  padding:1px;
+  overflow-y: scroll;
+}
+
+#todo-list li{
+  margin: 5px;
+  margin-top:10px;
+}
+
+#todo-list li:hover{
+ animation-name: todo-hover;
+ animation-duration: 0.3s;
+ animation-fill-mode:forwards;
+}
+
+#todo-enter{
+  line-height: 20px;
+  font-size:20px;
+  list-style-type:none;
+  padding:0px;
+  margin-top: 5px;
+}
+
+#todo-button{
+  float:right;
+  padding-right:8px;
+  padding-top:3px;
+  border-right:5px;
+}
+
+#todo-button:hover{
+  animation-name: todo-button;
+  animation-duration: 0.3s;
+  animation-fill-mode:forwards;
+}
+
+@keyframes todo-hover{
+  0%{
+    background-color: white;
+  }
+  100%{
+    background-color: #c0392b;
+    color:white;
+  }
+}
+
+@keyframes todo-button{
+  0%{
+    color: white;
+  }
+  100%{
+    color: #2ecc71;
+  }
+}
+
+/* Tweet Pannel */
+
+#tweet-list{
+  font-size: 10px;
+  line-height: normal;
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+#tweet-list ul{
+  margin: 10px
+}
+
+#tweet-list li{
+  background-color: #101214;
+  margin:10px
+}
+
+#tweet-list li:hover{
+  animation: file-hover 0.2s;
+  animation-fill-mode:forwards;
+  animation-timing-function: ease-out;
+}
+
+.tweet-item{
+  height:70px;
+  display:none;
+}
+
+.tweet-item div{
+  background-color:white;
+  color:black;
+}
+
+.tweet-item img{
+  float:left;
+}
+
+/* Options Style */
 
 #option{
   position:fixed;
   float:right;
   left:97%;
   height:50px;
-}
-
-@keyframes option{
-  0%{
-
-  }
-  100%{
-    left:96%;
-    height: 70px;
-    transform: rotate(-7deg);
-  }
 }
 
 #option:hover{
@@ -39,64 +201,6 @@ main{
 
 #option-box{
   background-color: white;
-}
-
-.hidden{
-  display:none;
-}
-
-#navbar{
-  list-style-type: none;
-  margin: 10px;
-  padding:0;
-  overflow: hidden;
-  background-color: #2A2A2A;
-}
-
-#navbar li{
-  float: left;
-  width:25%;
-}
-
-#navbar li a{
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px;
-  text-decoration: none;
-}
-
-#navbar li a:hover{
-  background-color: #111;
-}
-
-.fade{
-  opacity: 0.5;
-  background: #000;
-  width: 100%;
-  height: 100%;
-  z-index: 9;
-  top: 0;
-  left: 0;
-  position: fixed;
-  display: none;
-}
-
-.fade-box{
-  z-index: 10;
-  background-color: #ecf0f1;
-  width:400px;
-  height:300px;
-  left:40%;
-  position: absolute;
-  margin-top: auto;
-  border-radius: 10px;
-  padding:5px;
-  display: none;
-  margin-bottom: 50%;
-  bottom:0px;
-  top:0px;
-  margin-top: 50px;
 }
 
 #option-box{
@@ -121,15 +225,6 @@ main{
   animation: option-box 0.5s;
   animation-fill-mode:forwards;
   animation-timing-function: ease-out;
-}
-
-@keyframes option-box{
-  0%{
-
-  }
-  100%{
-    left:30%;
-  }
 }
 
 #option-box-title{
@@ -166,10 +261,6 @@ main{
   text-align: center;
 }
 
-.option-area{
-
-}
-
 #option-buttons{
   background-color: pink;
   margin-top:10px;
@@ -199,6 +290,57 @@ main{
   width:140px;
 }
 
+@keyframes option{
+  0%{
+
+  }
+  100%{
+    left:96%;
+    height: 70px;
+    transform: rotate(-7deg);
+  }
+}
+
+@keyframes option-box{
+  0%{
+
+  }
+  100%{
+    left:30%;
+  }
+}
+
+/* Twitter Pop-up */
+
+.fade{
+  opacity: 0.5;
+  background: #000;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  position: fixed;
+  display: none;
+}
+
+.fade-box{
+  z-index: 10;
+  background-color: #ecf0f1;
+  width:400px;
+  height:300px;
+  left:40%;
+  position: absolute;
+  margin-top: auto;
+  border-radius: 10px;
+  padding:5px;
+  display: none;
+  margin-bottom: 50%;
+  bottom:0px;
+  top:0px;
+  margin-top: 50px;
+}
+
 .fade-button{
   float:right;
   background-color: red;
@@ -219,49 +361,7 @@ main{
   padding:10px;
 }
 
-.box{
-  width:250px;
-  transition: background-colour 2s;
-  height:250px;
-  color: #ecf0f1;
-  text-align: center;
-  line-height: 200px;
-  vertical-align:middle;
-  font-family: 'Roboto', sans-serif;
-  font-size: 30px;
-  background-color: #2A2A2A;
-  margin:10px;
-  display:inline-block;
-  /*box-shadow: 2px 2px 1px #2c3e50; Box shadow? Maybe? Maybe not?*/
-}
-
-.box-head{
-  height:25px;
-  line-height: 25px;
-  font-weight:bold;
-  text-align: left;
-  padding-left: 10px;
-  background-color: #272727;
-  font-size: 20px;
-}
-
-.box-ele{
-  font-size: 20px;
-  margin: auto;
-  margin-top: 10px;
-  background-color: #272727;
-  line-height: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.box-head-ele{
-  background-color:white;
-  color:black;
-  width:200px;
-  display:inline;
-}
+/* Move Pannel Styling */
 
 .move-toggle{
   background-color: white;
@@ -272,29 +372,10 @@ main{
   border:5px;
 }
 
-@keyframes move-toggle_frame{
-  0%{
-    background-color: #ecf0f1;
-  }
-  100%{
-    background-color: #34495e;
-    color:white;
-  }
-}
-
 .move-toggle:hover{
   animation: move-toggle_frame 0.2s;
   animation-fill-mode:forwards;
   animation-timing-function: ease-out;
-}
-
-@keyframes move-toggle-click{
-  0%{
-    background-color: #34495e;
-  }
-  100%{
-    background-color: #e74c3c;
-  }
 }
 
 .move-toggle-click{
@@ -309,37 +390,26 @@ main{
   animation-timing-function: ease-in;
 }
 
-.small{
-  width: 100px;
-  height: 100px;
-  line-height: 75px;
-  font-size: 20px;
+@keyframes move-toggle-click{
+  0%{
+    background-color: #34495e;
+  }
+  100%{
+    background-color: #e74c3c;
+  }
 }
 
-.small .box-head{
-  height:25px;
-  line-height: 25px;
-  font-size: 12px;
+@keyframes move-toggle_frame{
+  0%{
+    background-color: #ecf0f1;
+  }
+  100%{
+    background-color: #34495e;
+    color:white;
+  }
 }
 
-.large{
-  width: 500px;
-  height: 500px;
-  line-height: 400px;
-  font-size: 60px;
-}
-
-.long{
-  height:500px;
-  line-height: 400px;
-}
-
-.wide{
-  height: 500px;
-  width: 800px;
-  line-height: 400px;
-  font-size: 60px;
-}
+/* File Server */
 
 .upload{
   background-color:#272727;
@@ -367,16 +437,6 @@ main{
   margin-top: 10px;
   color: black;
   line-height: 20px
-}
-
-@keyframes file-hover{
-  0%{
-    background-color: white;
-  }
-  100%{
-    background-color: #34495e;
-    color:white;
-  }
 }
 
 .file-viewer li:hover{
@@ -423,99 +483,17 @@ main{
   color:white;
 }
 
-#todo-list{
-  height:400px;
-  line-height: 20px;
-  font-size:20px;
-  list-style-type:none;
-  padding:1px;
-  overflow-y: scroll;
-}
-
-#todo-list li{
-  margin: 5px;
-  margin-top:10px;
-}
-@keyframes todo-hover{
+@keyframes file-hover{
   0%{
     background-color: white;
   }
   100%{
-    background-color: #c0392b;
+    background-color: #34495e;
     color:white;
   }
 }
-#todo-list li:hover{
- animation-name: todo-hover;
- animation-duration: 0.3s;
- animation-fill-mode:forwards;
-}
 
-#todo-enter{
-  line-height: 20px;
-  font-size:20px;
-  list-style-type:none;
-  padding:0px;
-  margin-top: 5px;
-}
-
-@keyframes todo-button{
-  0%{
-    color: white;
-  }
-  100%{
-    color: #2ecc71;
-  }
-}
-
-#todo-button{
-  float:right;
-  padding-right:8px;
-  padding-top:3px;
-  border-right:5px;
-}
-
-#todo-button:hover{
-  animation-name: todo-button;
-  animation-duration: 0.3s;
-  animation-fill-mode:forwards;
-}
-
-#tweet-list{
-  font-size: 10px;
-  line-height: normal;
-  list-style-type: none;
-  padding-left: 0px;
-}
-
-#tweet-list ul{
-  margin: 10px
-}
-
-#tweet-list li{
-  background-color: #101214;
-  margin:10px
-}
-
-#tweet-list li:hover{
-  animation: file-hover 0.2s;
-  animation-fill-mode:forwards;
-  animation-timing-function: ease-out;
-}
-
-.tweet-item{
-  height:70px;
-  display:none;
-}
-
-.tweet-item div{
-  background-color:white;
-  color:black;
-}
-
-.tweet-item img{
-  float:left;
-}
+/* News Styling */
 
 #news-list{
   font-size: 10px;
@@ -561,6 +539,8 @@ main{
   height:150px;
 }
 
+/* Gallery Styling */
+
 #gallery-next{
   width:50px;
   height:475px;
@@ -588,18 +568,21 @@ main{
   margin:5px;
 }
 
-@keyframes next-hover{
-  0%{
-    background-color: #272727;
-  }
-  100%{
-    background-color: #2ecc71;
-    color:white;
-  }
-}
-
 #gallery-next:hover{
   animation: next-hover 0.2s;
+  animation-fill-mode:forwards;
+  animation-timing-function: ease-out;
+}
+
+#gallery-previous{
+  width:50px;
+  height:475px;
+  background-color:#272727;
+  float:left; line-height:450px;
+}
+
+#gallery-previous:hover{
+  animation: previous-hover 0.2s;
   animation-fill-mode:forwards;
   animation-timing-function: ease-out;
 }
@@ -614,15 +597,18 @@ main{
   }
 }
 
-#gallery-previous{
-  width:50px;
-  height:475px;
-  background-color:#272727;
-  float:left; line-height:450px;
+@keyframes next-hover{
+  0%{
+    background-color: #272727;
+  }
+  100%{
+    background-color: #2ecc71;
+    color:white;
+  }
 }
 
-#gallery-previous:hover{
-  animation: previous-hover 0.2s;
-  animation-fill-mode:forwards;
-  animation-timing-function: ease-out;
+/* Misc Styling */
+
+.hidden{
+  display:none;
 }
