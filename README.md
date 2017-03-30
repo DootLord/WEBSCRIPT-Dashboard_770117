@@ -76,7 +76,7 @@ To change news source, access the options pannel in the top right of the screen 
 ### Misc features
 Any two pannels can be swapped around by clicking on the circles found on the top right side of any pannel. Clicking once will select the pannel, and clicking on another will peform the swap. 
 
-### Reflection
+# Reflection
 
 I found this to be a great exercise in putting all the skills we've gotten over the year into one super project. It's helped me find and adjust some pretty poor practises that I was doing in other coursework examples and gave me a great insight on how to actually start a full-stack website.
 
