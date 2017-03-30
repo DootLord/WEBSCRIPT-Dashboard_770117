@@ -76,4 +76,27 @@ To change news source, access the options pannel in the top right of the screen 
 ### Misc features
 Any two pannels can be swapped around by clicking on the circles found on the top right side of any pannel. Clicking once will select the pannel, and clicking on another will peform the swap. 
 
+### Reflection
 
+I found this to be a great exercise in putting all the skills we've gotten over the year into one super project. It's helped me find and adjust some pretty poor practises that I was doing in other coursework examples and gave me a great insight on how to actually start a full-stack website.
+
+## Design
+I've always been a big fan of the flat colour scheme and style. It's simplyistic but still looks great and modren, while remaining easily animatable and given that CSS3 now has support for animations I felt this was a great route to go down. Unfortunatly I spent more time just making sure that the inital look of everything was the way I wanted, and near the end of development I figured that prehaps I needed to refine my pracises in just managing good CSS, let alone animating it. 
+
+Saying that I'd look forward to playing around with additonal keyframes and finding out about new techniques. A little bit of animation can go along way I feel.
+
+## Functionality
+I tried to get a a ground between having a shared instance of infomation, whilst also keep the dashboard unique to anyone who was using it. The whole house would benifit to haivng a backup of key files or keeping track of what needs doing for the day, but not everyone would neccessarly want the same news source. Hence why not everything is managed through an API call. In hindsight prehaps looking into some short-term local storage for their pefrences might make sense.
+
+## Conclude
+I feel this was a great experence and that somthing that's going to help me greatly down the line, both in terms of experence and as a product for me to show off for employability. It gave me a great insight into how powerful Nodejs and his client friends can be.
+
+It also helped me develop my soft skills, as I found that near the end of the project I was really struggling to follow and reference old code. I realise this is somthing that many people tell me time and time a gain to keep an eye on, but it's been a real kick in the teeth and has helped really get the message in my head that good code management is key.
+
+
+### Programmers Note
+I'd like to thank Rich, Jack and Matt for this Unit as it's given me the tools to develop in a way that I find absaloutely supirb, I wish I had taken the inititive to look into Node or any other form of backend language years ago, as I've serverly missed out.
+
+The structure of the lectures and practicals have been sone supurbly and the obvious passion you guys have for this really shows. So I'd like to thank you for that.
+
+I hope you find my coursework to not be too much of a headache :)
