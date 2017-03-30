@@ -12,6 +12,7 @@ var uploadPhoto = multer({dest: "./uploads/gallery/"});
 var app = express();
 const filePath = __dirname + "/uploads/content";
 const galleryPath = __dirname + "/uploads/gallery/";
+
 var tweets; // Updated via the function updateTweets(). Used by GET on /tweets to return tweets to client
 var errCount // Keeps track of the number of error message sent to the user
 /*
@@ -103,7 +104,7 @@ app.post("/todo", function(req,res){
 app.get("/tweets", function(req,res, next){
   var tweetList = [];
   if(twitInterface === undefined){
-    console.log("Need to login to twitter!");
+    console.log("No active Twitter account");
     return next();
   }
   else{
@@ -148,7 +149,7 @@ app.get("/tweets/auth", function(req,res){
       localStorage.setItem("twitterKey",accessToken);
       localStorage.setItem("twitterSecret", accessTokenSecret);
       updateTweets();
-      res.status(200).redirect("/");
+      res.status(200).send();
     }
   });
 });
