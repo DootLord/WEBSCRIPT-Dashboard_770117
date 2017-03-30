@@ -104,7 +104,6 @@ app.post("/todo", function(req,res){
 app.get("/tweets", function(req,res, next){
   var tweetList = [];
   if(twitInterface === undefined){
-    console.log("No active Twitter account");
     return next();
   }
   else{
@@ -186,11 +185,9 @@ app.get("/file", function(req,res){
   from the /uploads/content directory
 */
 app.post("/file", function(req,res){
-  console.log(req.body);
   fs.readdir(filePath, function(err, items){
     for(var i = 0; items.length > i; i++){
       if(items[i] == req.body.filename){
-        console.log("Item " + items[i] + " item found!");
         res.status(200).send("FOUND IT!");
       }
     }
@@ -204,8 +201,6 @@ app.post("/file", function(req,res){
 */
 app.patch("/file", function(req,res,next){
   fs.readdir(filePath, function(err,items){
-    console.log(items);
-    console.log(req.body.newName);
     // Check to see if new name is already present in directory
     for(var i = 0; items.length > i; i++){
       if(items[i] == req.body.newName){
@@ -243,7 +238,6 @@ app.delete("/file", function(req,res,next){
         if(items[i] == file){
           fs.unlink(filePath + "/" + file);
           res.status(200).send("File " + file + " deleted!");//TODO use err call instead of for loop
-          console.log("File deleted");
           return next();
         }
       }
@@ -320,7 +314,6 @@ app.get("/gallery", function(req,res){
   var imgs;
   fs.readdir(galleryPath, function(err, items){
     if(err){
-      console.log("No images available");
       res.status(400).send("No images available");
       return next();
     }
