@@ -161,7 +161,8 @@ main{
 
 #tweet-list li{
   background-color: #101214;
-  margin:10px
+  margin:10px;
+  height: 82px;
 }
 
 #tweet-list li:hover{
@@ -326,19 +327,23 @@ main{
 
 .fade-box{
   z-index: 10;
-  background-color: #ecf0f1;
+  background-color: #2A2A2A;
   width:400px;
-  height:300px;
+  height:200px;
   left:40%;
   position: absolute;
   margin-top: auto;
-  border-radius: 10px;
   padding:5px;
   display: none;
-  margin-bottom: 50%;
   bottom:0px;
-  top:0px;
-  margin-top: 50px;
+  top:-400px;
+  margin-top: 0px;
+  font-family: 'Roboto', sans-serif;
+  color:white;
+
+  animation: fade-slide-top 0.5s;
+  animation-fill-mode:forwards;
+  animation-timing-function: ease-out;
 }
 
 .fade-button{
@@ -350,15 +355,26 @@ main{
 
 .fade-title{
   font-weight: bold;
-  padding: 10px
+  padding: 10px;
+  background-color:#272727;
+  margin-right:30px;
 }
 
 .fade-content{
   margin-top:10px;
-  height:220px;
+  height:120px;
   border-style: solid;
   border-color: #3498db;
   padding:10px;
+}
+
+@keyframes fade-slide-top{
+  0%{
+
+  }
+  100%{
+    top:50px;
+  }
 }
 
 /* Move Pannel Styling */

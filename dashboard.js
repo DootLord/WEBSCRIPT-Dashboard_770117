@@ -349,11 +349,11 @@ app.listen(8080, function(){
 */
 function updateTweets(){
   if(twitInterface != null){
-    twitInterface.get("statuses/home_timeline", {"count": 6}, function(error,newTweets,response){
+    twitInterface.get("statuses/home_timeline", {"count": 5}, function(error,newTweets,response){
       if(error){
         if(error.code == 88){ // Status Code 88: Ran out of twitter API requests
           console.log("Ran out of twitter API requests. This was likely due to restarting the server too often.");
-          console.log("The server will run as usual but expect twitter feed to update more slowly");
+          console.log("The server will run as usual but expect twitter feed to update at a lower rate");
         }
         else{
           console.log(error);
@@ -361,7 +361,6 @@ function updateTweets(){
       }
       else{
         tweets = newTweets; //Update the known tweets with the new tweets from our request;
-        console.log(tweets.length);
       }
     });
   }

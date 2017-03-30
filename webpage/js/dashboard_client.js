@@ -192,8 +192,10 @@ function showTweetOverlay(tweetIndex){
   };
   var tweetText = document.getElementsByClassName("fade-content")[0];
   var tweetTitle = document.getElementsByClassName("fade-title")[0];
-  console.log(tweets[tweetIndex]);
-  console.log(tweetIndex);
+  console.log("https://twitter.com/user/status/" + tweets[tweetIndex].id)
+  // tweetTitle.onclick = function(){
+  //   window.location = "https://twitter.com/itdoesnotmatter/status/tweets" + [tweetIndex].id;
+  // }
   tweetTitle.innerText = tweets[tweetIndex].user.name;
   tweetText.innerText = tweets[tweetIndex].text;
   tweetBox.style.display = "block";
