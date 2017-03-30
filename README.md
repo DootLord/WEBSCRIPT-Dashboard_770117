@@ -3,7 +3,7 @@
 
 Student Number: 770117
 
-###A lightweight and easy to use dashboard service.
+### A lightweight and easy to use dashboard service.
 
 A single page dashboard for use at home. Featuring functionality to keep track of friends through the use of the Twitter Pannel
 or to keep up to date with the latest news and gossep. Due to the nature of the dashboard a lot of infomation is available to you
