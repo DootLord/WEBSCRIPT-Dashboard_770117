@@ -33,8 +33,16 @@ The dashboard supplys the current server time constantly, as well as supplying t
 To set your weather area, go to the options screen and drop the dropdown select the area that best reprosents where you live. Upon closing the options pane the weather pannel will be updated with your current weather for the selected area.
 
 
-## Weather & Time
+## Twitter Feed
 
-*Function*
+### *Function*
 
-*Use*
+Once a user has been logged in (Ideally a family account) The household can then keep up to date with their latest tweets. Tweets are shown with basic infomation that can be enhanced by clicking. On click a new pannel will appear, showing the full text of the tweet. Users can then click this text to open a new window to the actual tweet itself.
+
+### *Use*
+
+A user will first have to be logged in. This can be done by accessing the options area in the top right and clicking login. After logging in, you should be redirected to the dashboard. Tweets can be clicked on to show more infomation. To logout, simply go to the options menu again and click logout. The twitter pannel should disappear
+
+*Note* There's a bug with the twitter feed on inital login, ocassionally the twitter pannel might not update and end up showing a blank pannel. A refresh should recitify this issue.
+
+
