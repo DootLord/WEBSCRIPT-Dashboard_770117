@@ -15,7 +15,7 @@ var app = express();
 const filePath = __dirname + "/uploads/content";
 const galleryPath = __dirname + "/uploads/gallery/";
 var tweets; // Updated via the function updateTweets(). Used by GET on /tweets to return tweets to client
-
+var errCount // Keeps track of the number of error message sent to the user
 /*
    reqToken & reqTokenSecret store tokens passed to the server from after login and
    are used in the authetication step of the login process.
@@ -350,15 +350,17 @@ app.listen(8080, function(){
 function updateTweets(){
   if(twitInterface != null){
     twitInterface.get("statuses/home_timeline", {"count": 5}, function(error,newTweets,response){
-      if(error){
-        if(error.code == 88){ // Status Code 88: Ran out of twitter API requests
+        if(error){ // Status Code 88: Ran out of twitter API requests
           console.log("Ran out of twitter API requests. This was likely due to restarting the server too often.");
           console.log("The server will run as usual but expect twitter feed to update at a lower rate");
-        }
-        else{
           console.log(error);
+          errCount++;
+          if(errCount > 2){
+            console.log("The server seems to be struggling to connect to twitter. Check to see if twitters services are running");
+            console.log("It may also be a case of restarting the server too often as well, or logging in and out repeatedly.");
+            console.log(error);
+          }
         }
-      }
       else{
         tweets = newTweets; //Update the known tweets with the new tweets from our request;
       }
