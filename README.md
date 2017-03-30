@@ -57,10 +57,18 @@ A file can be uploaded via the Choose File button and Upload button, found at th
 
 Ideally make sure that you refresh the client before running an operation that may change the file in any way.
 
-### *Photo Gallery*
+## Photo Gallery
 
 ### *Function*
 A simple and easy to use photo gallery, to allow for pictures to constantly iterate from one after another during a small time period. Be it family photos or anything that you may want. If no photos are available then this pannel is hidden.
 
 ### *Use*
 Upload images using the options pannel that can be accessed using the cogs in the upper right of the screen. Very simular to file server operation, select a photo you wish to upload and then click the upload button. The photo gallery should now be shown. Should you wish to delete any photos simply open the option pannel again and then click on the photo. If there are no images left the photo gallery should become hidden again.
+
+## News source
+
+### *Function*
+This pannel reteves the top news or storys from a spesified source in such a way so that you and your family can easily keep up to date with the latest goingons with the outside world whilst staying comfy inside playing video games all day. News sources can be gone to directly.
+
+### *Use*
+To change news source, access the options pannel in the top right of the screen and from the dropdown box, select a source you would like. After closing the options pane the news source should be updated to use the new source. To access a direct source click on the news artical and a new tab or window should open.
