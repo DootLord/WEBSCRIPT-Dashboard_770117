@@ -262,6 +262,24 @@ main{
   text-align: center;
 }
 
+.twitter-option-area div{
+  display:inline-flex;
+  width:220px;
+  height:80px;
+  text-align: center;
+  font-size: 20px;
+  line-height: 75px;
+}
+
+#tweet-login{
+  background-color: #2ecc71;
+  margin-left: 5px;
+}
+
+#tweet-logout{
+  background-color: #e74c3c;
+}
+
 #option-buttons{
   background-color: pink;
   margin-top:10px;
@@ -350,7 +368,6 @@ main{
   float:right;
   background-color: red;
   padding:10px;
-  border-radius: 20px;
 }
 
 .fade-title{
@@ -366,6 +383,12 @@ main{
   border-style: solid;
   border-color: #3498db;
   padding:10px;
+}
+
+.fade-content:hover{
+  animation: file-hover 0.2s;
+  animation-fill-mode:forwards;
+  animation-timing-function: ease-out;
 }
 
 @keyframes fade-slide-top{
@@ -549,6 +572,18 @@ main{
 
 #news-list p{
   font-size: 13px;
+}
+
+.news-item:hover{
+  animation: file-hover 0.2s;
+  animation-fill-mode:forwards;
+  animation-timing-function: ease-out;
+}
+
+.news-item-mini:hover{
+  animation: file-hover 0.2s;
+  animation-fill-mode:forwards;
+  animation-timing-function: ease-out;
 }
 
 #news-list .news-item-mini{

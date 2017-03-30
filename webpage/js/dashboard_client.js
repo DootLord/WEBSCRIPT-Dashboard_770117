@@ -136,11 +136,6 @@ function postToDo(list){
   var xml = new XMLHttpRequest();
   xml.open("POST", "/todo");
   xml.setRequestHeader("Content-type", "application/json");
-  xml.onreadystatechange = function(){
-    if(xml.status == 200 && xml.readyState == 4){
-      //console.log(xml.responseText);
-    }
-  };
   var listJSON = {list: list.innerHTML};
   xml.send(JSON.stringify(listJSON), true);
 }
@@ -158,6 +153,7 @@ function postToDo(list){
 */
 function getTweets(){
   var xml = new XMLHttpRequest();
+  var tweetBox = document.getElementById("box-tweet");
   xml.open("GET", "/tweets");
   xml.setRequestHeader("Content-type", "application/json");
   xml.onreadystatechange = function(){
@@ -169,6 +165,10 @@ function getTweets(){
         tweets = JSON.parse(xml.responseText);
         if(tweets.length != 0){
           displayTweets();
+          tweetBox.setAttribute("style","display:inline-block");
+        }
+        else{
+          tweetBox.setAttribute("style","display:none");
         }
       }
     }
@@ -180,8 +180,8 @@ function getTweets(){
 }
 
 /*
-  TODO Finish and cleanup. This is a mess!
-  TODO: Move to own js file as will likely be large function
+  Draws a tweet viewer box over the dashboard to view details about tweets
+  Users can click on the tweet text to be directed to the twitter page.
 */
 function showTweetOverlay(tweetIndex){
   var tweetBox = document.getElementsByClassName("fade-box")[0];
@@ -192,10 +192,9 @@ function showTweetOverlay(tweetIndex){
   };
   var tweetText = document.getElementsByClassName("fade-content")[0];
   var tweetTitle = document.getElementsByClassName("fade-title")[0];
-  console.log("https://twitter.com/user/status/" + tweets[tweetIndex].id)
-  // tweetTitle.onclick = function(){
-  //   window.location = "https://twitter.com/itdoesnotmatter/status/tweets" + [tweetIndex].id;
-  // }
+  tweetText.onclick = function(){
+     window.location = "https://twitter.com/" +  tweets[tweetIndex].user.screen_name + "/status/" + tweets[tweetIndex].id_str;
+   }
   tweetTitle.innerText = tweets[tweetIndex].user.name;
   tweetText.innerText = tweets[tweetIndex].text;
   tweetBox.style.display = "block";
@@ -251,7 +250,6 @@ function logoutTwitter(){
 function displayTweets(){
   var list = document.getElementsByClassName("tweet-item");
   for(var i = 0;list.length > i; i++){
-    console.log(tweets);
     list[i].children[0].setAttribute("src", tweets[i].user.profile_image_url)
     list[i].children[1].innerText = tweets[i].user.name;
     list[i].children[2].innerText = tweets[i].text;
@@ -361,7 +359,6 @@ function deleteFile(){
     xml.onreadystatechange = function(){
       if(xml.readyState === 4 && xml.status === 200){
         getFiles();
-        console.log(xml.responseText);
       }
     };
     xml.send();
@@ -511,7 +508,6 @@ function nextGalleryImg(next){
     xml.onreadystatechange = function(){
       if(xml.status === 200 && xml.readyState === 4){
         galleryLength = (JSON.parse(xml.responseText).length) - 1;
-        console.log(xml.responseText);
         if(galleryLength == -1){
           gallery.setAttribute("style", "display:none");
         }
@@ -654,11 +650,6 @@ function sendURL(){
   var xml = new XMLHttpRequest();
   xml.open("POST", "/url");
   xml.setRequestHeader("Content-Type", "application/json");
-  xml.onreadystatechange = function(){
-    if(xml.status === 200 && xml.readyState === 4){
-      console.log(xml.responseText);
-    }
-  }
   xml.send(JSON.stringify({"url": window.location.href}));
 }
 
