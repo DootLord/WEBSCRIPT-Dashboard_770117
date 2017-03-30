@@ -24,3 +24,15 @@ A new todo item can be added to the todo list by typing in any text that you wan
 
 ## Weather & Time
 
+*Function*
+The dashboard supplys the current server time constantly, as well as supplying the user with infomation about the current day. Such as the weather that they should expect as well as how hot they can expect it to be. As no weather estimation is perfect, a high and a low temp for the day is also supplied. Low temps being BLUE expected temp being GREEN and the highest temp being RED
+
+*Use*
+To set your weather area, go to the options screen and drop the dropdown select the area that best reprosents where you live. Upon closing the options pane the weather pannel will be updated with your current weather for the selected area.
+
+
+## Weather & Time
+
+*Function*
+
+*Use*
