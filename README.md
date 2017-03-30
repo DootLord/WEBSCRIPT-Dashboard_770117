@@ -72,3 +72,8 @@ This pannel reteves the top news or storys from a spesified source in such a way
 
 ### *Use*
 To change news source, access the options pannel in the top right of the screen and from the dropdown box, select a source you would like. After closing the options pane the news source should be updated to use the new source. To access a direct source click on the news artical and a new tab or window should open.
+
+### Misc features
+Any two pannels can be swapped around by clicking on the circles found on the top right side of any pannel. Clicking once will select the pannel, and clicking on another will peform the swap. 
+
+
