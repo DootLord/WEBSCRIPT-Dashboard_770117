@@ -1,11 +1,9 @@
 "use strict";
 
-/* jshint node: true */
-
-var express = require('express');
-var fs = require("fs");
+var express = require('express'); // Web framework
+var fs = require("fs"); // File management
 var bodyParser = require("body-parser");
-var multer = require("multer");
+var multer = require("multer"); // File upload management middleware
 var Twitter = require("twitter"); // Allows access to Twitter API
 var twitterAPI = require('node-twitter-api'); // Allows access to user login tokens
 var func = require("./js/func"); // Collection of large functions that'd look messy here.
@@ -140,7 +138,7 @@ app.get("/tweets/auth", function(req,res){
       console.log(error);
       return error;
     }
-    else{
+    else{ // Create a new twitter instance, allowing access to the users details.
         twitInterface = new Twitter({
         consumer_key: 'XzVtLi9PgF72L0NuoLunuF1eE',
         consumer_secret: 'j6PrOQ7kie2IUyyDEnb8bYC4yHBeMdvdouplm7UEpzcQ9R7kID',
@@ -201,8 +199,7 @@ app.post("/file", function(req,res){
 
 /*
   Allows clients to rename already existing files on the system.
-  Will check to make sure that file exists and also prevent duplicates of
-  files
+  Will check to make sure that file exists and also prevent duplicates of files
 */
 app.patch("/file", function(req,res,next){
   fs.readdir(filePath, function(err,items){
@@ -273,6 +270,10 @@ app.post("/file/upload", upload.single("uploadFile"), function(req,res, next){
   fs.rename("./uploads/content/" + req.file.filename, "./uploads/content/" + req.file.originalname);
 });
 
+
+/*
+  Deletes a photo stored on in the gallery folder.
+*/
 app.delete("/gallery", function(req,res,next){
   var item = req.query.photo
   if(item === undefined){
@@ -335,11 +336,6 @@ app.get("/gallery", function(req,res){
 });
 
 app.use(express.static(__dirname + "/webpage"));
-// Set to 8080 for developmennt purposes
-//TODO Will be set to 80 for release
-app.listen(8080, function(){
-  console.log("Started on port 8080");
-});
 
 /* ---------------------------------------------------- Non-REST functions ---------------------------------------------------- */
 
@@ -373,6 +369,8 @@ function initalizeServer(){
   updateTweets();
 }
 
-
-// Run on clientside start
 initalizeServer();
+
+app.listen(80, function(){
+  console.log("Started on port 80");
+});

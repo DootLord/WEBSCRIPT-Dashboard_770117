@@ -602,17 +602,52 @@ main{
 
 #gallery-list{
   float:right;
-  background-color: pink;
+  background-color: #2A2A2A;
   height:100px;
   width:220px;
   margin-top: 0px;
   overflow-y: scroll;
+  overflow-x:hidden;
+  padding:0px;
+}
+
+#gallery-list li{
+  list-style: none;
+  font-size: 12px;
+  height: 15px;
+  background-color: white;
+  margin-top: 5px;
+  color: black;
+  line-height: 16px;
+  text-align: center;
+}
+
+#gallery-list li:hover{
+  animation: gallery-list-hover 0.2s;
+  animation-fill-mode:forwards;
+  animation-timing-function: ease-out;
+}
+
+#gallery-submit{
+  margin-left:65px;
+}
+
+@keyframes gallery-list-hover{
+  0%{
+    background-color: white;
+  }
+  100%{
+    background-color: #c0392b;
+    color:white;
+  }
 }
 
 #option-gallery-upload{
   float:left;
-  background-color:blue;
-  width:100px;
+  background-color:#2A2A2A;
+  width:200px;
+  height:100px;
+  color:white;
 }
 
 #option-gallery-upload input{

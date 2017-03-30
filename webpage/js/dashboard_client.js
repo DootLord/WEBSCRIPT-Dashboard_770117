@@ -3,16 +3,16 @@ var tweets = []; // Current tweets from twitter API.
 var tweetItems; // List of current tweet items shown on the page
 var galleryIndex = 0; // Used to know what the current photo of the gallery is.
 var galleryLength // The current amount of photos the client can request from the server
-var newsSource = "bbc-news";
-
-/*
-  Calls to the Weather api to get local weather details for the current location and time of the dashboards location.
-  Calls a GET to the OpenWeatherMap API to receve details and then displays them on the dashboard
-*/
-
+var newsSource = "bbc-news"; // Default News source.
 
 /*
   ---------------------------------------------------- Weather Functionality ----------------------------------------------------
+*/
+
+/*
+  Event: DOM Load, Weather Location Update
+  Function: Peforms a GET request to the OpenWeatherMap API to receve details and then displays them on the dashboard
+
 */
 function getWeather(){
   var xml = new XMLHttpRequest();
@@ -22,7 +22,6 @@ function getWeather(){
     if(xml.status == 200 && xml.readyState == 4){
       var weather = xml.responseText;
       weather = JSON.parse(weather);
-      //document.getElementById("weather-type").innerText =  weather.weather[0].main; Removed and replaced by location dropdown.
       document.getElementById("weather-detail").innerText = weather.weather[0].description;
       document.getElementById("weather-degree").innerText = Math.floor(weather.main.temp - 273) +  "c";
       document.getElementById("weather-degree-min").innerText = Math.floor(weather.main.temp_min - 273) + "c";
@@ -41,8 +40,8 @@ function getWeather(){
 */
 
 /*
-  Gets the local time from the server location.
-  Displays value in the "Weather & Time" pannel
+  Event: DOM load, every second.
+  Displays value in the "Weather & Time" pannel using data from server location
 */
 function getTime(){
   var xml = new XMLHttpRequest();
@@ -72,7 +71,6 @@ function updateTime(){
 /*
   ---------------------------------------------------- Todo-list Functionality ----------------------------------------------------
 */
-
 
 /*
   Grabs the current todo list and displays it on the dashboard_client
@@ -129,8 +127,6 @@ function newToDoItem(){
 
 /*
   Updates the servers current todo list with newly edited todo list
-  Done so via POSt on /todo
-  TODO: Have todo-list stored via a database server-side
 */
 function postToDo(list){
   var xml = new XMLHttpRequest();
@@ -149,7 +145,6 @@ function postToDo(list){
 /*
  Gets a set of tweets from the server and displays it appopreately
  Uses GET on /tweet
- TODO: Add twitter login to allow any user to see their tweets
 */
 function getTweets(){
   var xml = new XMLHttpRequest();
@@ -160,6 +155,7 @@ function getTweets(){
     if(xml.status == 200 && xml.readyState == 4){
       if(xml.responseText == ""){ // If no active user, then log it and skip.
         console.log("No current twitter user.");
+        tweetBox.setAttribute("style", "display:none");
       }
       else{
         tweets = JSON.parse(xml.responseText);
@@ -193,7 +189,7 @@ function showTweetOverlay(tweetIndex){
   var tweetText = document.getElementsByClassName("fade-content")[0];
   var tweetTitle = document.getElementsByClassName("fade-title")[0];
   tweetText.onclick = function(){
-     window.location = "https://twitter.com/" +  tweets[tweetIndex].user.screen_name + "/status/" + tweets[tweetIndex].id_str;
+     window.open("https://twitter.com/" +  tweets[tweetIndex].user.screen_name + "/status/" + tweets[tweetIndex].id_str);
    }
   tweetTitle.innerText = tweets[tweetIndex].user.name;
   tweetText.innerText = tweets[tweetIndex].text;
@@ -202,9 +198,8 @@ function showTweetOverlay(tweetIndex){
 }
 
 
-
 /*
-  Sets up tweets to be updated every 25 seconds.
+  Sets up tweets to be updated every 60 seconds.
   Enough time to not time out the amount requests I'm allowed from the twitter API
 */
 function initalizeTweets(){
@@ -308,7 +303,7 @@ function selectFile(file){
 }
 
 /*
-  Peforms a GET request to download a file from server.
+  Peforms a GET request to download the selected file from server.
 */
 function downloadFile(){
   var selFile = document.getElementById("file-selected");
@@ -342,7 +337,6 @@ function renameFile(){
 }
 
 /*
-  Function:
   Removes a file from the fileserver.
   File must be selected by user first.
   A selected element will have the id of "file-selected" applied it.
@@ -417,7 +411,7 @@ function modifyFile(oldName,newName){
 */
 
 /*
-  Pulls the names of photos stored for gallery usage.
+  Pulls the names of photos stored for gallery usage from server
   Creates list of file names inside options pane
 */
 function generateGalleryList(){
@@ -497,8 +491,7 @@ function nextGalleryImg(next){
   }
 
   /*
-    Updates the "galleryLength" varable using data from the server and
-    hides the gallery if no pictures are available for display
+    Updates the client with details about the photos stored on the server.
   */
   function updateGalleryLength(){
     var gallery = document.getElementById("box-gallery");
@@ -513,7 +506,7 @@ function nextGalleryImg(next){
         }
         else{
           gallery.setAttribute("style", "display:inline-block");
-          galleryImg.setAttribute("src","http://localhost:8080/gallery?q=0")
+          galleryImg.setAttribute("src","http://localhost/gallery?q=0")
         }
       }
     }
@@ -523,7 +516,9 @@ function nextGalleryImg(next){
 /*
   ---------------------------------------------------- Option Pane Functionality ----------------------------------------------------
 */
-
+/*
+  Shows option overlay to the user.
+*/
 function showOptionOverlay(){
   var fade = document.getElementsByClassName("fade")[0];
   var box = document.getElementById("option-box");
@@ -532,6 +527,9 @@ function showOptionOverlay(){
   box.setAttribute("class","slide-in");
 }
 
+/*
+  Removes Option overlay and updates gallery details from server.
+*/
 function closeOptionOverlay(){
   var fade = document.getElementsByClassName("fade")[0];
   var box = document.getElementById("option-box");
@@ -544,9 +542,10 @@ function closeOptionOverlay(){
 /*
   ---------------------------------------------------- News Functionality ----------------------------------------------------
 */
+
 /*
-  Performs a call to a news API and displays the contents of the top six articles
-  into the news pannel of the site.
+  Gets a news source from the API I'm using. Uses the global var "newsSource" as a part of the
+  query to determine what news feed to get infomation from.
 */
 function getNews(){
   var newsList = document.getElementsByClassName("news-item");
@@ -560,7 +559,7 @@ function getNews(){
       for(var i = 0;newsList.length > i;i++){
         newsList[i].setAttribute("newssource",news.articles[i].url);
         newsList[i].onclick = function(){ // Assign the news url to a unique attrabute so that it may be referenced for redirects
-          window.location = this.getAttribute("newssource");
+          window.open(this.getAttribute("newssource"));
         }
         newsList[i].children[0].innerText = news.articles[i].title;
         newsList[i].children[1].innerText = news.articles[i].description;
@@ -570,7 +569,7 @@ function getNews(){
       for(var i = 0; miniNewsList.length > i; i++){
         miniNewsList[i].setAttribute("newssource",news.articles[i+3].url);
         miniNewsList[i].onclick = function(){
-          window.location = this.getAttribute("newssource");
+          window.open(this.getAttribute("newssource"));
         }
         miniNewsList[i].children[0].innerText = news.articles[i+3].title;
         miniNewsList[i].children[1].innerText = news.articles[i+3].description;
@@ -581,7 +580,8 @@ function getNews(){
 }
 
 /*
-  Updates the global news source varable
+  Updates the global varable with whatever is stored in the drop downbox.
+  Then calls getNews() to get and display the new source to the dashboard
 */
 function updateNewsSource(){
   var newsDropdown = document.getElementById("news-source");
@@ -594,11 +594,10 @@ function updateNewsSource(){
 */
 
 /*
-  Bound to the circles in the top right of every box.
-  Allows users to move around the boxs client-side.
+  Allows users to move around the pannels. First click will select the
+  box, second click will peform the swap.
 */
-var eleOne = null;
-var eleTwo = null;
+var eleOne = null; //Storage for what the first element clicked was
 function switchToggle(){
 var mainEle = document.getElementsByTagName("main")[0];
   this.setAttribute("class", "move-toggle-click");
@@ -608,19 +607,17 @@ var mainEle = document.getElementsByTagName("main")[0];
     eleOne = this;
   }
   // On second call store second element and switch
-  else if (eleTwo === null){
-    eleTwo = this;
-    swapElements(eleTwo.parentElement.parentElement, eleOne.parentElement.parentElement);
+  else{
+    swapElements(this.parentElement.parentElement, eleOne.parentElement.parentElement);
     eleOne.setAttribute("class","move-toggle");
-    eleTwo.setAttribute("class", "move-toggle");
-    eleOne = eleTwo = null;
+    this.setAttribute("class", "move-toggle");
+    eleOne = null;
     // Set back to previous Styling
   }
 }
 
 /*
-  Function used by switchToggle() to ensure that
-  box elements are swapped properly.
+   Replaces the location of one element with another. Effectively swapping them.
 */
 function swapElements(eleOne,eleTwo){
   var parentTwo = eleTwo.parentNode;
@@ -642,9 +639,19 @@ function swapElements(eleOne,eleTwo){
 }
 
 /*
+  Provides a function to all swap elements to allow them to swap
+  around the dashboard
+*/
+function initalizeSwapButtons(){
+  var buttons = document.getElementsByClassName("move-toggle");
+  for(var i = 0;buttons.length > i;i++){
+    buttons[i].addEventListener("click",switchToggle);
+  }
+}
+
+/*
   Sends the current URL of the dashboard to the server-side
-  so that services know the address of the client.
-  This infomation is used twitter redirects currently.
+  so that functions know the address of the server and client.
 */
 function sendURL(){
   var xml = new XMLHttpRequest();
@@ -667,13 +674,7 @@ function initalizePage(){
   updateGalleryLength(); // Check and update gallery boundry index
   generateGalleryList(); // Create a list of gallery items
   getNews(); // Get news from news api
-  var buttons = document.getElementsByClassName("move-toggle");
-  for(var i = 0;buttons.length > i;i++){
-    buttons[i].addEventListener("click",switchToggle);
-  }
-  setInterval(function (){
-    (true);
-  }, 6000)
+  initalizeSwapButtons(); // Gives the swap buttons their code
 }
 
 /* ------------------------Listeners------------------------ */
