@@ -506,7 +506,7 @@ function nextGalleryImg(next){
         }
         else{
           gallery.setAttribute("style", "display:inline-block");
-          galleryImg.setAttribute("src","http://localhost/gallery?q=0")
+          galleryImg.setAttribute("src","../gallery?q=0")
         }
       }
     }
